@@ -8,6 +8,8 @@ import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, D
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DownloadIcon from '@mui/icons-material/Download';
 import FileIcon from 'assets/images/icons/file.svg'
+import { useNavigate } from "react-router-dom"
+import network from 'helpers/network.helper';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -23,6 +25,8 @@ const ObjectItemCard = (props) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  let navigate = useNavigate()
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -82,7 +86,19 @@ const ObjectItemCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-              window.open(`http://localhost:5000/container/object/${props.hash}`);
+
+              network.get(`/container/object/${props.hash}`, {
+                url: `/container/object/${props.hash}`,
+                method: 'GET',
+                responseType: 'blob',
+              }).then((response) => {
+                const url = window.URL.createObjectURL(new Blob([response.data]));
+                const link = document.createElement('a');
+                link.href = url;
+                link.setAttribute('download', props.name); //or any other extension
+                document.body.appendChild(link);
+                link.click();
+              });
             }}
           >
             <ListItemIcon>
