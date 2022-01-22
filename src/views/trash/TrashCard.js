@@ -10,10 +10,11 @@ import DownloadIcon from '@mui/icons-material/Download';
 import DeleteIcon from '@mui/icons-material/Delete';
 import FileIcon from 'assets/images/icons/file.svg'
 import network from 'helpers/network.helper';
-import config from 'config'
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/actions';
+import TrashIcon from 'assets/images/icons/trash-icon.svg'
+import TrashRestore from 'assets/images/icons/trash-restore.svg'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -22,7 +23,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const ObjectItemCard = (props) => {
+const TrashCard = (props) => {
 
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -96,42 +97,32 @@ const ObjectItemCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-              window.open(`${config.apiEnd}/container/object/${props.hash}`);
+              network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
+                props.updateDelete();
+                enqueueSnackbar("File restored forever");
+              });
             }}
           >
             <ListItemIcon>
-              <DownloadIcon />
+              <img src={TrashRestore} />
             </ListItemIcon>
-            <ListItemText primary="Download" />
+            <ListItemText primary="Restore" />
           </ListItemButton>
           <Divider />
           <ListItemButton
             onClick={() => {
-              network.delete(`/container/object/${props.hash}`).then((e) => {
 
-                const action = key => (
-                  <>
-                    <Button onClick={() => {
-                      network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
-                        dispatch({ type: ADD_NEW_OBJECT, object: e.data.data });
-                        closeSnackbar();
-                      })
-                    }}>
-                      undo
-                    </Button>
-                  </>
-                );
+              network.delete(`/container/trash/${props.hash}`).then((e) => {
 
-                enqueueSnackbar("File moved to trash", {
-                  action,
-                });
+                props.updateDelete();
+
+                enqueueSnackbar("File deleted forever");
 
                 handleClose();
 
                 const unDeletedData = [];
 
                 objectController.folderContent.forEach((e) => {
-
                   if (e.hash !== props.hash) {
                     unDeletedData.push(e);
                   }
@@ -144,9 +135,9 @@ const ObjectItemCard = (props) => {
             }}
           >
             <ListItemIcon>
-              <DeleteIcon />
+              <img src={TrashIcon} />
             </ListItemIcon>
-            <ListItemText primary="Remove" />
+            <ListItemText primary="Delete forever" />
           </ListItemButton>
         </Box>
       </Popover>
@@ -155,4 +146,4 @@ const ObjectItemCard = (props) => {
   );
 }
 
-export default ObjectItemCard;
+export default TrashCard;

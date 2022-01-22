@@ -4,6 +4,7 @@ import netwotk from 'helpers/network.helper';
 import { useEffect, useState, useContext, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { SET_FOLDER_CONTENT } from 'store/actions';
+import { useSnackbar } from 'notistack';
 import ObjectItemCard from 'ui-component/cards/ObjectItemCard';
 
 
@@ -22,13 +23,15 @@ const MyFiles = () => {
 
     const dispatch = useDispatch();
 
-    
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const [folderContent, setFoldercontent] = useState(objectController.folderContent);
 
     useEffect(() => {
         netwotk.get(`/container/folder/${objectController.folderHash}`).then((e) => {
             dispatch({ type: SET_FOLDER_CONTENT, folderContent: e.data.data });
+        }).catch((e) => {
+            enqueueSnackbar("Failed to load folder details");
         });
     }, [dispatch, folderContent]);
 
