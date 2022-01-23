@@ -3,7 +3,7 @@ import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT }
 export const initialState = {
     folderHash: 'myfiles',
     folderObject: undefined,
-    folderContent: [],
+    folderContent: undefined,
     folderStack: [],
 };
 

@@ -40,20 +40,19 @@ const TrashCan = () => {
   if (!trashContent) return (<CircularLoader />)
 
   if (trashContent && trashContent.length == 0) return (<>
+      <InfoCard />
       <center> No files or folder found </center>
     </>)
 
   return (
     <>
-      <InfoCard />
+      <InfoCard /><br />
       <Grid container spacing={2}>
         {trashContent.map((e) => {
           return (
             <Grid item key={e.id}>
-
               <TrashCard updateDelete={updateDelete} {...e} />
             </Grid>
-
           )
         })}
       </Grid>

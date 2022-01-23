@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { SET_FOLDER_CONTENT } from 'store/actions';
 import { useSnackbar } from 'notistack';
 import ObjectItemCard from 'ui-component/cards/ObjectItemCard';
+import EmptyCard from './EmptyCard';
 
 
 const CircularLoader = () => {
@@ -35,10 +36,11 @@ const MyFiles = () => {
         });
     }, [dispatch, folderContent]);
 
-    if (objectController.folderContent.length === 0) return (<CircularLoader />)
+    if (!objectController.folderContent) return (<CircularLoader />)
 
     return (
         <>
+            { objectController.folderContent.length === 0 && <EmptyCard /> }
             <br />
             <Grid container spacing={2}>
                 {objectController.folderContent.map((e) => {
