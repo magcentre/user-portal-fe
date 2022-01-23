@@ -4,7 +4,7 @@ import { container } from 'constants/api.constants';
 
 export const fetchObjectForFolder = (hash) => async (dispatch) => {
   try {
-    const response = await network.get(`${container.fetchObjects}${hash}`);
+    const response = await network.get(`${container.folder}${hash}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
     console.log(e);
