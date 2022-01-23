@@ -9,9 +9,7 @@ import TrashCan from 'views/trash'
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
-
-// sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+// my-files component
 const MyFiles = Loadable(lazy(() => import('views/myfiles')));
 
 // ==============================|| MAIN ROUTING ||============================== //
