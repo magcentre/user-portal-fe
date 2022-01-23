@@ -3,9 +3,9 @@ import { CircularProgress, Grid, Typography } from '@mui/material';
 import netwotk from 'helpers/network.helper';
 import { useEffect, useState, useContext, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_FOLDER_CONTENT } from 'store/actions';
+import { SET_FOLDER_CONTENT } from 'store/actions/object.actions';
 import { useSnackbar } from 'notistack';
-import ObjectItemCard from 'ui-component/cards/ObjectItemCard';
+import FileCard from './FileCard';
 import EmptyCard from './EmptyCard';
 
 
@@ -46,7 +46,7 @@ const MyFiles = () => {
                 {objectController.folderContent.map((e) => {
                     return (
                         <Grid item key={e.id}>
-                            <ObjectItemCard {...e} />
+                            <FileCard {...e} />
                         </Grid>
 
                     )

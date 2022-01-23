@@ -6,13 +6,11 @@ import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import DownloadIcon from '@mui/icons-material/Download';
-import DeleteIcon from '@mui/icons-material/Delete';
 import FileIcon from 'assets/images/icons/file.svg'
 import network from 'helpers/network.helper';
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/actions';
+import { DELETE_OBJECT } from 'store/actions/object.actions';
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import TrashRestore from 'assets/images/icons/trash-restore.svg'
 

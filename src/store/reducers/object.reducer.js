@@ -1,4 +1,4 @@
-import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT } from '../actions';
+import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT } from '../actions/object.actions';
 
 export const initialState = {
     folderHash: 'myfiles',
