@@ -4,13 +4,15 @@ import { combineReducers } from 'redux';
 import customizationReducer from './customization.reducer';
 import userReducer from './user.reducer';
 import objectReducer from './object.reducer';
+import trashReducer from './trash.reducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
 const reducer = combineReducers({
     customization: customizationReducer,
     user: userReducer,
-    objects: objectReducer
+    objects: objectReducer,
+    trash: trashReducer,
 });
 
 export default reducer;

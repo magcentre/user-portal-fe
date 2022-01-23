@@ -96,7 +96,6 @@ const TrashCard = (props) => {
           <ListItemButton
             onClick={() => {
               network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
-                props.updateDelete();
                 enqueueSnackbar("File restored forever");
               });
             }}

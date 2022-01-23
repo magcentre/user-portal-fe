@@ -1,12 +1,12 @@
-// material-ui
-import { CircularProgress, Grid, Typography } from '@mui/material';
-import netwotk from 'helpers/network.helper';
-import { useEffect, useState, useContext, } from 'react';
+
+import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_FOLDER_CONTENT } from 'store/types/template.types';
+import { fetchTrashObjects, clearTrashState } from 'store/actions/trash.actions'
+import Grid from '@mui/material/Grid';
+import CircularProgress from '@mui/material/CircularProgress';
 import InfoCard from './InfoCard';
 import TrashCard from './TrashCard';
-import { useSnackbar } from 'notistack';
+
 
 const CircularLoader = () => {
   return (
@@ -16,30 +16,25 @@ const CircularLoader = () => {
   )
 }
 
-
 const TrashCan = () => {
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const trashController = useSelector((state) => state.trash);
 
-  const [trashContent, setTrashContent] = useState();
-
-  const updateDelete = () => {
-    netwotk.get(`/container/trash/`)
-      .then((e) => {
-        setTrashContent(e.data.data);
-      })
-      .catch((e) => {
-        enqueueSnackbar("Failed to load trash");
-      })
-  };
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    updateDelete();
-  }, []);
 
-  if (!trashContent) return (<CircularLoader />)
+    dispatch(fetchTrashObjects());
 
-  if (trashContent && trashContent.length == 0) return (<>
+    return () => {
+      dispatch(clearTrashState());
+    };
+
+  }, [dispatch]);
+
+  if (!trashController.trashElements) return (<CircularLoader />)
+
+  if (trashController.trashElements && trashController.trashElements.length == 0) return (<>
     <InfoCard />
     <center> No files or folder found </center>
   </>)
@@ -48,10 +43,11 @@ const TrashCan = () => {
     <>
       <InfoCard /><br />
       <Grid container spacing={2}>
-        {trashContent.map((e) => {
+        {trashController.trashElements.map((e) => {
+          console.log(e);
           return (
             <Grid item key={e.id}>
-              <TrashCard updateDelete={updateDelete} {...e} />
+              <TrashCard {...e} />
             </Grid>
           )
         })}

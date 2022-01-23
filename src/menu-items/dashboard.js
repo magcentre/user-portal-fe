@@ -7,7 +7,7 @@ import TrashIcon from 'assets/images/icons/trash-icon.svg'
 // custom icon
 const CustomIcon = (src) => {
     return (
-        <img src={src} height="21" width="20"  />
+        <img src={src} height="21" width="20" />
     )
 }
 
