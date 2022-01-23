@@ -1,13 +1,11 @@
 // material-ui
 import { CircularProgress, Grid, Typography } from '@mui/material';
-import netwotk from 'helpers/network.helper';
 import { useEffect, useState, useContext, } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { SET_FOLDER_CONTENT } from 'store/actions/object.actions';
+import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
+import { fetchObjectForFolder } from 'store/actions/object.actions'
 import FileCard from './FileCard';
 import EmptyCard from './EmptyCard';
-
 
 const CircularLoader = () => {
     return (
@@ -28,19 +26,17 @@ const MyFiles = () => {
 
     const [folderContent, setFoldercontent] = useState(objectController.folderContent);
 
+    console.log(objectController.folderContent)
+
     useEffect(() => {
-        netwotk.get(`/container/folder/${objectController.folderHash}`).then((e) => {
-            dispatch({ type: SET_FOLDER_CONTENT, folderContent: e.data.data });
-        }).catch((e) => {
-            enqueueSnackbar("Failed to load folder details");
-        });
+        dispatch(fetchObjectForFolder(objectController.folderHash));
     }, [dispatch, folderContent]);
 
     if (!objectController.folderContent) return (<CircularLoader />)
 
     return (
         <>
-            { objectController.folderContent.length === 0 && <EmptyCard /> }
+            {objectController.folderContent.length === 0 && <EmptyCard />}
             <br />
             <Grid container spacing={2}>
                 {objectController.folderContent.map((e) => {

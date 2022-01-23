@@ -13,7 +13,7 @@ import network from 'helpers/network.helper';
 import config from 'config'
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/actions/object.actions';
+import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,

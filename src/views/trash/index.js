@@ -3,7 +3,7 @@ import { CircularProgress, Grid, Typography } from '@mui/material';
 import netwotk from 'helpers/network.helper';
 import { useEffect, useState, useContext, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_FOLDER_CONTENT } from 'store/actions/template.actions';
+import { SET_FOLDER_CONTENT } from 'store/types/template.types';
 import InfoCard from './InfoCard';
 import TrashCard from './TrashCard';
 import { useSnackbar } from 'notistack';

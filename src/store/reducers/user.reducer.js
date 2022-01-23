@@ -2,7 +2,7 @@
 
 // action - state management
 import storageHelper from 'helpers/storage.helper';
-import { SET_CURRRENT_USER } from '../actions/user.actions';
+import { SET_CURRRENT_USER } from '../types/user.types';
 
 const currentUser = () => {
   var user = storageHelper.getItem('currentUser');

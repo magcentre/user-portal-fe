@@ -1,4 +1,12 @@
-export const SET_CURRENT_FOLDER = '@object/currentfolder'
-export const ADD_NEW_OBJECT = '@object/addnewobjecyInFolder'
-export const DELETE_OBJECT = '@object/deleteObjectFromFolder'
-export const SET_FOLDER_CONTENT = '@object/folderContent'
+import network from 'helpers/network.helper';
+import { SET_FOLDER_CONTENT, } from '../types/object.types'
+import { container } from 'constants/api.constants';
+
+export const fetchObjectForFolder = (hash) => async (dispatch) => {
+  try {
+    const response = await network.get(`${container.fetchObjects}${hash}`);
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+};

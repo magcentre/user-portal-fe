@@ -32,7 +32,7 @@ import netwotk from 'helpers/network.helper';
 import storageHelper from 'helpers/storage.helper';
 
 // actions
-import { SET_CURRRENT_USER } from 'store/actions/user.actions';
+import { SET_CURRRENT_USER } from 'store/types/user.types';
 
 import { LoadingButton } from '@mui/lab';
 

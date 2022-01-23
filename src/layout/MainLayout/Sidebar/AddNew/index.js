@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import uploadNetwork from 'helpers/upload.helper';
-import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/actions/object.actions';
+import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/types/object.types';
 
 const Input = styled('input')({
   display: 'none',
