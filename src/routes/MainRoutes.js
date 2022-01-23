@@ -31,7 +31,7 @@ const MainRoutes = {
             element: <MyFiles />
         },
         {
-            path: '/my-files/folders/:key',
+            path: '/my-files/folders/:folderHash',
             element: <MyFiles />
         },
         {

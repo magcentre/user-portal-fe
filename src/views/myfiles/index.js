@@ -4,6 +4,8 @@ import { useEffect, useState, useContext, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
 import { fetchObjectForFolder } from 'store/actions/object.actions'
+import { useNavigate } from "react-router-dom"
+import { useParams } from 'react-router-dom';
 import FileCard from './FileCard';
 import EmptyCard from './EmptyCard';
 
@@ -24,13 +26,15 @@ const MyFiles = () => {
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+    const { folderHash } = useParams();
+    
     const [folderContent, setFoldercontent] = useState(objectController.folderContent);
 
     console.log(objectController.folderContent)
 
     useEffect(() => {
-        dispatch(fetchObjectForFolder(objectController.folderHash));
-    }, [dispatch, folderContent]);
+        dispatch(fetchObjectForFolder(folderHash || 'myfiles'));
+    }, [dispatch, folderContent, folderHash]);
 
     if (!objectController.folderContent) return (<CircularLoader />)
 
