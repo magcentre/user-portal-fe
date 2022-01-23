@@ -3,7 +3,7 @@ import { CircularProgress, Grid, Typography } from '@mui/material';
 import netwotk from 'helpers/network.helper';
 import { useEffect, useState, useContext, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { SET_FOLDER_CONTENT } from 'store/actions';
+import { SET_FOLDER_CONTENT } from 'store/actions/template.actions';
 import InfoCard from './InfoCard';
 import TrashCard from './TrashCard';
 import { useSnackbar } from 'notistack';
@@ -21,7 +21,7 @@ const TrashCan = () => {
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
-  const [trashContent, setTrashContent ] = useState();
+  const [trashContent, setTrashContent] = useState();
 
   const updateDelete = () => {
     netwotk.get(`/container/trash/`)
@@ -35,14 +35,14 @@ const TrashCan = () => {
 
   useEffect(() => {
     updateDelete();
-  },[]);
+  }, []);
 
   if (!trashContent) return (<CircularLoader />)
 
   if (trashContent && trashContent.length == 0) return (<>
-      <InfoCard />
-      <center> No files or folder found </center>
-    </>)
+    <InfoCard />
+    <center> No files or folder found </center>
+  </>)
 
   return (
     <>
