@@ -37,7 +37,7 @@ export const handelObjectRestore = (hash) => async (dispatch, getState) => {
   const trash = getState().trash;
   const unDeleted = [];
   try {
-    const response = await network.patch(`/container/object/${hash}`, { isTrash: false });
+    await network.patch(`/container/object/${hash}`, { isTrash: false });
     trash.trashElements.forEach((e) => {
       if (e.hash !== hash) unDeleted.push(e);
     });
