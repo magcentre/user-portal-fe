@@ -49,3 +49,16 @@ export const handleStaredState = (hash, isStarred) => async (dispatch, getState)
     console.log(e);
   }
 };
+
+export const updateObjectState = (hash, objectConfig) => async (dispatch, getState) => {
+  try {
+    const objects = { ...getState().objects };
+    await network.patch(`${container.object}${hash}`, objectConfig);
+    (objects.folderContent || []).forEach((e) => {
+      if (e.hash === hash) e = {...e, ...objectConfig}
+    });
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent });
+  } catch (e) {
+    console.log(e);
+  }
+};
