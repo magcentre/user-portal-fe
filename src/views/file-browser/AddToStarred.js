@@ -10,8 +10,6 @@ const AddToStarred = (props) => {
 
   const dispatch = useDispatch();
 
-  console.log(props);
-
   return (
     <ListItemButton
       onClick={() => {

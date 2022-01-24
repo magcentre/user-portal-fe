@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
-import { handleStaredState } from 'store/actions/object.actions'
+import { updateObjectState } from 'store/actions/object.actions'
 import { useDispatch, useSelector } from "react-redux";
 
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
@@ -34,6 +34,8 @@ const RenameObject = (props) => {
 
   const [loading, setLoading] = React.useState(false);
 
+  const [name, setName] = React.useState(props.name);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -41,6 +43,13 @@ const RenameObject = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const updateName = () => {
+    dispatch(updateObjectState(props.hash, { name }));
+    handleClose();
+  };
+
+  const handelOnChange = (e) => setName(e.target.value);
 
   return (
     <>
@@ -67,6 +76,7 @@ const RenameObject = (props) => {
             id="name"
             label="Name"
             disabled={loading}
+            onChange={handelOnChange}
             type="email"
             fullWidth
             variant="filled"
@@ -74,7 +84,7 @@ const RenameObject = (props) => {
         </DialogContent>
         <DialogActions>
           <Button disabled={loading} onClick={handleClose}>Cancel</Button>
-          <Button disabled={loading} variant='contained' style={{ color: 'white' }} onClick={handleClose} size="small">
+          <Button onClick={updateName} disabled={loading} variant='contained' style={{ color: 'white' }} size="small">
             OK
           </Button>
         </DialogActions>
