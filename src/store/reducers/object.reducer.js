@@ -13,11 +13,13 @@ const authenticationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 currentFolder: action.currentFolder
+
             };
         case SET_FOLDER_CONTENT:
             return {
                 ...state,
-                folderContent: action.folderContent
+                folderContent: action.folderContent,
+                folderHash: action.folderHash || initialState.folderHash,
             };
         case ADD_NEW_OBJECT:
             return {

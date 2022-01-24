@@ -5,7 +5,7 @@ import { container } from 'constants/api.constants';
 export const fetchObjectForFolder = (hash) => async (dispatch) => {
   try {
     const response = await network.get(`${container.folder}${hash}`);
-    dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data, folderHash: hash });
   } catch (e) {
     console.log(e);
   }
@@ -45,7 +45,7 @@ export const handleStaredState = (hash, type, isStarred) => async (dispatch, get
     (objects.folderContent || []).forEach((e) => {
       if (e.hash === hash) e.isStared = !e.isStared;
     });
-    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent });
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
   } catch (e) {
     console.log(e);
   }
@@ -61,7 +61,7 @@ export const updateObjectState = (hash, type, objectConfig) => async (dispatch, 
         e.name = objectConfig.name;
       }
     });
-    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent });
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
   } catch (e) {
     console.log(e);
   }
