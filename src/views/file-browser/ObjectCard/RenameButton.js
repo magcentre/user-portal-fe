@@ -36,6 +36,8 @@ const RenameObject = (props) => {
 
   const [name, setName] = React.useState(props.name);
 
+  const [error, setError] = React.useState(null);
+
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -45,11 +47,19 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    dispatch(updateObjectState(props.hash, props.type, { name }));
-    handleClose();
+    if(name && name.length > 0) {
+      dispatch(updateObjectState(props.hash, props.type, { name }));
+      handleClose();
+    } else {
+      setError("Enter valid name");
+    }
+    
   };
 
-  const handelOnChange = (e) => setName(e.target.value);
+  const handelOnChange = (e) => {
+    setError(null);
+    setName(e.target.value);
+  } 
 
   return (
     <>
@@ -75,6 +85,8 @@ const RenameObject = (props) => {
             margin="dense"
             id="name"
             label="Name"
+            error={error}
+            helperText={error}
             disabled={loading}
             onChange={handelOnChange}
             type="email"
