@@ -14,7 +14,7 @@ const AddToStarred = (props) => {
     <ListItemButton
       onClick={() => {
         props.handelClose();
-        dispatch(handleStaredState(props.hash, !props.isStared));
+        dispatch(handleStaredState(props.hash, props.type, !props.isStared));
       }}
     >
       <ListItemIcon>

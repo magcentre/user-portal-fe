@@ -45,7 +45,7 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    dispatch(updateObjectState(props.hash, { name }));
+    dispatch(updateObjectState(props.hash, props.type, { name }));
     handleClose();
   };
 

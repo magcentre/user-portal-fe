@@ -37,10 +37,11 @@ export const clearBrowserState = () => async (dispatch) => {
   }
 };
 
-export const handleStaredState = (hash, isStarred) => async (dispatch, getState) => {
+export const handleStaredState = (hash, type, isStarred) => async (dispatch, getState) => {
   try {
     const objects = { ...getState().objects };
-    await network.patch(`${container.object}${hash}`, { isStared: isStarred });
+    const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
+    await network.patch(`${apiEndPoint}`, { isStared: isStarred });
     (objects.folderContent || []).forEach((e) => {
       if (e.hash === hash) e.isStared = !e.isStared;
     });
@@ -50,10 +51,11 @@ export const handleStaredState = (hash, isStarred) => async (dispatch, getState)
   }
 };
 
-export const updateObjectState = (hash, objectConfig) => async (dispatch, getState) => {
+export const updateObjectState = (hash, type, objectConfig) => async (dispatch, getState) => {
   try {
     const objects = { ...getState().objects };
-    const response = await network.patch(`${container.object}${hash}`, objectConfig);
+    const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
+    const response = await network.patch(`${apiEndPoint}`, objectConfig);
     (objects.folderContent || []).forEach((e) => {
       if (e.hash === hash) {
         e.name = objectConfig.name;
