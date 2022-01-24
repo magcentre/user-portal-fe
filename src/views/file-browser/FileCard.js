@@ -14,6 +14,7 @@ import config from 'config'
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
+import AddToStarred from './AddToStarred';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -148,6 +149,8 @@ const FileCard = (props) => {
             </ListItemIcon>
             <ListItemText primary="Remove" />
           </ListItemButton>
+          <Divider />
+          <AddToStarred {...props} handelClose={handleClose} />
         </Box>
       </Popover>
     </>
