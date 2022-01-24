@@ -31,7 +31,7 @@ const MainRoutes = {
             element: <FileBrowser />
         },
         {
-            path: '/file-browser/folders/:folderHash',
+            path: '/file-browser/folder/:folderHash',
             element: <FileBrowser />
         },
         {
