@@ -14,8 +14,9 @@ import config from 'config'
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
-import AddToStarred from './AddToStarred';
-import RenameObject from './RenameObject';
+import AddToStarred from './StarButton';
+import RenameObject from './RenameButton';
+import RemoveButton from './RemoveButton';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -24,7 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const FileCard = (props) => {
+const ObjectCard = (props) => {
 
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -96,7 +97,7 @@ const FileCard = (props) => {
             <ListItemText primary={props.name} secondary={dateWithTime} />
           </ListItemButton>
           <Divider />
-          <ListItemButton
+          {props.type ? (<ListItemButton
             onClick={() => {
               window.open(`${config.apiEnd}/container/object/${props.hash}`);
             }}
@@ -105,7 +106,7 @@ const FileCard = (props) => {
               <DownloadIcon />
             </ListItemIcon>
             <ListItemText primary="Download" />
-          </ListItemButton>
+          </ListItemButton>) : <></>}
           <Divider />
           <ListItemButton
             onClick={() => {
@@ -150,6 +151,7 @@ const FileCard = (props) => {
             </ListItemIcon>
             <ListItemText primary="Remove" />
           </ListItemButton>
+          
           <Divider />
           <AddToStarred {...props} handelClose={handleClose} />
           <Divider />
@@ -161,4 +163,4 @@ const FileCard = (props) => {
   );
 }
 
-export default FileCard;
+export default ObjectCard;

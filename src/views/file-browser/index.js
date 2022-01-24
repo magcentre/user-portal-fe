@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
 import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBrowserState } from 'store/actions/object.actions'
 import { useParams } from 'react-router-dom';
-import FileCard from './FileCard';
+import ObjectCard from './ObjectCard/';
 import EmptyCard from './EmptyCard';
 
 const CircularLoader = () => {
@@ -56,7 +56,7 @@ const FileBrowser = ({ mode }) => {
                 {objectController.folderContent.map((e) => {
                     return (
                         <Grid item key={e.id}>
-                            <FileCard {...e} />
+                            <ObjectCard {...e} />
                         </Grid>
                     )
                 })}

@@ -6,7 +6,7 @@ import StarredIcon from 'assets/images/icons/add-to-starred.svg'
 
 const AddToStarred = (props) => {
 
-  const objectController = useSelector((state) => state.objects);
+  useSelector((state) => state.objects);
 
   const dispatch = useDispatch();
 
