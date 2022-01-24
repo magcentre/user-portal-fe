@@ -5,7 +5,7 @@ const EmptyCard = () => {
   return (
     <>
       <center style={{ top: "30%", left: "45%", position: 'fixed' }}>
-        <img src={NoFileUploaded} height="250" /><br />
+        <img src={NoFileUploaded} height="250" alt="no-file-upload" /><br />
         No files are uploaded, please start uploading files
       </center>
 

@@ -9,8 +9,8 @@ import TrashCan from 'views/trash'
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
-// my-files component
-const MyFiles = Loadable(lazy(() => import('views/myfiles')));
+// file-browser component
+const FileBrowser = Loadable(lazy(() => import('views/file-browser')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
@@ -27,12 +27,12 @@ const MainRoutes = {
             element: <DashboardDefault />
         },
         {
-            path: '/my-files',
-            element: <MyFiles />
+            path: '/file-browser',
+            element: <FileBrowser />
         },
         {
-            path: '/my-files/folders/:folderHash',
-            element: <MyFiles />
+            path: '/file-browser/folder/:folderHash',
+            element: <FileBrowser />
         },
         {
             path: '/profile',
@@ -41,6 +41,14 @@ const MainRoutes = {
         {
             path: '/trash',
             element: <TrashCan />
+        },
+        {
+            path: '/recent-files',
+            element: <FileBrowser mode='recent-files' key='recent-files' />
+        },
+        {
+            path: '/starred-files',
+            element: <FileBrowser mode='starred-files' key='starred-files' />
         }
     ]
 };

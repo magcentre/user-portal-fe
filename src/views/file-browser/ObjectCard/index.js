@@ -4,16 +4,19 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
-import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button } from '@mui/material';
+import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button, CardActionArea } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DownloadIcon from '@mui/icons-material/Download';
-import DeleteIcon from '@mui/icons-material/Delete';
-import FileIcon from 'assets/images/icons/file.svg'
+import DeleteIcon from 'assets/images/icons/trash-icon.svg';
 import network from 'helpers/network.helper';
 import config from 'config'
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
+import AddToStarred from './StarButton';
+import RenameObject from './RenameButton';
+import { getIconFromType } from 'utils/object-icon';
+import { useNavigate } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -22,11 +25,12 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const FileCard = (props) => {
+const ObjectCard = (props) => {
 
 
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
+  const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
@@ -50,17 +54,30 @@ const FileCard = (props) => {
 
   const dateWithTime = new Date(props.createdAt).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: '2-digit', minute: 'numeric' });
 
+  const openFolder = (e) => {
+    if (!props.type && e.detail === 2) {
+      navigate(`/file-browser/folder/${props.hash}`);
+    }
+  };
+
   return (
     <>
-      <Card sx={{ width: 200, height: 160 }} >
+
+      <Card
+        sx={{
+          width: 200, height: 160, ':hover': {
+            boxShadow: 4,
+          },
+        }}
+      >
         <Stack
           direction="row"
           justifyContent="space-between"
           alignItems="flex-start"
           spacing={2}
         >
-          <Item>
-            <img src={FileIcon} height="50" width="50" />
+          <Item onClick={openFolder}>
+            <img src={getIconFromType(props.type)} height="55" width="50" alt="object-icon" />
           </Item>
           <Item>
             <IconButton aria-label="settings" aria-describedby={id} onClick={handleClick}>
@@ -69,7 +86,7 @@ const FileCard = (props) => {
           </Item>
         </Stack>
 
-        <CardContent sx={{ padding: 1 }}>
+        <CardContent sx={{ padding: 1 }} onClick={openFolder}>
           <Box component="div" sx={{ md: 1, overflow: 'hidden', fontWeight: 'bold', height: '2.6em' }}>
             {props.name}
           </Box>
@@ -84,17 +101,17 @@ const FileCard = (props) => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-
+        elevation={2}
       >
-        <Box sx={{ width: 300 }}>
+        <Box sx={{ width: 300, borderRadius: 3, padding: '10px' }}>
           <ListItemButton dense="true">
             <ListItemIcon>
-              <img src={FileIcon} height="30" width="30" />
+              <img src={getIconFromType(props.type)} height="30" width="30" alt="object-icon-2" />
             </ListItemIcon>
             <ListItemText primary={props.name} secondary={dateWithTime} />
           </ListItemButton>
           <Divider />
-          <ListItemButton
+          {props.type ? (<ListItemButton
             onClick={() => {
               window.open(`${config.apiEnd}/container/object/${props.hash}`);
             }}
@@ -103,7 +120,11 @@ const FileCard = (props) => {
               <DownloadIcon />
             </ListItemIcon>
             <ListItemText primary="Download" />
-          </ListItemButton>
+          </ListItemButton>) : <></>}
+          <Divider />
+          <AddToStarred {...props} handelClose={handleClose} />
+          <Divider />
+          <RenameObject {...props} handelClose={handleClose} />
           <Divider />
           <ListItemButton
             onClick={() => {
@@ -144,7 +165,7 @@ const FileCard = (props) => {
             }}
           >
             <ListItemIcon>
-              <DeleteIcon />
+              <img src={DeleteIcon} height="20" width="20" alt='download-icon' />
             </ListItemIcon>
             <ListItemText primary="Remove" />
           </ListItemButton>
@@ -155,4 +176,4 @@ const FileCard = (props) => {
   );
 }
 
-export default FileCard;
+export default ObjectCard;

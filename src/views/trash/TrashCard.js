@@ -4,13 +4,17 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
-import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button } from '@mui/material';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FileIcon from 'assets/images/icons/file.svg'
-import network from 'helpers/network.helper';
+import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
+
+
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_OBJECT } from 'store/types/object.types';
+
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import FileIcon from 'assets/images/icons/file.svg'
+
+import { handelObjectRestore, handelObjectDelete } from 'store/actions/trash.actions'
+
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import TrashRestore from 'assets/images/icons/trash-restore.svg'
 
@@ -33,7 +37,7 @@ const TrashCard = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const objectController = useSelector((state) => state.objects);
+  const trashController = useSelector((state) => state.trash);
 
   const dispatch = useDispatch();
 
@@ -95,10 +99,8 @@ const TrashCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-              network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
-                props.updateDelete();
-                enqueueSnackbar("File restored forever");
-              });
+              dispatch(handelObjectRestore(props.hash));
+              handleClose();
             }}
           >
             <ListItemIcon>
@@ -109,27 +111,8 @@ const TrashCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-
-              network.delete(`/container/trash/${props.hash}`).then((e) => {
-
-                props.updateDelete();
-
-                enqueueSnackbar("File deleted forever");
-
-                handleClose();
-
-                const unDeletedData = [];
-
-                objectController.folderContent.forEach((e) => {
-                  if (e.hash !== props.hash) {
-                    unDeletedData.push(e);
-                  }
-                })
-
-                dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData });
-
-              });
-
+              dispatch(handelObjectDelete(props.hash));
+              handleClose();
             }}
           >
             <ListItemIcon>

@@ -1,12 +1,11 @@
 // material-ui
-import { CircularProgress, Grid, Typography } from '@mui/material';
-import { useEffect, useState, useContext, } from 'react';
+import { CircularProgress, Grid } from '@mui/material';
+import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
-import { fetchObjectForFolder } from 'store/actions/object.actions'
-import { useNavigate } from "react-router-dom"
+import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBrowserState } from 'store/actions/object.actions'
 import { useParams } from 'react-router-dom';
-import FileCard from './FileCard';
+import ObjectCard from './ObjectCard/';
 import EmptyCard from './EmptyCard';
 
 const CircularLoader = () => {
@@ -17,8 +16,7 @@ const CircularLoader = () => {
     )
 }
 
-
-const MyFiles = () => {
+const FileBrowser = ({ mode }) => {
 
     const objectController = useSelector((state) => state.objects);
 
@@ -27,13 +25,25 @@ const MyFiles = () => {
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
     const { folderHash } = useParams();
-    
+
     const [folderContent, setFoldercontent] = useState(objectController.folderContent);
 
-    console.log(objectController.folderContent)
-
     useEffect(() => {
-        dispatch(fetchObjectForFolder(folderHash || 'myfiles'));
+
+        switch (mode) {
+            case 'recent-files':
+                dispatch(fetchRecentObjects());
+                break;
+            case 'starred-files':
+                dispatch(fetchStarredObjects());
+                break;
+            default:
+                dispatch(fetchObjectForFolder(folderHash || 'myfiles'));
+        }
+
+        return () => {
+            dispatch(clearBrowserState());
+        }
     }, [dispatch, folderContent, folderHash]);
 
     if (!objectController.folderContent) return (<CircularLoader />)
@@ -46,9 +56,8 @@ const MyFiles = () => {
                 {objectController.folderContent.map((e) => {
                     return (
                         <Grid item key={e.id}>
-                            <FileCard {...e} />
+                            <ObjectCard {...e} />
                         </Grid>
-
                     )
                 })}
             </Grid>
@@ -56,4 +65,4 @@ const MyFiles = () => {
     )
 }
 
-export default MyFiles;
+export default FileBrowser;
