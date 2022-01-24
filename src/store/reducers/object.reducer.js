@@ -1,9 +1,9 @@
-import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT } from '../actions';
+import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT } from '../types/object.types';
 
 export const initialState = {
     folderHash: 'myfiles',
     folderObject: undefined,
-    folderContent: [],
+    folderContent: undefined,
     folderStack: [],
 };
 
@@ -23,6 +23,11 @@ const authenticationReducer = (state = initialState, action) => {
             return {
                 ...state,
                 folderContent: [...state.folderContent, action.object]
+            };
+        case DELETE_OBJECT:
+            return {
+                ...state,
+                folderContent: action.folderContent
             };
         default:
             return state;

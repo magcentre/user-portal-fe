@@ -5,7 +5,7 @@ import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import uploadNetwork from 'helpers/upload.helper';
-import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/actions';
+import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/types/object.types';
 
 const Input = styled('input')({
   display: 'none',
@@ -35,7 +35,6 @@ const AddNewButton = () => {
     const config = {
       onUploadProgress: progressEvent => {
         const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-        console.log("onUploadProgress", totalLength);
         if (totalLength !== null) {
           setProgress(Math.round((progressEvent.loaded * 100) / totalLength));
         }
@@ -46,7 +45,10 @@ const AddNewButton = () => {
       setUploading(false);
       setProgress(0);
       dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
-    });
+    }).catch((e) => {
+      setUploading(false);
+      setProgress(0);
+    })
 
   };
 

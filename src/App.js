@@ -1,3 +1,4 @@
+
 import { useSelector } from 'react-redux';
 
 import { ThemeProvider } from '@mui/material/styles';
@@ -17,7 +18,7 @@ import NavigationScroll from 'layout/NavigationScroll';
 
 const App = () => {
     const customization = useSelector((state) => state.customization);
-
+    
     return (
         <StyledEngineProvider injectFirst>
             <SnackbarProvider>

@@ -60,6 +60,8 @@ start.*.sh
 # data test files
 data/
 
+build/
+
 # backup
 backup/
 

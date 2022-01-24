@@ -2,11 +2,12 @@
 import { IconFile, IconHome } from '@tabler/icons';
 import MyFilesIcon from 'assets/images/icons/my-files.svg'
 import DashboardIcon from 'assets/images/icons/dashboard.svg'
+import TrashIcon from 'assets/images/icons/trash-icon.svg'
 
 // custom icon
 const CustomIcon = (src) => {
     return (
-        <img src={src} />
+        <img src={src} height="21" width="20"  />
     )
 }
 
@@ -31,6 +32,14 @@ const dashboard = {
             type: 'item',
             url: '/my-files',
             icon: CustomIcon(MyFilesIcon),
+            breadcrumbs: false
+        },
+        {
+            id: 'trash',
+            title: 'Trash',
+            type: 'item',
+            url: '/trash',
+            icon: CustomIcon(TrashIcon),
             breadcrumbs: false
         }
     ]

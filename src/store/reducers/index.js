@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 // reducer import
-import customizationReducer from './reducers/customization.reducer';
-import userReducer from './reducers/user.reducer';
-import objectReducer from './reducers/object.reducer';
+import customizationReducer from './customization.reducer';
+import userReducer from './user.reducer';
+import objectReducer from './object.reducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 

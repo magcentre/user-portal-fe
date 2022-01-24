@@ -1,7 +1,8 @@
 import axios from 'axios';
+import config from '../config';
 
 const networkInstance = axios.create({
-    baseURL: "http://localhost:5000/",
+    baseURL: config.apiEnd,
     responseType: "json",
     timeout: 1000 * 60 * 30,
 });

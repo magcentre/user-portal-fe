@@ -4,19 +4,12 @@ import { lazy } from 'react';
 import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import ProfilePage from 'views/profile';
+import TrashCan from 'views/trash'
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 
-// utilities routing
-const UtilsTypography = Loadable(lazy(() => import('views/utilities/Typography')));
-const UtilsColor = Loadable(lazy(() => import('views/utilities/Color')));
-const UtilsShadow = Loadable(lazy(() => import('views/utilities/Shadow')));
-const UtilsMaterialIcons = Loadable(lazy(() => import('views/utilities/MaterialIcons')));
-const UtilsTablerIcons = Loadable(lazy(() => import('views/utilities/TablerIcons')));
-
-// sample page routing
-const SamplePage = Loadable(lazy(() => import('views/sample-page')));
+// my-files component
 const MyFiles = Loadable(lazy(() => import('views/myfiles')));
 
 // ==============================|| MAIN ROUTING ||============================== //
@@ -38,7 +31,7 @@ const MainRoutes = {
             element: <MyFiles />
         },
         {
-            path: '/my-files/folders/:key',
+            path: '/my-files/folders/:folderHash',
             element: <MyFiles />
         },
         {
@@ -46,28 +39,8 @@ const MainRoutes = {
             element: <ProfilePage />
         },
         {
-            path: '/utils/util-typography',
-            element: <UtilsTypography />
-        },
-        {
-            path: '/utils/util-color',
-            element: <UtilsColor />
-        },
-        {
-            path: '/utils/util-shadow',
-            element: <UtilsShadow />
-        },
-        {
-            path: '/icons/tabler-icons',
-            element: <UtilsTablerIcons />
-        },
-        {
-            path: '/icons/material-icons',
-            element: <UtilsMaterialIcons />
-        },
-        {
-            path: '/sample-page',
-            element: <SamplePage />
+            path: '/trash',
+            element: <TrashCan />
         }
     ]
 };

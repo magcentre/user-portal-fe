@@ -1,24 +1,23 @@
-import { Link } from 'react-router-dom';
 
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import AuthLogin from './auth-form/auth-login';
-
+import AuthLogin from './auth-form';
 
 import AuthWrapper1 from './AuthWrapper1';
 import AuthCardWrapper from './AuthCardWrapper';
 import SideBarWrapper from './SideBarWrapper';
 
-// assets
-import sidebarimage from '../../assets/images/auth/sidebar.png'
+import sidebarimage from 'assets/images/auth/sidebar.png'
+
 import LogoSection from 'constants/logo';
 
 
 const Login = () => {
+
   const theme = useTheme();
+
   const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
 
   return (

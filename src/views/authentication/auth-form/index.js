@@ -1,12 +1,10 @@
 import { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
 import {
   Box,
-  Button,
-  Input,
   FormControl,
   FormHelperText,
   IconButton,
@@ -17,22 +15,26 @@ import {
   Typography
 } from '@mui/material';
 
-// third party
+
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import { useNavigate } from "react-router-dom"
 
-// project imports
+
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
 import Visibility from '@mui/icons-material/Visibility';
+
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+
 import netwotk from 'helpers/network.helper';
+
 import storageHelper from 'helpers/storage.helper';
 
 // actions
-import { SET_CURRRENT_USER } from 'store/actions';
-import MailOutline from '@mui/icons-material/MailOutline';
+import { SET_CURRRENT_USER } from 'store/types/user.types';
+
+import { LoadingButton } from '@mui/lab';
 
 
 const Login = ({ props, ...others }) => {
@@ -43,9 +45,7 @@ const Login = ({ props, ...others }) => {
 
   const dispatch = useDispatch();
 
-  const user = useSelector((state) => state.userReducer);
-
-  const [checked, setChecked] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -58,14 +58,14 @@ const Login = ({ props, ...others }) => {
   };
 
   const perfromLogin = async (values, { setErrors, setStatus, setSubmitting }) => {
-    setSubmitting(true);
+    setLoading(true);
     netwotk.post('/identity/user/authenticate', values).then((e) => {
       dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
       storageHelper.setItem('currentUser', JSON.stringify(e.data.data));
       navigate("/dashboard");
     }).catch((e) => {
       setStatus({ success: false });
-
+      setLoading(false);
       setErrors({ submit: "Enter valid email and password" });
     })
   }
@@ -84,7 +84,7 @@ const Login = ({ props, ...others }) => {
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
-            
+
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
 
               <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
@@ -154,7 +154,9 @@ const Login = ({ props, ...others }) => {
 
             <Box sx={{ mt: 2, color: 'white' }}>
               <AnimateButton>
-                <Button
+                <LoadingButton
+                  loading={loading}
+                  loadingPosition="end"
                   disableElevation
                   disabled={isSubmitting}
                   fullWidth
@@ -165,8 +167,8 @@ const Login = ({ props, ...others }) => {
                     color: 'white'
                   }}
                 >
-                  Log in
-                </Button>
+                  Login
+                </LoadingButton>
               </AnimateButton>
             </Box>
           </form>
