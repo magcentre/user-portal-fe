@@ -36,3 +36,16 @@ export const clearBrowserState = () => async (dispatch) => {
     console.log(e);
   }
 };
+
+export const handleStaredState = (hash, isStarred) => async (dispatch, getState) => {
+  try {
+    const objects = { ...getState().objects };
+    await network.patch(`${container.object}${hash}`, { isStared: isStarred });
+    (objects.folderContent || []).forEach((e) => {
+      if (e.hash === hash) e.isStared = !e.isStared;
+    });
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent });
+  } catch (e) {
+    console.log(e);
+  }
+};
