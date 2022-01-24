@@ -16,7 +16,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
 import AddToStarred from './StarButton';
 import RenameObject from './RenameButton';
-import RemoveButton from './RemoveButton';
+import { getIconFromType } from 'utils/object-icon';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -63,7 +63,7 @@ const ObjectCard = (props) => {
           spacing={2}
         >
           <Item>
-            <img src={FileIcon} height="50" width="50" />
+            <img src={getIconFromType(props.type)} height="55" width="50" alt="object-icon" />
           </Item>
           <Item>
             <IconButton aria-label="settings" aria-describedby={id} onClick={handleClick}>
