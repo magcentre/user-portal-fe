@@ -14,7 +14,7 @@ import MoreVertIcon from '@mui/icons-material/MoreVert';
 import FileIcon from 'assets/images/icons/file.svg'
 
 import { handelObjectRestore, handelObjectDelete } from 'store/actions/trash.actions'
-
+import { getIconFromType } from 'utils/object-icon';
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import TrashRestore from 'assets/images/icons/trash-restore.svg'
 
@@ -55,7 +55,13 @@ const TrashCard = (props) => {
 
   return (
     <>
-      <Card sx={{ width: 200, height: 160 }} >
+      <Card
+        sx={{
+          width: 200, height: 160, ':hover': {
+            boxShadow: 4,
+          },
+        }}
+      >
         <Stack
           direction="row"
           justifyContent="space-between"
@@ -63,7 +69,7 @@ const TrashCard = (props) => {
           spacing={2}
         >
           <Item>
-            <img src={FileIcon} height="50" width="50" />
+            <img src={getIconFromType(props.type)} height="55" width="50" alt="object-icon" />
           </Item>
           <Item>
             <IconButton aria-label="settings" aria-describedby={id} onClick={handleClick}>
@@ -87,19 +93,18 @@ const TrashCard = (props) => {
         open={open}
         anchorEl={anchorEl}
         onClose={handleClose}
-
       >
         <Box sx={{ width: 300 }}>
           <ListItemButton dense="true">
             <ListItemIcon>
-              <img src={FileIcon} height="30" width="30" />
+              <img src={getIconFromType(props.type)} height="30" width="30" />
             </ListItemIcon>
             <ListItemText primary={props.name} secondary={dateWithTime} />
           </ListItemButton>
           <Divider />
           <ListItemButton
             onClick={() => {
-              dispatch(handelObjectRestore(props.hash));
+              dispatch(handelObjectRestore(props.hash, props.type));
               handleClose();
             }}
           >
@@ -111,7 +116,7 @@ const TrashCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-              dispatch(handelObjectDelete(props.hash));
+              dispatch(handelObjectDelete(props.hash, props.type));
               handleClose();
             }}
           >
