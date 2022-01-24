@@ -3,6 +3,7 @@ import { IconFile, IconHome } from '@tabler/icons';
 import MyFilesIcon from 'assets/images/icons/my-files.svg'
 import DashboardIcon from 'assets/images/icons/dashboard.svg'
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
+import RecentFiles from 'assets/images/icons/recent-files-icon.svg'
 
 // custom icon
 const CustomIcon = (src) => {
@@ -27,11 +28,19 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-            id: 'my-files',
+            id: 'file-browser',
             title: 'My Files',
             type: 'item',
-            url: '/my-files',
+            url: '/file-browser',
             icon: CustomIcon(MyFilesIcon),
+            breadcrumbs: false
+        },
+        {
+            id: 'recent-files',
+            title: 'Recent Files',
+            type: 'item',
+            url: '/recent-files',
+            icon: CustomIcon(RecentFiles),
             breadcrumbs: false
         },
         {

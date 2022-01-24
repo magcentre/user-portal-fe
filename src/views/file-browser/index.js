@@ -1,9 +1,9 @@
 // material-ui
-import { CircularProgress, Grid, Typography } from '@mui/material';
-import { useEffect, useState, useContext, } from 'react';
+import { CircularProgress, Grid } from '@mui/material';
+import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useSnackbar } from 'notistack';
-import { fetchObjectForFolder } from 'store/actions/object.actions'
+import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBrowserState } from 'store/actions/object.actions'
 import { useParams } from 'react-router-dom';
 import FileCard from './FileCard';
 import EmptyCard from './EmptyCard';
@@ -16,8 +16,7 @@ const CircularLoader = () => {
     )
 }
 
-
-const MyFiles = () => {
+const FileBrowser = ({ mode }) => {
 
     const objectController = useSelector((state) => state.objects);
 
@@ -30,7 +29,21 @@ const MyFiles = () => {
     const [folderContent, setFoldercontent] = useState(objectController.folderContent);
 
     useEffect(() => {
-        dispatch(fetchObjectForFolder(folderHash || 'myfiles'));
+
+        switch (mode) {
+            case 'recent-files':
+                dispatch(fetchRecentObjects());
+                break;
+            case 'starred-files':
+                dispatch(fetchStarredObjects());
+                break;
+            default:
+                dispatch(fetchObjectForFolder(folderHash || 'myfiles'));
+        }
+
+        return () => {
+            dispatch(clearBrowserState());
+        }
     }, [dispatch, folderContent, folderHash]);
 
     if (!objectController.folderContent) return (<CircularLoader />)
@@ -52,4 +65,4 @@ const MyFiles = () => {
     )
 }
 
-export default MyFiles;
+export default FileBrowser;

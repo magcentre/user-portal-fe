@@ -1,4 +1,4 @@
-import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT } from '../types/object.types';
+import { ADD_NEW_OBJECT, SET_CURRENT_FOLDER, SET_FOLDER_CONTENT, DELETE_OBJECT, CLEAR_STATE } from '../types/object.types';
 
 export const initialState = {
     folderHash: 'myfiles',
@@ -25,6 +25,11 @@ const authenticationReducer = (state = initialState, action) => {
                 folderContent: [...state.folderContent, action.object]
             };
         case DELETE_OBJECT:
+            return {
+                ...state,
+                folderContent: action.folderContent
+            };
+        case CLEAR_STATE:
             return {
                 ...state,
                 folderContent: action.folderContent
