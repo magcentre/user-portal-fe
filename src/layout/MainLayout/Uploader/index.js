@@ -33,13 +33,27 @@ const ExpandMore = styled((props) => {
 }));
 
 const FloatingCard = styled(Card)(({ theme }) => ({
-  boxShadow: 5, padding: 0, margin: 0, width: 300, maxHeight: 250, position: 'fixed', right: 50, bottom: 50, zIndex: 999
+  boxShadow: 5, 
+  padding: 0, 
+  margin: 0, 
+  width: 300, 
+  maxHeight: 250, 
+  position: 'fixed', 
+  right: 30, 
+  bottom: 0, 
+  zIndex: 999,
+}));
+
+const FloatingCardTitle = styled(CardActions)(({ theme }) => ({
+  padding: "10px", 
+  margin: 0, 
+  maxHeight: 200,
+  background: theme.palette.secondary.light,
+  
 }));
 
 
 const UploadItem = (props) => {
-
-  console.log(props);
 
   return (
     <>
@@ -126,28 +140,29 @@ const UploadController = (props) => {
 
   return (
     <>
-      {Object.keys(uploadController.uploads).length > 0 ? <FloatingCard sx={{ boxShadow: 5 }}>
-        <CardActions style={{ padding: "5px", margin: 0, maxHeight: 200 }} >
-          Uploading
-          <ExpandMore
-            expand={expanded}
-            onClick={handleExpandClick}
-            aria-expanded={expanded}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon fontSize="small" />
-          </ExpandMore>
-          <IconButton  >
-            <CloseIcon fontSize="small" onClick={() => { dispatch(clearAllUploads()) }} />
-          </IconButton>
-        </CardActions>
-        <Divider />
-        <Collapse in={expanded} timeout="auto">
-          {Object.values(uploadController.uploads).map((e, i) => {
-            return <UploadItem {...e} />
-          })}
-        </Collapse>
-      </FloatingCard> : <></>}
+      {Object.keys(uploadController.uploads).length > 0 ?
+        <FloatingCard sx={{ boxShadow: 5 }}>
+          <FloatingCardTitle style={{}} >
+            <b>Uploading item(s)</b>
+            <ExpandMore
+              expand={expanded}
+              onClick={handleExpandClick}
+              aria-expanded={expanded}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon fontSize="small" />
+            </ExpandMore>
+            <IconButton  >
+              <CloseIcon fontSize="small" onClick={() => { dispatch(clearAllUploads()) }} />
+            </IconButton>
+          </FloatingCardTitle>
+          <Divider />
+          <Collapse in={expanded} timeout="auto">
+            {Object.values(uploadController.uploads).map((e, i) => {
+              return <UploadItem {...e} />
+            })}
+          </Collapse>
+        </FloatingCard> : <></>}
       <section>
         <div {...getRootProps({})}>
           <input {...getInputProps()} />

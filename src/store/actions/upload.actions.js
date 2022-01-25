@@ -7,8 +7,6 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
 
   const uploadController = getState().upload;
 
-  console.log(files);
-
   files.forEach((file) => {
 
     const dataArray = new FormData();
