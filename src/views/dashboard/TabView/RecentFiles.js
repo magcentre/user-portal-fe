@@ -1,12 +1,12 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchObjectForFolder } from 'store/actions/object.actions'
+import { fetchRecentObjects, clearBrowserState } from 'store/actions/dashboard.actions'
 import ObjectCard from 'views/file-browser/ObjectCard';
+import DataTableObjectView from './TableView';
 
-const FolderLoader = () => {
+const RedentFileLoader = () => {
   return (
     <Grid
       container
@@ -34,7 +34,6 @@ const FolderGrid = ({ objectList }) => {
         xs={12}
       >
         {objectList.map((e) => {
-          if(e.type) return <></>
           return <Grid item>
             <ObjectCard {...e} />
           </Grid>
@@ -42,34 +41,33 @@ const FolderGrid = ({ objectList }) => {
       </Grid>
     </>
   )
-
 };
 
-const FolderSection = () => {
+const RecentFilesTables = () => {
 
-  const dashboardController = useSelector((state) => state.objects);
+  const dashboardController = useSelector((state) => state.dashboard);
 
   const dispatch = useDispatch();
 
   React.useEffect(() => {
-    dispatch(fetchObjectForFolder('myfiles'));
+    dispatch(fetchRecentObjects());
+    return () => {
+      dispatch(clearBrowserState());
+    };
   }, []);
 
   return (
     <>
-      <Typography gutterBottom color="primary" component="div" style={{ marginTop: "15px", fontWeight: 'bold', margin: "8px" }}>
-        Folders
-      </Typography>
       <Grid
         container
         direction="row"
         justifyContent="center"
         alignItems="center"
       >
-        {dashboardController.folderContent ? <FolderGrid objectList={dashboardController.folderContent} /> : <FolderLoader />}
+        {dashboardController.folderContent ? <DataTableObjectView rows={dashboardController.folderContent} /> : <RedentFileLoader />}
       </Grid>
     </>
   )
 };
 
-export default FolderSection;
+export default RecentFilesTables;
