@@ -7,6 +7,8 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
 
   const uploadController = getState().upload;
 
+  const objectController = getState().objects;
+
   files.forEach((file) => {
 
     const dataArray = new FormData();
@@ -29,7 +31,7 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
         }
       }
     }
-    uploadNetwork.post(`${apiConstants.container.upload}${hash || "myfiles"}`, dataArray, config).then((e) => {
+    uploadNetwork.post(`${apiConstants.container.upload}${objectController.folderHash || "myfiles"}`, dataArray, config).then((e) => {
       console.log("upload finished for file at index ", uploadController.files.indexOf(file));
       const uploadProgress = {
         status: 'done',

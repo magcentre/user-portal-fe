@@ -1,8 +1,6 @@
 import React from 'react';
-import { Avatar, Typography, Fab, CircularProgress, Stack, Item } from '@mui/material';
+import { Avatar, Typography, Fab, Grid } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
-import { styled } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -10,24 +8,23 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import uploadNetwork from 'helpers/upload.helper';
-import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/types/object.types';
-
-const Input = styled('input')({
-  display: 'none',
-});
+import UploadIcon from 'assets/images/icons/upload.svg'
+import FolderIcon from 'assets/images/icons/new-folder.svg'
+import Paper from  '@mui/material/Paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { createFolder } from 'store/actions/object.actions';
 
 const AddNewButton = () => {
 
   const theme = useTheme();
 
-  const objectController = useSelector((state) => state.objects);
+  const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
 
-  const [open, setOpen] = React.useState(false);
+  const objectController = useSelector((state) => state.objects);
 
-  const [loading, setLoading] = React.useState(false);
+  const [folder, setFolder] = React.useState(false);
 
   const [name, setName] = React.useState();
 
@@ -39,15 +36,16 @@ const AddNewButton = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setFolder(false);
   };
 
   const updateName = () => {
-    // if (name && name.length > 0) {
-    //   dispatch(updateObjectState(props.hash, props.type, { name }));
-    //   handleClose();
-    // } else {
-    //   setError("Enter valid name");
-    // }
+    if (name && name.length > 0) {
+      dispatch(createFolder(name, objectController.folderHash));
+      handleClose();
+    } else {
+      setError("Enter valid folder name");
+    }
 
   };
 
@@ -55,8 +53,6 @@ const AddNewButton = () => {
     setError(null);
     setName(e.target.value);
   }
-
-
 
   return (
     <>
@@ -82,29 +78,51 @@ const AddNewButton = () => {
       </Fab>
       <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
         <DialogTitle>
-          <Typography variant="h3" gutterBottom component="center">Create New</Typography>
+          <Typography variant="h4" gutterBottom component="center">
+            {!folder ? "Create new" : "New folder"}
+          </Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
+          {folder ? <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Name"
             error={error}
             helperText={error}
-            disabled={loading}
             onChange={handelOnChange}
-            type="email"
+            defaultValue="Untitled folder"
             fullWidth
             variant="filled"
-          />
+          /> : <></>}
+          {!folder ? <Grid
+            container
+            direction="row"
+            spacing={4}
+            justifyContent="space-around"
+            alignItems="center"
+          >
+            <Grid item>
+              <Paper style={{ padding: "20px" }} elevation={3}  variant="outlined" aria-label="upload-photo">
+                <img src={UploadIcon} alt='upload-files' height="30" />
+              </Paper>
+            </Grid>
+
+            <Grid item>
+              <Paper onClick={() => {
+                setFolder(!folder);
+              }} style={{ padding: "20px" }} elevation={3} variant="outlined" aria-label="create-folder">
+                <img src={FolderIcon} alt='create-folders' height="30" />
+              </Paper>
+            </Grid>
+          </Grid> : <></> }
         </DialogContent>
-        <DialogActions>
-          <Button disabled={loading} onClick={handleClose}>Cancel</Button>
-          <Button onClick={updateName} disabled={loading} variant='contained' style={{ color: 'white' }} size="small">
-            OK
+        {folder ? <DialogActions style={{ marginLeft: "32px", marginRight: "32px" }}>
+          <Button fullWidth onClick={updateName} variant='contained' style={{ color: 'white' }} size="small">
+            Create
           </Button>
-        </DialogActions>
+          <Button fullWidth onClick={handleClose}>Cancel</Button>
+        </DialogActions> : <></>}
+
       </Dialog>
     </>
   );
