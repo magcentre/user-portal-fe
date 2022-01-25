@@ -17,6 +17,7 @@ import AddToStarred from './StarButton';
 import RenameObject from './RenameButton';
 import { getIconFromType } from 'utils/object-icon';
 import { useNavigate } from 'react-router-dom';
+import RemoveButton from './RemoveButton';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -126,49 +127,7 @@ const ObjectCard = (props) => {
           <Divider />
           <RenameObject {...props} handelClose={handleClose} />
           <Divider />
-          <ListItemButton
-            onClick={() => {
-              network.delete(`/container/object/${props.hash}`).then((e) => {
-
-                const action = key => (
-                  <>
-                    <Button onClick={() => {
-                      network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
-                        dispatch({ type: ADD_NEW_OBJECT, object: e.data.data });
-                        closeSnackbar();
-                      })
-                    }}>
-                      undo
-                    </Button>
-                  </>
-                );
-
-                enqueueSnackbar("File moved to trash", {
-                  action,
-                });
-
-                handleClose();
-
-                const unDeletedData = [];
-
-                objectController.folderContent.forEach((e) => {
-
-                  if (e.hash !== props.hash) {
-                    unDeletedData.push(e);
-                  }
-                })
-
-                dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData });
-
-              });
-
-            }}
-          >
-            <ListItemIcon>
-              <img src={DeleteIcon} height="20" width="20" alt='download-icon' />
-            </ListItemIcon>
-            <ListItemText primary="Remove" />
-          </ListItemButton>
+          <RemoveButton {...props} handelClose={handleClose} />
         </Box>
       </Popover>
     </>

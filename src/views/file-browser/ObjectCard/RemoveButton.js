@@ -1,7 +1,7 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { handleStaredState } from 'store/actions/object.actions'
+import { moveObjectToTrash } from 'store/actions/object.actions'
 import { useDispatch, useSelector } from "react-redux";
-import DeleteIcon from 'assets/images/icons/add-to-starred.svg'
+import TrashIcon from 'assets/images/icons/trash-icon.svg'
 
 
 const RemoveButton = (props) => {
@@ -10,48 +10,18 @@ const RemoveButton = (props) => {
 
   const dispatch = useDispatch();
 
+  const deleteObject = () => {
+    dispatch(moveObjectToTrash(props.hash, props.type));
+    props.handelClose();
+  }
+
   return (
     <>
       <ListItemButton
-        onClick={() => {
-          // network.delete(`/container/object/${props.hash}`).then((e) => {
-
-          //   const action = key => (
-          //     <>
-          //       <Button onClick={() => {
-          //         network.patch(`/container/object/${props.hash}`, { isTrash: false }).then((e) => {
-          //           dispatch({ type: ADD_NEW_OBJECT, object: e.data.data });
-          //           closeSnackbar();
-          //         })
-          //       }}>
-          //         undo
-          //       </Button>
-          //     </>
-          //   );
-
-          //   enqueueSnackbar("File moved to trash", {
-          //     action,
-          //   });
-
-          //   handleClose();
-
-          //   const unDeletedData = [];
-
-          //   objectController.folderContent.forEach((e) => {
-
-          //     if (e.hash !== props.hash) {
-          //       unDeletedData.push(e);
-          //     }
-          //   })
-
-          //   dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData });
-
-          // });
-
-        }}
+        onClick={deleteObject}
       >
         <ListItemIcon>
-          <DeleteIcon />
+          <img src={TrashIcon} alt="trash-icon" />
         </ListItemIcon>
         <ListItemText primary="Remove" />
       </ListItemButton>

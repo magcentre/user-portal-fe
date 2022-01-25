@@ -1,5 +1,5 @@
 import network from 'helpers/network.helper';
-import { SET_FOLDER_CONTENT, CLEAR_STATE } from '../types/object.types'
+import { SET_FOLDER_CONTENT, CLEAR_STATE, DELETE_OBJECT } from '../types/object.types'
 import { container } from 'constants/api.constants';
 
 export const fetchObjectForFolder = (hash) => async (dispatch) => {
@@ -62,6 +62,23 @@ export const updateObjectState = (hash, type, objectConfig) => async (dispatch, 
       }
     });
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const moveObjectToTrash = (hash, type) => async (dispatch, getState) => {
+  try {
+    const objects = { ...getState().objects };
+    const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
+    await network.delete(`${apiEndPoint}`);
+    const unDeletedData = [];
+    objects.folderContent.forEach((e) => {
+      if (e.hash !== hash) {
+        unDeletedData.push(e);
+      }
+    });
+    dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData, folderHash: hash });
   } catch (e) {
     console.log(e);
   }
