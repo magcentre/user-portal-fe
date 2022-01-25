@@ -1,4 +1,4 @@
-import { ADD_NEW_FILE, UPLOAD_PROGRESS } from '../types/upload.types';
+import { CLEAR_ALL, UPLOAD_PROGRESS } from '../types/upload.types';
 
 export const initialState = {
   files: [],
@@ -12,7 +12,13 @@ const uploadReducer = (state = initialState, action) => {
         ...state,
         uploads: {
           ...state.uploads,
-          [action.file.file.name]: action.file
+          [action.file.name]: action.file
+        }
+      };
+    case CLEAR_ALL:
+      return {
+        ...state,
+        uploads: {
         }
       };
     default:

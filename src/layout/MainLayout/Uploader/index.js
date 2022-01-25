@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { useDropzone } from 'react-dropzone';
 import { useDispatch, useSelector } from 'react-redux';
-import { initiateFileUpload } from 'store/actions/upload.actions'
+import { initiateFileUpload, clearAllUploads } from 'store/actions/upload.actions'
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
 import ListItem from '@mui/material/ListItem';
@@ -18,8 +18,6 @@ import CircularProgress, {
   circularProgressClasses,
 } from '@mui/material/CircularProgress';
 import { getIconFromType } from 'utils/object-icon';
-import uploadNetwork from 'helpers/upload.helper';
-import apiConstants from 'constants/api.constants';
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -136,11 +134,11 @@ const UploadController = (props) => {
             <ExpandMoreIcon fontSize="small" />
           </ExpandMore>
           <IconButton  >
-            <CloseIcon fontSize="small" />
+            <CloseIcon fontSize="small" onClick={() => { dispatch(clearAllUploads()) }} />
           </IconButton>
         </CardActions>
         <Divider />
-        <Collapse in={expanded} style={{ overflow: 'scroll' }} timeout="auto">
+        <Collapse in={expanded} timeout="auto">
           {Object.values(uploadController.uploads).map((e, i) => {
             return <UploadItem {...e} />
           })}
