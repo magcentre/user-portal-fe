@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import React from 'react';
 import { Avatar, Typography, Fab, CircularProgress, Stack, Item } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
 import { styled } from '@mui/material/styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
 import uploadNetwork from 'helpers/upload.helper';
 import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/types/object.types';
 
@@ -15,42 +21,42 @@ const AddNewButton = () => {
 
   const theme = useTheme();
 
-  const customization = useSelector((state) => state.customization);
-
   const objectController = useSelector((state) => state.objects);
-
-  const [isUploading, setUploading] = useState(false);
-
-  const [progress, setProgress] = useState(0);
 
   const dispatch = useDispatch();
 
+  const [open, setOpen] = React.useState(false);
 
-  const uploadFileToContainer = (e) => {
+  const [loading, setLoading] = React.useState(false);
 
-    const dataArray = new FormData();
+  const [name, setName] = React.useState();
 
-    dataArray.append("file", e.target.files[0]);
+  const [error, setError] = React.useState(null);
 
-    const config = {
-      onUploadProgress: progressEvent => {
-        const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-        if (totalLength !== null) {
-          setProgress(Math.round((progressEvent.loaded * 100) / totalLength));
-        }
-      }
-    }
-    setUploading(true);
-    uploadNetwork.post(`/container/object/upload/${objectController.folderHash}`, dataArray, config).then((e) => {
-      setUploading(false);
-      setProgress(0);
-      dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
-    }).catch((e) => {
-      setUploading(false);
-      setProgress(0);
-    })
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const updateName = () => {
+    // if (name && name.length > 0) {
+    //   dispatch(updateObjectState(props.hash, props.type, { name }));
+    //   handleClose();
+    // } else {
+    //   setError("Enter valid name");
+    // }
 
   };
+
+  const handelOnChange = (e) => {
+    setError(null);
+    setName(e.target.value);
+  }
+
+
 
   return (
     <>
@@ -58,49 +64,48 @@ const AddNewButton = () => {
       <Fab variant="extended"
         color="white"
         component="label"
-        disabled={isUploading}
+        onClick={() => {
+          handleClickOpen();
+        }}
         sx={{
-          borderRadius: `${customization.borderRadius}px`,
           backgroundColor: 'inherit',
           py: 1.25,
           mt: 2,
-
           width: '100%'
         }} >
-
-        {isUploading ? <div sx={{ m: 1 }}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}>
-            <>
-              <div>
-                <CircularProgress sx={{ p: 0.7, mt: 0.8 }} value={progress} />
-              </div>
-
-            </>
-            <>
-              <div style={{ marginRight: '10px', fontSize: "20px", fontWeight: 'bold' }}>
-                {progress} %
-              </div>
-
-            </>
-          </Stack>
-
-        </div> : <>
-          <Input id="contained-button-file" multiple type="file" onChange={uploadFileToContainer} visible={false} />
-          <Avatar sx={{ bgcolor: theme.palette.secondary.dark, height: 30, width: 30 }} >
-            <IconPlus sx={{ mr: 1 }} color='white' size={30} />
-          </Avatar>
-          <Typography sx={{ ml: 1 }} variant="h4" color="inherit">
-            Add New
-          </Typography>
-        </>
-        }
-
-
+        <Avatar sx={{ bgcolor: theme.palette.secondary.dark, height: 30, width: 30 }} >
+          <IconPlus sx={{ mr: 1 }} color='white' size={30} />
+        </Avatar>
+        <Typography sx={{ ml: 1 }} variant="h4" color="inherit" >
+          Add New
+        </Typography>
       </Fab>
+      <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
+        <DialogTitle>
+          <Typography variant="h3" gutterBottom component="center">Create New</Typography>
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Name"
+            error={error}
+            helperText={error}
+            disabled={loading}
+            onChange={handelOnChange}
+            type="email"
+            fullWidth
+            variant="filled"
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button disabled={loading} onClick={handleClose}>Cancel</Button>
+          <Button onClick={updateName} disabled={loading} variant='contained' style={{ color: 'white' }} size="small">
+            OK
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
