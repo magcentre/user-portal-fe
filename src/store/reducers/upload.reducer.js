@@ -1,15 +1,19 @@
-import { ADD_NEW_FILE, UPLOAD_PROGRESS  } from '../types/upload.types';
+import { ADD_NEW_FILE, UPLOAD_PROGRESS } from '../types/upload.types';
 
 export const initialState = {
   files: [],
+  uploads: {},
 }
 
 const uploadReducer = (state = initialState, action) => {
   switch (action.type) {
-    case ADD_NEW_FILE:
+    case UPLOAD_PROGRESS:
       return {
         ...state,
-        files: [...state.files, action.file]
+        uploads: {
+          ...state.uploads,
+          [action.file.file.name]: action.file
+        }
       };
     default:
       return state;
