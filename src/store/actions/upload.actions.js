@@ -1,6 +1,7 @@
 import { UPLOAD_PROGRESS, CLEAR_ALL } from '../types/upload.types'
 import uploadNetwork from 'helpers/upload.helper';
 import apiConstants from 'constants/api.constants';
+import { ADD_NEW_OBJECT } from 'store/types/object.types';
 
 export const initiateFileUpload = (files, hash) => async (dispatch, getState) => {
 
@@ -14,7 +15,7 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
 
     dataArray.append("file", file);
 
-    const fileUploadName = `${file.length}_${Math.floor(Math.random() * 1000)}_${Date.now()}`;
+    const fileUploadName = `_${Math.floor(Math.random() * 1000)}_${Date.now()}`;
 
     const config = {
       onUploadProgress: progressEvent => {
@@ -30,11 +31,19 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
         }
       }
     }
-    uploadNetwork.post(`${apiConstants.container.upload}${hash}`, dataArray, config).then((e) => {
+    uploadNetwork.post(`${apiConstants.container.upload}${hash || "myfiles"}`, dataArray, config).then((e) => {
       console.log("upload finished for file at index ", uploadController.files.indexOf(file));
-    }).catch((e) => {
       const uploadProgress = {
         status: 'done',
+        progress: 100,
+        file: file,
+        name: fileUploadName,
+      }
+      dispatch({ type: UPLOAD_PROGRESS, file: uploadProgress });
+      dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
+    }).catch((e) => {
+      const uploadProgress = {
+        status: 'failed',
         progress: 100,
         file: file,
         name: fileUploadName,
@@ -47,5 +56,5 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
 
 
 export const clearAllUploads = () => async (dispatch) => {
-  dispatch({type:CLEAR_ALL, uploads: {} });
+  dispatch({ type: CLEAR_ALL, uploads: {} });
 }

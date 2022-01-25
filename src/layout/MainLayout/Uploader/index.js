@@ -14,6 +14,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Divider from '@mui/material/Divider';
 import Box from '@mui/material/Box';
 import CloseIcon from '@mui/icons-material/Close';
+import InfoIcon from '@mui/icons-material/Info';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CircularProgress, {
   circularProgressClasses,
 } from '@mui/material/CircularProgress';
@@ -37,6 +39,8 @@ const FloatingCard = styled(Card)(({ theme }) => ({
 
 const UploadItem = (props) => {
 
+  console.log(props);
+
   return (
     <>
       <Divider />
@@ -44,8 +48,8 @@ const UploadItem = (props) => {
         dense
         secondaryAction={
           <Box sx={{ position: 'relative', paddingTop: "5px" }}>
-            <CircularProgress
-              variant="determinate"
+            {props.status === "uploading" ? <><CircularProgress
+              variant={props.progress !== 100 ? "determinate" : undefined}
               sx={{
                 color: (theme) =>
                   theme.palette.grey[300],
@@ -55,23 +59,23 @@ const UploadItem = (props) => {
               {...props}
               value={100}
             />
-            <CircularProgress
-              variant="determinate"
-              disableShrink
-              sx={{
-                color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
-                animationDuration: '550ms',
-                position: 'absolute',
-                left: 0,
-                [`& .${circularProgressClasses.circle}`]: {
-                  strokeLinecap: 'round',
-                },
-              }}
-              size={20}
-              value={props.progress}
-              thickness={7}
-              {...props}
-            />
+              <CircularProgress
+                variant={props.progress !== 100 ? "determinate" : undefined}
+                disableShrink
+                sx={{
+                  color: (theme) => (theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8'),
+                  animationDuration: '550ms',
+                  position: 'absolute',
+                  left: 0,
+                  [`& .${circularProgressClasses.circle}`]: {
+                    strokeLinecap: 'round',
+                  },
+                }}
+                size={20}
+                value={props.progress}
+                thickness={7}
+                {...props}
+              /></> : props.status === "done" ? <CheckCircleIcon color='success' fontSize="small" /> : <InfoIcon color='error' fontSize="small" />}
           </Box>
         }
       >
