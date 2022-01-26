@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Navigate, Outlet } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
@@ -17,6 +17,7 @@ import { SET_MENU } from 'store/types/template.types';
 // assets
 import { IconChevronRight } from '@tabler/icons';
 import UploadController from './Uploader';
+import storageHelper from 'helpers/storage.helper';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -82,6 +83,8 @@ const MainLayout = () => {
         dispatch({ type: SET_MENU, opened: !matchDownMd });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [matchDownMd]);
+
+    if(!storageHelper.getItem('currentUser')) return <Navigate to="/login" />
 
     return (
         <Box sx={{ display: 'flex' }}>
