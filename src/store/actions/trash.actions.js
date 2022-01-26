@@ -1,6 +1,6 @@
 import network from 'helpers/network.helper';
 import { SET_TRASH_OBJECTS, CLEAR_TRASH_STATE } from '../types/trash.types'
-import { container } from 'constants/api.constants';
+import { container, trashPath } from 'constants/api.constants';
 
 export const fetchTrashObjects = () => async (dispatch) => {
   try {
@@ -23,7 +23,7 @@ export const handelObjectDelete = (hash, type) => async (dispatch, getState) => 
   const trash = getState().trash;
   const unDeleted = [];
   try {
-    const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
+    const apiEndPoint = type ? `${container.deleteForever}${hash}` : `${container.deleteForever}${hash}`;
     await network.delete(`${apiEndPoint}`);
     trash.trashElements.forEach((e) => {
       if (e.hash !== hash) unDeleted.push(e);
