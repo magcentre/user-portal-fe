@@ -7,10 +7,13 @@ module.exports = {
     trash: '/container/trash/', // trash base
     upload: '/container/object/upload/',
     newFolder: '/container/folder/new',
-    search: '/identity/user/search?'
+    search: '/identity/user/search?',
+    shareDetails: '/container/share/',
+    shareByMe: '/container/byme',
+    tome: '/container/tome',
   },
   trash: {
     getTrash: '/container/trash/',
     deleteForever: '/container/trash/'
-  }
+  },
 }

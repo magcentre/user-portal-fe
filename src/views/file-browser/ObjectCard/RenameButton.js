@@ -53,7 +53,6 @@ const RenameObject = (props) => {
     } else {
       setError("Enter valid name");
     }
-    
   };
 
   const handelOnChange = (e) => {

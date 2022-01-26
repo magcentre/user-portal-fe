@@ -13,7 +13,7 @@ import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
-import { updateObjectState } from 'store/actions/object.actions'
+import { updateSharingDetails, getShareDetails } from 'store/actions/object.actions'
 import { useDispatch, useSelector } from "react-redux";
 
 import PeopleIcon from 'assets/images/icons/people.svg'
@@ -29,15 +29,13 @@ const ShareObject = (props) => {
 
   const objectController = useSelector((state) => state.objects);
 
+  const [shareDetails, setShareDetails] = React.useState();
+
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
 
-  const [loading, setLoading] = React.useState(false);
-
-  const [name, setName] = React.useState(props.name);
-
-  const [error, setError] = React.useState(null);
+  const [value, setValue] = React.useState();
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -47,20 +45,20 @@ const ShareObject = (props) => {
     setOpen(false);
   };
 
-  const updateName = () => {
-    if(name && name.length > 0) {
-      dispatch(updateObjectState(props.hash, props.type, { name }));
+  const updateShareStatus = () => {
+    if (value && value.length > 0) {
+      const sharedWith = [];
+      value.forEach((v, n) => sharedWith.push(v._id));
+      dispatch(updateSharingDetails(props.hash, props.type, { sharedWith }));
       handleClose();
-    } else {
-      setError("Enter valid name");
     }
-    
   };
 
-  const handelOnChange = (e) => {
-    setError(null);
-    setName(e.target.value);
-  } 
+  React.useEffect(() => {
+    getShareDetails(props.hash, props.type).then((e) => {
+      setShareDetails(e.data.data);
+    });
+  }, []);
 
   return (
     <>
@@ -75,17 +73,16 @@ const ShareObject = (props) => {
         <ListItemText primary="Manage People" />
       </ListItemButton>
       <Dialog open={open} onClose={handleClose}>
-        {loading ?? <LinearProgress />}
         <DialogTitle>
           <Typography variant="h5" gutterBottom component="div">Share with People</Typography>
         </DialogTitle>
         <DialogContent>
-          <UserSearchBar />
+          <UserSearchBar {...props} value={value} setValue={setValue} shareDetails={shareDetails} />
         </DialogContent>
         <DialogActions>
-          <Button disabled={loading} onClick={handleClose}>Cancel</Button>
-          <Button onClick={updateName} disabled={loading} variant='contained' style={{ color: 'white' }} size="small">
-            OK
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={updateShareStatus} variant='contained' style={{ color: 'white' }} size="small">
+            Send
           </Button>
         </DialogActions>
       </Dialog>
