@@ -11,6 +11,7 @@ module.exports = {
     shareDetails: '/container/share/',
     shareByMe: '/container/byme',
     tome: '/container/tome',
+    deleteForever: '/container/trash/'
   },
   trash: {
     getTrash: '/container/trash/',

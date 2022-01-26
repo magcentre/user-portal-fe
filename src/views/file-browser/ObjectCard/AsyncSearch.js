@@ -15,7 +15,7 @@ function sleep(delay = 0) {
 export default function UserSearchBar({ hash, value, setValue, type, shareDetails }) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
-  const [loading, setLoading] = React.useState(true);
+  const loading = open && options.length === 0;
 
   const onChangeHandle = async value => {
     // use the changed value to make request and then use the result. Which
