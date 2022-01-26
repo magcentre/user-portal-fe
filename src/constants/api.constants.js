@@ -6,7 +6,8 @@ module.exports = {
     recentObjects: '/container/objects/recent', // attach object hash
     trash: '/container/trash/', // trash base
     upload: '/container/object/upload/',
-    newFolder: '/container/folder/new'
+    newFolder: '/container/folder/new',
+    deleteForever: '/container/trash/'
   },
   trash: {
     getTrash: '/container/trash/',
