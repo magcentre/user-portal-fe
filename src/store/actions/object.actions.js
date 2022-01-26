@@ -1,5 +1,5 @@
 import network from 'helpers/network.helper';
-import { SET_FOLDER_CONTENT, CLEAR_STATE, DELETE_OBJECT } from '../types/object.types'
+import { SET_FOLDER_CONTENT, CLEAR_STATE, DELETE_OBJECT, ADD_NEW_OBJECT } from '../types/object.types'
 import { container } from 'constants/api.constants';
 
 export const fetchObjectForFolder = (hash) => async (dispatch) => {
@@ -79,6 +79,15 @@ export const moveObjectToTrash = (hash, type) => async (dispatch, getState) => {
       }
     });
     dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData, folderHash: hash });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const createFolder = (name, folderHash) => async (dispatch) => {
+  try {
+    const response = await network.post(`${container.newFolder}`, { name, folderHash });
+    dispatch({ type: ADD_NEW_OBJECT, object: response.data.data });
   } catch (e) {
     console.log(e);
   }

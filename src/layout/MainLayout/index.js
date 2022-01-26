@@ -16,6 +16,7 @@ import { SET_MENU } from 'store/types/template.types';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import UploadController from './Uploader';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -108,7 +109,8 @@ const MainLayout = () => {
             <Main theme={theme} open={leftDrawerOpened}>
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
-                <Outlet />
+                <UploadController outlet={<Outlet />} />
+                
             </Main>
             {/* <Customization /> */}
         </Box>

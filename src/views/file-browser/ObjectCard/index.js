@@ -66,7 +66,7 @@ const ObjectCard = (props) => {
 
       <Card
         sx={{
-          width: 200, height: 160, ':hover': {
+          width: 170, height: 160, ':hover': {
             boxShadow: 4,
           },
         }}

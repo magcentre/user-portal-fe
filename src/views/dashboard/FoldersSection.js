@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchObjectForFolder } from 'store/actions/object.actions'
+import { fetchObjectForFolder, clearBrowserState } from 'store/actions/object.actions'
 import ObjectCard from 'views/file-browser/ObjectCard';
 
 const FolderLoader = () => {
@@ -53,6 +53,10 @@ const FolderSection = () => {
 
   React.useEffect(() => {
     dispatch(fetchObjectForFolder('myfiles'));
+
+    return () => {
+      dispatch(clearBrowserState());
+    };
   }, []);
 
   return (

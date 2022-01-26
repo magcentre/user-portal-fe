@@ -1,56 +1,58 @@
-import { useState } from 'react';
-import { Avatar, Typography, Fab, CircularProgress, Stack, Item } from '@mui/material';
+import React from 'react';
+import { Avatar, Typography, Fab, Grid } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
-import { styled } from '@mui/material/styles';
-import { useDispatch, useSelector } from 'react-redux';
 import { useTheme } from '@mui/material/styles';
-import uploadNetwork from 'helpers/upload.helper';
-import { ADD_NEW_OBJECT, SET_FOLDER_CONTENT } from 'store/types/object.types';
-
-const Input = styled('input')({
-  display: 'none',
-});
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+import Dialog from '@mui/material/Dialog';
+import DialogTitle from '@mui/material/DialogTitle';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import UploadIcon from 'assets/images/icons/upload.svg'
+import FolderIcon from 'assets/images/icons/new-folder.svg'
+import Paper from  '@mui/material/Paper';
+import { useDispatch, useSelector } from 'react-redux';
+import { createFolder } from 'store/actions/object.actions';
 
 const AddNewButton = () => {
 
   const theme = useTheme();
 
-  const customization = useSelector((state) => state.customization);
-
-  const objectController = useSelector((state) => state.objects);
-
-  const [isUploading, setUploading] = useState(false);
-
-  const [progress, setProgress] = useState(0);
+  const [open, setOpen] = React.useState(false);
 
   const dispatch = useDispatch();
 
+  const objectController = useSelector((state) => state.objects);
 
-  const uploadFileToContainer = (e) => {
+  const [folder, setFolder] = React.useState(false);
 
-    const dataArray = new FormData();
+  const [name, setName] = React.useState();
 
-    dataArray.append("file", e.target.files[0]);
+  const [error, setError] = React.useState(null);
 
-    const config = {
-      onUploadProgress: progressEvent => {
-        const totalLength = progressEvent.lengthComputable ? progressEvent.total : progressEvent.target.getResponseHeader('content-length') || progressEvent.target.getResponseHeader('x-decompressed-content-length');
-        if (totalLength !== null) {
-          setProgress(Math.round((progressEvent.loaded * 100) / totalLength));
-        }
-      }
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    setFolder(false);
+  };
+
+  const updateName = () => {
+    if (name && name.length > 0) {
+      dispatch(createFolder(name, objectController.folderHash));
+      handleClose();
+    } else {
+      setError("Enter valid folder name");
     }
-    setUploading(true);
-    uploadNetwork.post(`/container/object/upload/${objectController.folderHash}`, dataArray, config).then((e) => {
-      setUploading(false);
-      setProgress(0);
-      dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
-    }).catch((e) => {
-      setUploading(false);
-      setProgress(0);
-    })
 
   };
+
+  const handelOnChange = (e) => {
+    setError(null);
+    setName(e.target.value);
+  }
 
   return (
     <>
@@ -58,49 +60,70 @@ const AddNewButton = () => {
       <Fab variant="extended"
         color="white"
         component="label"
-        disabled={isUploading}
+        onClick={() => {
+          handleClickOpen();
+        }}
         sx={{
-          borderRadius: `${customization.borderRadius}px`,
           backgroundColor: 'inherit',
           py: 1.25,
           mt: 2,
-
           width: '100%'
         }} >
-
-        {isUploading ? <div sx={{ m: 1 }}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            spacing={2}>
-            <>
-              <div>
-                <CircularProgress sx={{ p: 0.7, mt: 0.8 }} value={progress} />
-              </div>
-
-            </>
-            <>
-              <div style={{ marginRight: '10px', fontSize: "20px", fontWeight: 'bold' }}>
-                {progress} %
-              </div>
-
-            </>
-          </Stack>
-
-        </div> : <>
-          <Input id="contained-button-file" multiple type="file" onChange={uploadFileToContainer} visible={false} />
-          <Avatar sx={{ bgcolor: theme.palette.secondary.dark, height: 30, width: 30 }} >
-            <IconPlus sx={{ mr: 1 }} color='white' size={30} />
-          </Avatar>
-          <Typography sx={{ ml: 1 }} variant="h4" color="inherit">
-            Add New
-          </Typography>
-        </>
-        }
-
-
+        <Avatar sx={{ bgcolor: theme.palette.secondary.dark, height: 30, width: 30 }} >
+          <IconPlus sx={{ mr: 1 }} color='white' size={30} />
+        </Avatar>
+        <Typography sx={{ ml: 1 }} variant="h4" color="inherit" >
+          Add New
+        </Typography>
       </Fab>
+      <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
+        <DialogTitle>
+          <Typography variant="h4" gutterBottom component="center">
+            {!folder ? "Create new" : "New folder"}
+          </Typography>
+        </DialogTitle>
+        <DialogContent>
+          {folder ? <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            error={error}
+            helperText={error}
+            onChange={handelOnChange}
+            defaultValue="Untitled folder"
+            fullWidth
+            variant="filled"
+          /> : <></>}
+          {!folder ? <Grid
+            container
+            direction="row"
+            spacing={4}
+            justifyContent="space-around"
+            alignItems="center"
+          >
+            <Grid item>
+              <Paper style={{ padding: "20px" }} elevation={3}  variant="outlined" aria-label="upload-photo">
+                <img src={UploadIcon} alt='upload-files' height="30" />
+              </Paper>
+            </Grid>
+
+            <Grid item>
+              <Paper onClick={() => {
+                setFolder(!folder);
+              }} style={{ padding: "20px" }} elevation={3} variant="outlined" aria-label="create-folder">
+                <img src={FolderIcon} alt='create-folders' height="30" />
+              </Paper>
+            </Grid>
+          </Grid> : <></> }
+        </DialogContent>
+        {folder ? <DialogActions style={{ marginLeft: "32px", marginRight: "32px" }}>
+          <Button fullWidth onClick={updateName} variant='contained' style={{ color: 'white' }} size="small">
+            Create
+          </Button>
+          <Button fullWidth onClick={handleClose}>Cancel</Button>
+        </DialogActions> : <></>}
+
+      </Dialog>
     </>
   );
 }

@@ -6,6 +6,7 @@ import userReducer from './user.reducer';
 import objectReducer from './object.reducer';
 import trashReducer from './trash.reducer';
 import dashboardReducer from './dashboard.reducer';
+import uploadReducer from './upload.reducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -14,7 +15,8 @@ const reducer = combineReducers({
     user: userReducer,
     objects: objectReducer,
     trash: trashReducer,
-    dashboard: dashboardReducer
+    dashboard: dashboardReducer,
+    upload: uploadReducer,
 });
 
 export default reducer;
