@@ -18,6 +18,7 @@ import RenameObject from './RenameButton';
 import { getIconFromType } from 'utils/object-icon';
 import { useNavigate } from 'react-router-dom';
 import RemoveButton from './RemoveButton';
+import ShareObject from './ShareButton';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -122,6 +123,8 @@ const ObjectCard = (props) => {
             </ListItemIcon>
             <ListItemText primary="Download" />
           </ListItemButton>) : <></>}
+          <Divider />
+          <ShareObject {...props} handelClose={handleClose} />
           <Divider />
           <AddToStarred {...props} handelClose={handleClose} />
           <Divider />
