@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchSharedByMe, clearBrowserState } from 'store/actions/object.actions'
 import ObjectCard from 'views/file-browser/ObjectCard';
 
-const SharedWithMeLoader = () => {
+const SharedByMeLoader = () => {
   return (
     <Grid
       container
@@ -42,9 +42,9 @@ const FolderGrid = ({ objectList }) => {
   )
 };
 
-const SharedWithMe = () => {
+const SharedByMe = () => {
 
-  const dashboardController = useSelector((state) => state.objects);
+  const objectController = useSelector((state) => state.objects);
 
   const dispatch = useDispatch();
 
@@ -58,9 +58,9 @@ const SharedWithMe = () => {
   return (
     <>
       <br />
-      {dashboardController.folderContent ? <FolderGrid objectList={dashboardController.folderContent} /> : <SharedWithMeLoader />}
+      {objectController.folderContent ? <FolderGrid objectList={objectController.folderContent} /> : <SharedByMeLoader />}
     </>
   )
 };
 
-export default SharedWithMe;
+export default SharedByMe;

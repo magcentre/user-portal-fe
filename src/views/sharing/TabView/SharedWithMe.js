@@ -4,7 +4,6 @@ import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchSharedWithMe, clearBrowserState } from 'store/actions/object.actions'
 import ObjectCard from 'views/file-browser/ObjectCard';
-import DataTableObjectView from './TableView';
 
 const SharedWithMeLoader = () => {
   return (

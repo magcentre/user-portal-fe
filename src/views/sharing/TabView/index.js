@@ -9,7 +9,7 @@ import SharedWithMe from './SharedWithMe';
 
 export default function FileSharingTabView() {
 
-  const [value, setValue] = React.useState('share-with-me-files');
+  const [value, setValue] = React.useState('shared-with-me');
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -20,15 +20,15 @@ export default function FileSharingTabView() {
       <TabContext value={value}>
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Share with me" value="share-with-me-files" />
-            <Tab label="My Shared" value="my-shared-files" />
+            <Tab label="Share with me" value="shared-with-me" />
+            <Tab label="My Shared" value="shared-by-me" />
           </TabList>
         </Box>
         <TabPanel value="shared-with-me" style={{ padding: 0 }}>
-          <SharedByMe />
-        </TabPanel>
-        <TabPanel value="share-with-me-files" style={{ padding: 0 }}>
           <SharedWithMe />
+        </TabPanel>
+        <TabPanel value="shared-by-me" style={{ padding: 0 }}>
+          <SharedByMe />
         </TabPanel>
       </TabContext>
     </Box>

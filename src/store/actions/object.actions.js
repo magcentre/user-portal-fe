@@ -116,6 +116,7 @@ export const updateSharingDetails = (hash, type, objectConfig) => async (dispatc
 
 export const fetchSharedWithMe = () => async (dispatch) => {
   try {
+    console.log("Calling sharedw with me");
     const response = await network.get(`${container.sharedWithMe}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {

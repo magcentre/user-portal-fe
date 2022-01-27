@@ -35,7 +35,7 @@ const ShareObject = (props) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const [value, setValue] = React.useState();
+  const [value, setValue] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
