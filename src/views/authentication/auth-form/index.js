@@ -12,7 +12,7 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography
+  Divider,
 } from '@mui/material';
 
 
@@ -142,9 +142,9 @@ const Login = ({ props, ...others }) => {
             </FormControl>
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <div></div>
-              <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              {/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                 Forgot Password?
-              </Typography>
+              </Typography> */}
             </Stack>
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
@@ -174,6 +174,22 @@ const Login = ({ props, ...others }) => {
           </form>
         )}
       </Formik>
+      <br />
+      <AnimateButton>
+          <LoadingButton
+            loadingPosition="end"
+            disableElevation
+            fullWidth
+            size="large"
+            type="button"
+            variant="outlined"
+            onClick={() => {
+              navigate('/register');
+            }}
+          >
+            Create an account
+          </LoadingButton>
+        </AnimateButton>
     </>
   );
 };
