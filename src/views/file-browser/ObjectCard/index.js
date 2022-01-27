@@ -63,6 +63,12 @@ const ObjectCard = (props) => {
     }
   };
 
+  const userState = useSelector((state) => state.user);
+
+  if(!props.mode && props.user !== userState.user._id) {
+    return <></>;
+  }
+
   return (
     <>
 
@@ -126,8 +132,8 @@ const ObjectCard = (props) => {
           </ListItemButton>) : <></>}
           <Divider />
           {!props.mode ? <>
-            <Divider />
-            <ShareObject {...props} handelClose={handleClose} />
+            
+            {userState.user._id !== props.user ? <></> : <><Divider /><ShareObject {...props} handelClose={handleClose} /></> }
             <Divider />
             <AddToStarred {...props} handelClose={handleClose} />
             <Divider />

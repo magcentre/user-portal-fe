@@ -50,15 +50,10 @@ const ShareObject = (props) => {
       const sharedWith = [];
       value.forEach((v, n) => sharedWith.push(v._id));
       dispatch(updateSharingDetails(props.hash, props.type, { sharedWith }));
+      
       handleClose();
     }
   };
-
-  React.useEffect(() => {
-    getShareDetails(props.hash, props.type).then((e) => {
-      setShareDetails(e.data.data);
-    });
-  }, []);
 
   return (
     <>

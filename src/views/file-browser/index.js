@@ -20,6 +20,8 @@ const FileBrowser = ({ mode }) => {
 
     const objectController = useSelector((state) => state.objects);
 
+    const userState = useSelector((state) => state.user);
+
     const dispatch = useDispatch();
 
     const { enqueueSnackbar, closeSnackbar } = useSnackbar();
@@ -54,6 +56,10 @@ const FileBrowser = ({ mode }) => {
             <br />
             <Grid container spacing={2}>
                 {objectController.folderContent.map((e) => {
+
+                    if (e.user !== userState.user._id) {
+                        return <></>;
+                    }
                     return (
                         <Grid item key={e.id}>
                             <ObjectCard {...e} />

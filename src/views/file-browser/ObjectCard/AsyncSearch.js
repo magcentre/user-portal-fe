@@ -14,8 +14,20 @@ function sleep(delay = 0) {
 
 export default function UserSearchBar({ hash, value, setValue, type, shareDetails }) {
   const [open, setOpen] = React.useState(false);
+  const [details, setDetails] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const loading = open && options.length === 0;
+
+  React.useEffect(() => {
+    getShareDetails(hash, type)
+      .then((e) => {
+        setDetails(true);
+        setValue(e.data.data)
+      }).catch((e) => {
+        setDetails(true);
+        setValue([]);
+      });
+  }, []);
 
   const onChangeHandle = async value => {
     // use the changed value to make request and then use the result. Which
@@ -26,67 +38,68 @@ export default function UserSearchBar({ hash, value, setValue, type, shareDetail
   return (
 
     <div style={{ width: 400 }}>
-      <Autocomplete
-        id="asynchronous-demo"
-        style={{ width: 400 }}
-        open={open}
-        defaultValue={shareDetails}
-        value={value}
-        onOpen={() => {
-          setOpen(true);
-        }}
-        onClose={() => {
-          setOpen(false);
-        }}
-        onChange={(event, newValue) => {
-          setValue(newValue)
-        }}
-        multiple
-        filterOptions={(x) => x}
-        options={options}
-        loading={loading}
-        getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
-        isOptionEqualToValue={(option, value) => option._id === value._id}
-        // renderOption={(props, option, state) => {
-        //   console.log(state.sel);
-        //   return (
-        //     <ListItemButton dense>
-        //       <ListItemAvatar>
-        //         <Avatar>
-        //           <FolderIcon />
-        //         </Avatar>
-        //       </ListItemAvatar>
-        //       <ListItemText
-        //         primary={`${option.firstName} ${option.lastName}`}
-        //         secondary={`${option.email}`}
-        //       />
-        //     </ListItemButton>
-        //   )
-        // }}
-        renderInput={params => (
-          <TextField
-            {...params}
-            label="Search Users"
-            variant="filled"
-            onChange={ev => {
-              if (ev.target.value !== "" || ev.target.value !== null) {
-                onChangeHandle(ev.target.value);
-              }
-            }}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              )
-            }}
-          />
-        )}
-      />
+      {details ?
+        <Autocomplete
+          id="asynchronous-demo"
+          style={{ width: 400 }}
+          open={open}
+          defaultValue={shareDetails}
+          value={value}
+          onOpen={() => {
+            setOpen(true);
+          }}
+          onClose={() => {
+            setOpen(false);
+          }}
+          onChange={(event, newValue) => {
+            setValue(newValue)
+          }}
+          multiple
+          filterOptions={(x) => x}
+          options={options}
+          loading={loading}
+          getOptionLabel={(option) => `${option.firstName} ${option.lastName}`}
+          isOptionEqualToValue={(option, value) => option._id === value._id}
+          // renderOption={(props, option, state) => {
+          //   console.log(state.sel);
+          //   return (
+          //     <ListItemButton dense>
+          //       <ListItemAvatar>
+          //         <Avatar>
+          //           <FolderIcon />
+          //         </Avatar>
+          //       </ListItemAvatar>
+          //       <ListItemText
+          //         primary={`${option.firstName} ${option.lastName}`}
+          //         secondary={`${option.email}`}
+          //       />
+          //     </ListItemButton>
+          //   )
+          // }}
+          renderInput={params => (
+            <TextField
+              {...params}
+              label="Search Users"
+              variant="filled"
+              onChange={ev => {
+                if (ev.target.value !== "" || ev.target.value !== null) {
+                  onChangeHandle(ev.target.value);
+                }
+              }}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <React.Fragment>
+                    {loading ? (
+                      <CircularProgress color="inherit" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </React.Fragment>
+                )
+              }}
+            />
+          )}
+        /> : <CircularProgress />}
     </div>
   );
 }
