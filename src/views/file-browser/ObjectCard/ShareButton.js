@@ -46,13 +46,11 @@ const ShareObject = (props) => {
   };
 
   const updateShareStatus = () => {
-    if (value && value.length > 0) {
-      const sharedWith = [];
+    const sharedWith = [];
       value.forEach((v, n) => sharedWith.push(v._id));
       dispatch(updateSharingDetails(props.hash, props.type, { sharedWith }));
       
       handleClose();
-    }
   };
 
   return (
