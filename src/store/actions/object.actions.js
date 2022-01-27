@@ -113,3 +113,21 @@ export const updateSharingDetails = (hash, type, objectConfig) => async (dispatc
     console.log(e);
   }
 };
+
+export const fetchSharedWithMe = () => async (dispatch) => {
+  try {
+    const response = await network.get(`${container.sharedWithMe}`);
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+};
+
+export const fetchSharedByMe = () => async (dispatch) => {
+  try {
+    const response = await network.get(`${container.sharedByMe}`);
+    dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+};

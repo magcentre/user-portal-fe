@@ -8,9 +8,9 @@ import TableRow from '@mui/material/TableRow';
 import Grid from '@mui/material/Grid';
 import { getIconFromType } from 'utils/object-icon';
 import { fromNow, bytesToSize } from 'utils/converters';
-import { IconButton } from '@mui/material';
-import config from 'config';
 import DownloadIcon from '@mui/icons-material/Download';
+import IconButton from '@mui/material/IconButton';
+import config from 'config';
 
 export default function ObjectListTableView({ rows }) {
   return (
@@ -48,16 +48,15 @@ export default function ObjectListTableView({ rows }) {
               <TableCell ><b>{fromNow(row.updatedAt)}</b></TableCell>
               <TableCell > <b>{bytesToSize(row.size)}</b></TableCell>
               <TableCell >
-              <TableCell >
 
-<IconButton onClick={() => {
-  window.open(`${config.apiEnd}/container/object/${rows.hash}`);
-}}>
-  <DownloadIcon />
-</IconButton>
+                <IconButton onClick={() => {
+                  window.open(`${config.apiEnd}/container/object/${rows.hash}`);
+                }}>
+                  <DownloadIcon />
+                </IconButton>
 
-</TableCell>
               </TableCell>
+              <TableCell >{row.carbs}</TableCell>
               <TableCell >{row.protein}</TableCell>
             </TableRow>
           ))}

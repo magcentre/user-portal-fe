@@ -4,6 +4,7 @@ import MyFilesIcon from 'assets/images/icons/my-files.svg'
 import DashboardIcon from 'assets/images/icons/dashboard.svg'
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import RecentFiles from 'assets/images/icons/recent-files-icon.svg'
+import PeopleIcon from 'assets/images/icons/people.svg'
 
 // custom icon
 const CustomIcon = (src) => {
@@ -41,6 +42,14 @@ const dashboard = {
             type: 'item',
             url: '/recent-files',
             icon: CustomIcon(RecentFiles),
+            breadcrumbs: false
+        },
+        {
+            id: 'shared-files',
+            title: 'Shared Files',
+            type: 'item',
+            url: '/shared-files',
+            icon: CustomIcon(PeopleIcon),
             breadcrumbs: false
         },
         {

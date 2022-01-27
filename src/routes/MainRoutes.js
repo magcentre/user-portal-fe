@@ -5,6 +5,7 @@ import MainLayout from 'layout/MainLayout';
 import Loadable from 'ui-component/Loadable';
 import ProfilePage from 'views/profile';
 import TrashCan from 'views/trash'
+import FileSharing from 'views/sharing';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
@@ -37,6 +38,10 @@ const MainRoutes = {
         {
             path: '/profile',
             element: <ProfilePage />
+        },
+        {
+            path: '/shared-files',
+            element: <FileSharing />
         },
         {
             path: '/trash',
