@@ -48,6 +48,7 @@ const FloatingCardTitle = styled(CardActions)(({ theme }) => ({
   padding: "10px", 
   margin: 0, 
   maxHeight: 200,
+  
   background: theme.palette.secondary.light,
   
 }));
@@ -143,7 +144,7 @@ const UploadController = (props) => {
       {Object.keys(uploadController.uploads).length > 0 ?
         <FloatingCard sx={{ boxShadow: 5 }}>
           <FloatingCardTitle style={{}} >
-            <b>Uploading item(s)</b>
+            <b>item(s)</b>
             <ExpandMore
               expand={expanded}
               onClick={handleExpandClick}
@@ -157,7 +158,7 @@ const UploadController = (props) => {
             </IconButton>
           </FloatingCardTitle>
           <Divider />
-          <Collapse in={expanded} timeout="auto">
+          <Collapse in={expanded} timeout="auto" style={{ maxHeight: 200, overflow: 'scroll' }}>
             {Object.values(uploadController.uploads).map((e, i) => {
               return <UploadItem {...e} />
             })}

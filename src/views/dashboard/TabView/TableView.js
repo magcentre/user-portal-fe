@@ -48,17 +48,12 @@ export default function ObjectListTableView({ rows }) {
               <TableCell ><b>{fromNow(row.updatedAt)}</b></TableCell>
               <TableCell > <b>{bytesToSize(row.size)}</b></TableCell>
               <TableCell >
-              <TableCell >
-
-<IconButton onClick={() => {
-  window.open(`${config.apiEnd}/container/object/${rows.hash}`);
-}}>
-  <DownloadIcon />
-</IconButton>
-
-</TableCell>
+              <IconButton onClick={() => {
+                    window.open(`${config.apiEnd}/container/object/${rows.hash}`);
+                  }} size="small">
+                    <DownloadIcon />
+                  </IconButton>
               </TableCell>
-              <TableCell >{row.protein}</TableCell>
             </TableRow>
           ))}
         </TableBody>

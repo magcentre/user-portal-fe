@@ -7,6 +7,7 @@ import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBro
 import { useParams } from 'react-router-dom';
 import ObjectCard from './ObjectCard/';
 import EmptyCard from './EmptyCard';
+import GreetingCard from 'views/sharing/GreetingsCard';
 
 const CircularLoader = () => {
     return (
@@ -53,6 +54,7 @@ const FileBrowser = ({ mode }) => {
     return (
         <>
             {objectController.folderContent.length === 0 && <EmptyCard />}
+            <GreetingCard />
             <br />
             <Grid container spacing={2}>
                 {objectController.folderContent.map((e) => {
