@@ -13,30 +13,29 @@ import DialogContent from '@mui/material/DialogContent';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
-import { updateObjectState } from 'store/actions/object.actions'
+import { updateSharingDetails, getShareDetails } from 'store/actions/object.actions'
 import { useDispatch, useSelector } from "react-redux";
 
-import RenameIcon from 'assets/images/icons/rename-icon.svg'
+import PeopleIcon from 'assets/images/icons/people.svg'
 import { Typography } from '@mui/material';
+import UserSearchBar from './AsyncSearch';
 
 const ProgressWrapper = styled(Box)(({ theme }) => ({
   paddingTop: '1px',
 }));
 
 
-const RenameObject = (props) => {
+const ShareObject = (props) => {
 
   const objectController = useSelector((state) => state.objects);
+
+  const [shareDetails, setShareDetails] = React.useState();
 
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
 
-  const [loading, setLoading] = React.useState(false);
-
-  const [name, setName] = React.useState(props.name);
-
-  const [error, setError] = React.useState(null);
+  const [value, setValue] = React.useState([]);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -46,19 +45,13 @@ const RenameObject = (props) => {
     setOpen(false);
   };
 
-  const updateName = () => {
-    if(name && name.length > 0) {
-      dispatch(updateObjectState(props.hash, props.type, { name }));
+  const updateShareStatus = () => {
+    const sharedWith = [];
+      value.forEach((v, n) => sharedWith.push(v._id));
+      dispatch(updateSharingDetails(props.hash, props.type, { sharedWith }));
+      
       handleClose();
-    } else {
-      setError("Enter valid name");
-    }
   };
-
-  const handelOnChange = (e) => {
-    setError(null);
-    setName(e.target.value);
-  } 
 
   return (
     <>
@@ -68,35 +61,21 @@ const RenameObject = (props) => {
         }}
       >
         <ListItemIcon>
-          <img src={RenameIcon} alt="rename-icon" />
+          <img src={PeopleIcon} alt="rename-icon" />
         </ListItemIcon>
-        <ListItemText primary="Rename" />
+        <ListItemText primary="Manage People" />
       </ListItemButton>
-      <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
-        {loading ?? <LinearProgress />}
+      <Dialog open={open} onClose={handleClose}>
         <DialogTitle>
-          <Typography variant="h3" gutterBottom component="div">Rename</Typography>
+          <Typography variant="h5" gutterBottom component="div">Share with People</Typography>
         </DialogTitle>
         <DialogContent>
-          <TextField
-            autoFocus
-            defaultValue={props.name}
-            margin="dense"
-            id="name"
-            label="Name"
-            error={error}
-            helperText={error}
-            disabled={loading}
-            onChange={handelOnChange}
-            type="email"
-            fullWidth
-            variant="filled"
-          />
+          <UserSearchBar {...props} value={value} setValue={setValue} shareDetails={shareDetails} />
         </DialogContent>
         <DialogActions>
-          <Button disabled={loading} onClick={handleClose}>Cancel</Button>
-          <Button onClick={updateName} disabled={loading} variant='contained' style={{ color: 'white' }} size="small">
-            OK
+          <Button onClick={handleClose}>Cancel</Button>
+          <Button onClick={updateShareStatus} variant='contained' style={{ color: 'white' }} size="small">
+            Send
           </Button>
         </DialogActions>
       </Dialog>
@@ -104,4 +83,4 @@ const RenameObject = (props) => {
   )
 }
 
-export default RenameObject;
+export default ShareObject;

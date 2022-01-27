@@ -5,14 +5,9 @@ import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
-
-
 import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
-
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import FileIcon from 'assets/images/icons/file.svg'
-
 import { handelObjectRestore, handelObjectDelete } from 'store/actions/trash.actions'
 import { getIconFromType } from 'utils/object-icon';
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
@@ -121,7 +116,7 @@ const TrashCard = (props) => {
             }}
           >
             <ListItemIcon>
-              <img src={TrashIcon} />
+              <img src={TrashIcon} alt='delete forever' />
             </ListItemIcon>
             <ListItemText primary="Delete forever" />
           </ListItemButton>

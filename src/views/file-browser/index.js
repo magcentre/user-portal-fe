@@ -7,6 +7,7 @@ import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBro
 import { useParams } from 'react-router-dom';
 import ObjectCard from './ObjectCard/';
 import EmptyCard from './EmptyCard';
+import GreetingCard from 'views/sharing/GreetingsCard';
 
 const CircularLoader = () => {
     return (
@@ -19,6 +20,8 @@ const CircularLoader = () => {
 const FileBrowser = ({ mode }) => {
 
     const objectController = useSelector((state) => state.objects);
+
+    const userState = useSelector((state) => state.user);
 
     const dispatch = useDispatch();
 
@@ -51,9 +54,14 @@ const FileBrowser = ({ mode }) => {
     return (
         <>
             {objectController.folderContent.length === 0 && <EmptyCard />}
+            <GreetingCard />
             <br />
             <Grid container spacing={2}>
                 {objectController.folderContent.map((e) => {
+
+                    if (e.user !== userState.user._id) {
+                        return <></>;
+                    }
                     return (
                         <Grid item key={e.id}>
                             <ObjectCard {...e} />

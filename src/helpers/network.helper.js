@@ -20,7 +20,7 @@ networkInstance.interceptors.request.use(
     },
 )
 
-const netwotk = {
+const network = {
     get: async (url) => {
         return await networkInstance.get(url);
     },
@@ -35,4 +35,4 @@ const netwotk = {
     },
 }
 
-export default netwotk;
+export default network;

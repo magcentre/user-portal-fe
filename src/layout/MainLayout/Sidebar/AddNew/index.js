@@ -10,7 +10,8 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import UploadIcon from 'assets/images/icons/upload.svg'
 import FolderIcon from 'assets/images/icons/new-folder.svg'
-import Paper from  '@mui/material/Paper';
+import Paper from '@mui/material/Paper';
+import { initiateFileUpload } from 'store/actions/upload.actions'
 import { useDispatch, useSelector } from 'react-redux';
 import { createFolder } from 'store/actions/object.actions';
 
@@ -26,9 +27,11 @@ const AddNewButton = () => {
 
   const [folder, setFolder] = React.useState(false);
 
-  const [name, setName] = React.useState();
+  const [name, setName] = React.useState('Untitled folder');
 
   const [error, setError] = React.useState(null);
+
+  const inputFile = React.useRef(null);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -41,7 +44,7 @@ const AddNewButton = () => {
 
   const updateName = () => {
     if (name && name.length > 0) {
-      dispatch(createFolder(name, objectController.folderHash));
+      dispatch(createFolder(name || 'Untitled folder', objectController.folderHash));
       handleClose();
     } else {
       setError("Enter valid folder name");
@@ -102,7 +105,22 @@ const AddNewButton = () => {
             alignItems="center"
           >
             <Grid item>
-              <Paper style={{ padding: "20px" }} elevation={3}  variant="outlined" aria-label="upload-photo">
+              <Paper onClick={() => {
+                inputFile.current.click();
+              }} style={{ padding: "20px" }} elevation={3} variant="outlined" aria-label="upload-photo">
+                <input
+                  style={{ display: "none" }}
+                  ref={inputFile}
+                  onChange={(e) => {
+                    const { files } = e.target;
+                    if (files && files.length) {
+                      console.log(files);
+                      dispatch(initiateFileUpload([files[0]], objectController.folderHash));
+                      handleClose();
+                    }
+                  }}
+                  type="file"
+                />
                 <img src={UploadIcon} alt='upload-files' height="30" />
               </Paper>
             </Grid>
@@ -114,7 +132,7 @@ const AddNewButton = () => {
                 <img src={FolderIcon} alt='create-folders' height="30" />
               </Paper>
             </Grid>
-          </Grid> : <></> }
+          </Grid> : <></>}
         </DialogContent>
         {folder ? <DialogActions style={{ marginLeft: "32px", marginRight: "32px" }}>
           <Button fullWidth onClick={updateName} variant='contained' style={{ color: 'white' }} size="small">

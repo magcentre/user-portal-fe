@@ -18,6 +18,8 @@ import RenameObject from './RenameButton';
 import { getIconFromType } from 'utils/object-icon';
 import { useNavigate } from 'react-router-dom';
 import RemoveButton from './RemoveButton';
+import ShareObject from './ShareButton';
+import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -61,12 +63,18 @@ const ObjectCard = (props) => {
     }
   };
 
+  const userState = useSelector((state) => state.user);
+
+  if(!props.mode && props.user !== userState.user._id) {
+    return <></>;
+  }
+
   return (
     <>
 
       <Card
         sx={{
-          width: 170, height: 160, ':hover': {
+          width: 170, height: 180, ':hover': {
             boxShadow: 4,
           },
         }}
@@ -94,7 +102,7 @@ const ObjectCard = (props) => {
           <Box sx={{ mt: 1 }} component='div'>
             {dateWithoutTime}
           </Box>
-
+          {props.sharedWith && props.sharedWith.length > 0 ? <SupervisorAccountIcon /> : <></>}
         </CardContent>
       </Card>
       <Popover
@@ -123,11 +131,17 @@ const ObjectCard = (props) => {
             <ListItemText primary="Download" />
           </ListItemButton>) : <></>}
           <Divider />
-          <AddToStarred {...props} handelClose={handleClose} />
-          <Divider />
-          <RenameObject {...props} handelClose={handleClose} />
-          <Divider />
-          <RemoveButton {...props} handelClose={handleClose} />
+          {!props.mode ? <>
+            
+            {userState.user._id !== props.user ? <></> : <><Divider /><ShareObject {...props} handelClose={handleClose} /></> }
+            <Divider />
+            <AddToStarred {...props} handelClose={handleClose} />
+            <Divider />
+            <RenameObject {...props} handelClose={handleClose} />
+            <Divider />
+            <RemoveButton {...props} handelClose={handleClose} />
+          </> : <></>}
+
         </Box>
       </Popover>
     </>
