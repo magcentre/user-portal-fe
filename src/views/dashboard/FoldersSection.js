@@ -64,7 +64,7 @@ const FolderSection = () => {
 
   return (
     <>
-      <Typography gutterBottom color="primary" component="div" style={{ marginTop: "15px", fontWeight: 'bold', margin: "8px" }}>
+      <Typography gutterBottom color="primary" component="h3" style={{ fontSize: 18, marginTop: "15px", fontWeight: 'bold', margin: "8px" }}>
         Folders
       </Typography>
       <Grid

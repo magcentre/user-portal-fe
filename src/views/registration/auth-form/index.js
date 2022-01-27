@@ -12,7 +12,7 @@ import {
   InputLabel,
   OutlinedInput,
   Stack,
-  Divider,
+  Typography
 } from '@mui/material';
 
 
@@ -29,15 +29,10 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
 import netwotk from 'helpers/network.helper';
 
-import storageHelper from 'helpers/storage.helper';
-
-// actions
-import { SET_CURRRENT_USER } from 'store/types/user.types';
-
 import { LoadingButton } from '@mui/lab';
 
 
-const Login = ({ props, ...others }) => {
+const RegistrationForm = ({ props, ...others }) => {
 
   const theme = useTheme();
 
@@ -49,8 +44,15 @@ const Login = ({ props, ...others }) => {
 
   const [showPassword, setShowPassword] = useState(false);
 
+  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
+
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
+  };
+
+
+  const handelClickShowVerifyPassword = () => {
+    setShowVerifyPassword(!showVerifyPassword);
   };
 
   const handleMouseDownPassword = (event) => {
@@ -58,16 +60,21 @@ const Login = ({ props, ...others }) => {
   };
 
   const perfromLogin = async (values, { setErrors, setStatus, setSubmitting }) => {
-    setLoading(true);
-    netwotk.post('/identity/user/authenticate', values).then((e) => {
-      dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
-      storageHelper.setItem('currentUser', JSON.stringify(e.data.data));
-      navigate("/dashboard");
-    }).catch((e) => {
-      setStatus({ success: false });
-      setLoading(false);
-      setErrors({ submit: "Enter valid email and password" });
-    })
+
+
+    if (values.password === values.retypepassword) {
+      setLoading(true);
+      console.log(values);
+      netwotk.post('/identity/user/create', values).then((e) => {
+
+      }).catch((e) => {
+        setStatus({ success: false });
+        setLoading(false);
+        setErrors({ submit: "Enter valid email and password" });
+      })
+    } else {
+      setErrors({ submit: "Password mis-match please check password and verify password" });
+    }
   }
 
   return (
@@ -85,11 +92,48 @@ const Login = ({ props, ...others }) => {
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
 
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
+            <FormControl fullWidth error={Boolean(touched.firstName && errors.firstName)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="fname-register">First Name</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-email-login"
+                id="fname-register"
+                type="text"
+                value={values.firstName}
+                name="firstName"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                label="First Name"
+                inputProps={{}}
+              />
+              {touched.firstName && errors.firstName && (
+                <FormHelperText error id="text-fname-register">
+                  {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
+
+            <FormControl fullWidth error={Boolean(touched.lastName && errors.lastName)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="lname-register">Last Name</InputLabel>
+              <OutlinedInput
+                id="lname-register"
+                type="text"
+                value={values.lastName}
+                name="lastName"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                label="Last Name"
+                inputProps={{}}
+              />
+              {touched.lastName && errors.lastName && (
+                <FormHelperText error id="text-lname-register">
+                  {errors.email}
+                </FormHelperText>
+              )}
+            </FormControl>
+
+            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
+              <InputLabel htmlFor="email-register">Email Address</InputLabel>
+              <OutlinedInput
+                id="email-register"
                 type="email"
                 value={values.email}
                 name="email"
@@ -99,7 +143,7 @@ const Login = ({ props, ...others }) => {
                 inputProps={{}}
               />
               {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
+                <FormHelperText error id="text-email-register">
                   {errors.email}
                 </FormHelperText>
               )}
@@ -110,9 +154,9 @@ const Login = ({ props, ...others }) => {
               error={Boolean(touched.password && errors.password)}
               sx={{ ...theme.typography.customInput }}
             >
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
+              <InputLabel htmlFor="password-register">Password</InputLabel>
               <OutlinedInput
-                id="outlined-adornment-password-login"
+                id="password-register"
                 type={showPassword ? 'text' : 'password'}
                 value={values.password}
                 name="password"
@@ -140,11 +184,41 @@ const Login = ({ props, ...others }) => {
                 </FormHelperText>
               )}
             </FormControl>
+
+            <FormControl
+              fullWidth
+              sx={{ ...theme.typography.customInput }}
+            >
+              <InputLabel htmlFor="password-register-retype">Verify Password</InputLabel>
+              <OutlinedInput
+                id="password-register-retype"
+                type={showVerifyPassword ? 'text' : 'password'}
+                value={values.retyped}
+                name="retypepassword"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                endAdornment={
+                  <InputAdornment position="end">
+                    <IconButton
+                      aria-label="toggle password visibility"
+                      onClick={handelClickShowVerifyPassword}
+                      onMouseDown={handleMouseDownPassword}
+                      edge="end"
+                      size="large"
+                    >
+                      {showVerifyPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                }
+                label="Password"
+                inputProps={{}}
+              />
+            </FormControl>
             <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
               <div></div>
-              {/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
+              <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
                 Forgot Password?
-              </Typography> */}
+              </Typography>
             </Stack>
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
@@ -174,24 +248,8 @@ const Login = ({ props, ...others }) => {
           </form>
         )}
       </Formik>
-      <br />
-      <AnimateButton>
-          <LoadingButton
-            loadingPosition="end"
-            disableElevation
-            fullWidth
-            size="large"
-            type="button"
-            variant="outlined"
-            onClick={() => {
-              navigate('/register');
-            }}
-          >
-            Create an account
-          </LoadingButton>
-        </AnimateButton>
     </>
   );
 };
 
-export default Login;
+export default RegistrationForm;
