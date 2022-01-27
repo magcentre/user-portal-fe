@@ -26,7 +26,7 @@ const AddNewButton = () => {
 
   const [folder, setFolder] = React.useState(false);
 
-  const [name, setName] = React.useState();
+  const [name, setName] = React.useState('Untitled folder');
 
   const [error, setError] = React.useState(null);
 
@@ -41,7 +41,7 @@ const AddNewButton = () => {
 
   const updateName = () => {
     if (name && name.length > 0) {
-      dispatch(createFolder(name, objectController.folderHash));
+      dispatch(createFolder(name || 'Untitled folder', objectController.folderHash));
       handleClose();
     } else {
       setError("Enter valid folder name");

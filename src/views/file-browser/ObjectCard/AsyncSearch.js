@@ -79,7 +79,7 @@ export default function UserSearchBar({ hash, value, setValue, type, shareDetail
           renderInput={params => (
             <TextField
               {...params}
-              label="Search Users"
+              label="Search"
               variant="filled"
               onChange={ev => {
                 if (ev.target.value !== "" || ev.target.value !== null) {

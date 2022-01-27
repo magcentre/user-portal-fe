@@ -23,6 +23,8 @@ const FolderLoader = () => {
 
 const FolderGrid = ({ objectList }) => {
 
+  const userState = useSelector((state) => state.user);
+
   return (
     <>
       <Grid
@@ -34,7 +36,8 @@ const FolderGrid = ({ objectList }) => {
         xs={12}
       >
         {objectList.map((e) => {
-          if(e.type) return <></>
+
+          if (e.type || e.user !== userState.user._id) return <></>
           return <Grid item>
             <ObjectCard {...e} />
           </Grid>
