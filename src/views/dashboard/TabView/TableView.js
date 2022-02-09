@@ -49,7 +49,7 @@ export default function ObjectListTableView({ rows }) {
               <TableCell > <b>{bytesToSize(row.size)}</b></TableCell>
               <TableCell >
               <IconButton onClick={() => {
-                    window.open(`${config.apiEnd}/container/object/${rows.hash}`);
+                    window.open(`${config.apiEnd}/container/object/${row.hash}`);
                   }} size="small">
                     <DownloadIcon />
                   </IconButton>
