@@ -43,6 +43,7 @@ import { IconLogout, IconSearch, IconSettings, IconUser } from '@tabler/icons';
 const ProfileSection = () => {
     const theme = useTheme();
     const userState = useSelector((state) => state.user);
+    let navigate = useNavigate()
 
     return (
         <>
@@ -71,7 +72,7 @@ const ProfileSection = () => {
                 }
                 label={`${userState.user.firstName} ${userState.user.lastName}`}
                 onClick={() => {
-
+                    navigate("/profile");  
                 }}
                 variant="outlined"
                 color="primary"

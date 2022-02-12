@@ -1,20 +1,33 @@
-// material-ui
-import { Typography } from '@mui/material';
 
-// project imports
+import { useSelector } from 'react-redux';
+
+import GreetingsCard from './InfoCard';
+
+import { Grid } from '@mui/material';
+import ProfileForm from './profile-form';
 import MainCard from 'ui-component/cards/MainCard';
 
-// ==============================|| SAMPLE PAGE ||============================== //
+const ProfilePage = () => {
+  const userState = useSelector((state) => state.user);
+  console.log(userState);
+  return (
+    <>
+      <GreetingsCard {...userState.user} /><br />
+      <Grid container spacing={2} >
+        <Grid item md={4}>
 
-const ProfilePage = () => (
-  <MainCard title="Profile">
-    <Typography variant="body2">
-      Lorem ipsum dolor sit amen, consenter nipissing eli, sed do elusion tempos incident ut laborers et doolie magna alissa. Ut enif
-      ad minim venice, quin nostrum exercitation illampu laborings nisi ut liquid ex ea commons construal. Duos aube grue dolor in
-      reprehended in voltage veil esse colum doolie eu fujian bulla parian. Exceptive sin ocean cuspidate non president, sunk in culpa
-      qui officiate descent molls anim id est labours.
-    </Typography>
-  </MainCard>
-);
+        </Grid>
+        <Grid item md={4}>
+          <MainCard title="Profile">
+            <ProfileForm />
+          </MainCard><br />
+          <MainCard title="Change Password">
+            <ProfileForm />
+          </MainCard>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
 
 export default ProfilePage;
