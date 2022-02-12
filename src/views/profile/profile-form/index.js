@@ -7,12 +7,8 @@ import {
   Box,
   FormControl,
   FormHelperText,
-  IconButton,
-  InputAdornment,
   InputLabel,
-  OutlinedInput,
-  Stack,
-  Typography
+  OutlinedInput
 } from '@mui/material';
 
 
@@ -23,59 +19,21 @@ import { useNavigate } from "react-router-dom"
 
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
-import Visibility from '@mui/icons-material/Visibility';
-
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-import netwotk from 'helpers/network.helper';
-
 import { LoadingButton } from '@mui/lab';
-import { useSnackbar } from 'notistack';
 
 
-const ProfileForm = ({ props, ...others }) => {
+const ProfileForm = ({ props, userState, ...others }) => {
 
   const theme = useTheme();
 
-  let navigate = useNavigate()
-
-  const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const [showVerifyPassword, setShowVerifyPassword] = useState(false);
-
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-
-  const handelClickShowVerifyPassword = () => {
-    setShowVerifyPassword(!showVerifyPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const perfromLogin = async (values, { setErrors, setStatus, setSubmitting }) => {
+  const performUpdate = async (values, { setErrors, setStatus, setSubmitting }) => {
 
 
     if (values.password === values.retypepassword) {
       setLoading(true);
       console.log(values);
-      netwotk.post('/identity/user/create', values).then((e) => {
-        enqueueSnackbar('Your account is created successfully!');
-        navigate('/login');
-      }).catch((e) => {
-        setStatus({ success: false });
-        setLoading(false);
-        setErrors({ submit: "Account with same email already exists" });
-      })
     } else {
       setErrors({ submit: "Password mis-match please check password and verify password" });
     }
@@ -91,36 +49,38 @@ const ProfileForm = ({ props, ...others }) => {
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
-        onSubmit={perfromLogin}
+        onSubmit={performUpdate}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
           <form noValidate onSubmit={handleSubmit} {...others}>
 
             <FormControl fullWidth error={Boolean(touched.firstName && errors.firstName)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="fname-register">First Name</InputLabel>
+              <InputLabel htmlFor="fname-update">First Name</InputLabel>
               <OutlinedInput
-                id="fname-register"
+                id="fname-update"
                 type="text"
                 value={values.firstName}
                 name="firstName"
                 onBlur={handleBlur}
                 onChange={handleChange}
+                defaultValue={userState.user.firstName}
                 label="First Name"
                 inputProps={{}}
               />
               {touched.firstName && errors.firstName && (
-                <FormHelperText error id="text-fname-register">
+                <FormHelperText error id="text-fname-update">
                   {errors.email}
                 </FormHelperText>
               )}
             </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.lastName && errors.lastName)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="lname-register">Last Name</InputLabel>
+              <InputLabel htmlFor="lname-update">Last Name</InputLabel>
               <OutlinedInput
-                id="lname-register"
+                id="lname-update"
                 type="text"
                 value={values.lastName}
+                defaultValue={userState.user.lastName}
                 name="lastName"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -128,26 +88,27 @@ const ProfileForm = ({ props, ...others }) => {
                 inputProps={{}}
               />
               {touched.lastName && errors.lastName && (
-                <FormHelperText error id="text-lname-register">
+                <FormHelperText error id="text-lname-update">
                   {errors.email}
                 </FormHelperText>
               )}
             </FormControl>
 
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="email-register">Email Address</InputLabel>
+              <InputLabel htmlFor="email-update">Email Address</InputLabel>
               <OutlinedInput
-                id="email-register"
+                id="email-update"
                 type="email"
                 value={values.email}
                 name="email"
+                defaultValue={userState.user.email}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 label="Email Address"
                 inputProps={{}}
               />
               {touched.email && errors.email && (
-                <FormHelperText error id="text-email-register">
+                <FormHelperText error id="text-email-update">
                   {errors.email}
                 </FormHelperText>
               )}

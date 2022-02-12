@@ -6,10 +6,11 @@ import GreetingsCard from './InfoCard';
 import { Grid } from '@mui/material';
 import ProfileForm from './profile-form';
 import MainCard from 'ui-component/cards/MainCard';
+import ChangePasswordForm from './change-password';
 
 const ProfilePage = () => {
   const userState = useSelector((state) => state.user);
-  console.log(userState);
+  
   return (
     <>
       <GreetingsCard {...userState.user} /><br />
@@ -19,10 +20,10 @@ const ProfilePage = () => {
         </Grid>
         <Grid item md={4}>
           <MainCard title="Profile">
-            <ProfileForm />
+            <ProfileForm userState={userState} />
           </MainCard><br />
           <MainCard title="Change Password">
-            <ProfileForm />
+            <ChangePasswordForm />
           </MainCard>
         </Grid>
       </Grid>
