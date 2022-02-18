@@ -1,0 +1,1 @@
+export const UPDATE_LIST = '@browser/UPDATE_LIST'

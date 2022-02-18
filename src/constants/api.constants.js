@@ -13,7 +13,8 @@ module.exports = {
     tome: '/container/tome',
     deleteForever: '/container/trash/',
     sharedWithMe: '/container/share/tome',
-    sharedByMe: '/container/share/byme'
+    sharedByMe: '/container/share/byme',
+    browser: '/container/browse'
   },
   trash: {
     getTrash: '/container/trash/',

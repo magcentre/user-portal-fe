@@ -13,6 +13,9 @@ const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
 // file-browser component
 const FileBrowser = Loadable(lazy(() => import('views/file-browser')));
 
+// browser component
+const Browser = Loadable(lazy(() => import('views/browser')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -30,6 +33,10 @@ const MainRoutes = {
         {
             path: '/file-browser',
             element: <FileBrowser />
+        },
+        {
+            path: '/browser',
+            element: <Browser path="/" />
         },
         {
             path: '/file-browser/folder/:folderHash',
