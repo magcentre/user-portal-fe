@@ -5,7 +5,7 @@ module.exports = {
     staredObjects: '/container/objects/stared', // attach object hash
     recentObjects: '/container/objects/recent', // attach object hash
     trash: '/container/trash/', // trash base
-    upload: '/container/object/upload/',
+    upload: '/container/bucket/upload/',
     newFolder: '/container/folder/new',
     search: '/identity/user/search?',
     shareDetails: '/container/share/',

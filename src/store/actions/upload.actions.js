@@ -1,19 +1,18 @@
 import { UPLOAD_PROGRESS, CLEAR_ALL } from '../types/upload.types'
 import uploadNetwork from 'helpers/upload.helper';
 import apiConstants from 'constants/api.constants';
-import { ADD_NEW_OBJECT } from 'store/types/object.types';
 
-export const initiateFileUpload = (files, hash) => async (dispatch, getState) => {
+export const initiateFileUpload = (files, path) => async (dispatch, getState) => {
 
   const uploadController = getState().upload;
-
-  const objectController = getState().objects;
 
   files.forEach((file) => {
 
     const dataArray = new FormData();
 
     dataArray.append("file", file);
+
+    dataArray.append("path", path + file.path);
 
     const fileUploadName = `_${Math.floor(Math.random() * 1000)}_${Date.now()}`;
 
@@ -31,8 +30,7 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
         }
       }
     }
-    uploadNetwork.post(`${apiConstants.container.upload}${objectController.folderHash || "myfiles"}`, dataArray, config).then((e) => {
-      console.log("upload finished for file at index ", uploadController.files.indexOf(file));
+    uploadNetwork.post(`${apiConstants.container.upload}`, dataArray, config).then((e) => {
       const uploadProgress = {
         status: 'done',
         progress: 100,
@@ -40,8 +38,9 @@ export const initiateFileUpload = (files, hash) => async (dispatch, getState) =>
         name: fileUploadName,
       }
       dispatch({ type: UPLOAD_PROGRESS, file: uploadProgress });
-      dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
+      // dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
     }).catch((e) => {
+      console.log(e);
       const uploadProgress = {
         status: 'failed',
         progress: 100,
