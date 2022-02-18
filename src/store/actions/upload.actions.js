@@ -1,7 +1,6 @@
 import { UPLOAD_PROGRESS, CLEAR_ALL } from '../types/upload.types'
 import uploadNetwork from 'helpers/upload.helper';
 import apiConstants from 'constants/api.constants';
-import { ADD_NEW_OBJECT } from 'store/types/object.types';
 
 export const initiateFileUpload = (files, path) => async (dispatch, getState) => {
 
@@ -39,8 +38,9 @@ export const initiateFileUpload = (files, path) => async (dispatch, getState) =>
         name: fileUploadName,
       }
       dispatch({ type: UPLOAD_PROGRESS, file: uploadProgress });
-      dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
+      // dispatch({ type: ADD_NEW_OBJECT, object: e.data.data })
     }).catch((e) => {
+      console.log(e);
       const uploadProgress = {
         status: 'failed',
         progress: 100,
