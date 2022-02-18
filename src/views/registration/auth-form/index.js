@@ -30,6 +30,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import netwotk from 'helpers/network.helper';
 
 import { LoadingButton } from '@mui/lab';
+import { useSnackbar } from 'notistack';
 
 
 const RegistrationForm = ({ props, ...others }) => {
@@ -45,6 +46,8 @@ const RegistrationForm = ({ props, ...others }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
+
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -66,11 +69,12 @@ const RegistrationForm = ({ props, ...others }) => {
       setLoading(true);
       console.log(values);
       netwotk.post('/identity/user/create', values).then((e) => {
-
+        enqueueSnackbar('Your account is created successfully!');
+        navigate('/login');
       }).catch((e) => {
         setStatus({ success: false });
         setLoading(false);
-        setErrors({ submit: "Enter valid email and password" });
+        setErrors({ submit: "Account with same email already exists" });
       })
     } else {
       setErrors({ submit: "Password mis-match please check password and verify password" });
@@ -241,7 +245,7 @@ const RegistrationForm = ({ props, ...others }) => {
                     color: 'white'
                   }}
                 >
-                  Login
+                  Sign up
                 </LoadingButton>
               </AnimateButton>
             </Box>
