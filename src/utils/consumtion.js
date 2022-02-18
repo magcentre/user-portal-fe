@@ -8,8 +8,8 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 
 const ConsumtionCard = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
-  padding: theme.spacing(1),
-  paddingLeft: theme.spacing(3),
+  padding: theme.spacing(2),
+  paddingLeft: theme.spacing(2),
   alignContent: 'center',
   color: theme.palette.secondary.dark,
   height: 50,
@@ -23,9 +23,9 @@ const StorageConsumption = (props) => {
     <>
       <ConsumtionCard>
         <Grid container
-           direction="row"
-           justifyContent="space-between"
-           alignItems="center">
+          direction="row"
+          justifyContent="space-between"
+          alignItems="center">
           <Grid item>
             <Typography variant="h5" gutterBottom component="div">
               Storage Consumption
