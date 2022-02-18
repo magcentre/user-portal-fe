@@ -33,24 +33,24 @@ const ExpandMore = styled((props) => {
 }));
 
 const FloatingCard = styled(Card)(({ theme }) => ({
-  boxShadow: 5, 
-  padding: 0, 
-  margin: 0, 
-  width: 300, 
-  maxHeight: 250, 
-  position: 'fixed', 
-  right: 30, 
-  bottom: 0, 
+  boxShadow: 5,
+  padding: 0,
+  margin: 0,
+  width: 300,
+  maxHeight: 250,
+  position: 'fixed',
+  right: 30,
+  bottom: 0,
   zIndex: 999,
 }));
 
 const FloatingCardTitle = styled(CardActions)(({ theme }) => ({
-  padding: "10px", 
-  margin: 0, 
+  padding: "10px",
+  margin: 0,
   maxHeight: 200,
-  
+
   background: theme.palette.secondary.light,
-  
+
 }));
 
 
@@ -166,7 +166,7 @@ const UploadController = (props) => {
         </FloatingCard> : <></>}
       <section>
         <div {...getRootProps({})}>
-          <input {...getInputProps()} />
+          <input {...getInputProps()} directory="" webkitdirectory="" type="file" />
           {props.outlet}
         </div>
       </section>
