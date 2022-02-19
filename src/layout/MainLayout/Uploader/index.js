@@ -115,15 +115,15 @@ const UploadItem = (props) => {
 
 const UploadController = (props) => {
 
-  const objectController = useSelector((state) => state.objects);
+  const controller = useSelector((state) => state.browser);
 
   const uploadController = useSelector((state) => state.upload);
 
   const dispatch = useDispatch();
 
   const onDrop = React.useCallback(acceptedFiles => {
-    dispatch(initiateFileUpload(acceptedFiles, objectController.folderHash));
-  }, []);
+    dispatch(initiateFileUpload(acceptedFiles, controller.path));
+  }, [controller.path]);
 
   const {
     getRootProps,

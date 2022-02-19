@@ -6,6 +6,7 @@ import Loadable from 'ui-component/Loadable';
 import ProfilePage from 'views/profile';
 import TrashCan from 'views/trash'
 import FileSharing from 'views/sharing';
+import FolderBrowser from 'views/folder';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
@@ -37,6 +38,10 @@ const MainRoutes = {
         {
             path: '/browser',
             element: <Browser path="/" />
+        },
+        {
+            path: '/browser/folder/:key',
+            element: <FolderBrowser />
         },
         {
             path: '/file-browser/folder/:folderHash',

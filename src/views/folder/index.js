@@ -1,12 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContent } from "store/actions/browser.action";
+import { fetchContent, clearBrowser } from "store/actions/browser.action";
 import NoFileUploaded from 'assets/images/icons/no_file_uploaded.svg'
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import GreetingCard from "ui-component/GreetingCard";
 import FileCard from "ui-component/fileCard";
 import FolderCard from "ui-component/folderCard";
+import { useParams } from "react-router";
 
 const EmptyCard = () => {
 
@@ -27,20 +28,24 @@ const Loader = () => {
       <center style={{ top: "50%", left: "50%", position: 'fixed' }}>
         <CircularProgress />
       </center>
-
     </>
   )
 }
 
-const Browser = ({ path }) => {
+const FolderBrowser = () => {
 
   const controller = useSelector((state) => state.browser);
 
   const dispatch = useDispatch();
 
+  const { key } = useParams();
+
   useEffect(() => {
-    dispatch(fetchContent(path));
-  }, []);
+    dispatch(fetchContent("/" + key));
+    return () => {
+      dispatch(clearBrowser());
+    }
+  }, [dispatch, key]);
 
   if (!controller.content) {
     return <Loader />
@@ -78,4 +83,4 @@ const Browser = ({ path }) => {
   )
 }
 
-export default Browser;
+export default FolderBrowser;

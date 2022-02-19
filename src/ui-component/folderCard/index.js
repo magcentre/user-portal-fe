@@ -4,21 +4,15 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
-import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button, CardActionArea } from '@mui/material';
+import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DownloadIcon from '@mui/icons-material/Download';
-import network from 'helpers/network.helper';
-import config from 'config'
-import { useSnackbar } from 'notistack';
-import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
 import AddToStarred from './StarButton';
 import RenameObject from './RenameButton';
 import { getIconFromType } from 'utils/object-icon';
 import { useNavigate } from 'react-router-dom';
 import RemoveButton from './RemoveButton';
 import ShareObject from './ShareButton';
-import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -27,9 +21,11 @@ const Item = styled(Paper)(({ theme }) => ({
   color: theme.palette.text.secondary,
 }));
 
-const FileCard = (props) => {
+const FolderCard = (props) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const navigate = useNavigate();
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -41,10 +37,10 @@ const FileCard = (props) => {
 
   const open = Boolean(anchorEl);
 
-  const id = open ? `details-popover-${props.id}` : undefined;
+  const id = open ? `details-popover-${props.prefix}` : undefined;
 
   const openFolder = (e) => {
-
+    navigate(`/browser/folder/${props.path}`);
   };
 
   return (
@@ -119,4 +115,4 @@ const FileCard = (props) => {
   );
 }
 
-export default FileCard;
+export default FolderCard;

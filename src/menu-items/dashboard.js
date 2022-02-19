@@ -29,10 +29,10 @@ const dashboard = {
             breadcrumbs: false
         },
         {
-            id: 'file-browser',
+            id: 'browser',
             title: 'My Files',
             type: 'item',
-            url: '/file-browser',
+            url: '/browser',
             icon: CustomIcon(MyFilesIcon),
             breadcrumbs: false
         },
@@ -59,7 +59,7 @@ const dashboard = {
             url: '/trash',
             icon: CustomIcon(TrashIcon),
             breadcrumbs: false
-        }
+        },
     ]
 };
 
