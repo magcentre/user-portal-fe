@@ -16,7 +16,8 @@ module.exports = {
     sharedByMe: '/container/share/byme',
     browser: '/container/browse',
     bucket: {
-      folderCreate: '/container/bucket/folder/create'
+      folderCreate: '/container/bucket/folder/create',
+      folderRename: '/container/bucket/folder/rename'
     }
   },
   

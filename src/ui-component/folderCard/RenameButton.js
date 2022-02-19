@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
+import { folderRename } from 'store/actions/browser.action';
 
 const ProgressWrapper = styled(Box)(({ theme }) => ({
   paddingTop: '1px',
@@ -26,7 +27,7 @@ const ProgressWrapper = styled(Box)(({ theme }) => ({
 
 const RenameObject = (props) => {
 
-  const objectController = useSelector((state) => state.objects);
+  const controller = useSelector((state) => state.browser);
 
   const dispatch = useDispatch();
 
@@ -47,18 +48,21 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    if(name && name.length > 0) {
-      dispatch(updateObjectState(props.hash, props.type, { name }));
+    var format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+    if (name && name.length > 0 && !format.test(name)) {
+      dispatch(folderRename(props.path, name + '/', controller.pathKey));
       handleClose();
+      return true;
     } else {
       setError("Enter valid name");
+      return false;
     }
   };
 
   const handelOnChange = (e) => {
     setError(null);
     setName(e.target.value);
-  } 
+  }
 
   return (
     <>

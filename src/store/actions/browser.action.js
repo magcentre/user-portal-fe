@@ -30,3 +30,15 @@ export const folderCreate = (pathKey, folderName) => async (dispatch) => {
     console.log(e);
   }
 }
+
+export const folderRename = (pathKey, name, parentKey) => async (dispatch) => {
+  try {
+    const renameResponse = await network.post(`${container.bucket.folderRename}`, {
+      name, pathKey, parentKey,
+    });
+    const response = await network.get(`${container.browser}/${parentKey}`);
+    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}
