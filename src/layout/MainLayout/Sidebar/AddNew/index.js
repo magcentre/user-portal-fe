@@ -13,7 +13,7 @@ import FolderIcon from 'assets/images/icons/new-folder.svg'
 import Paper from '@mui/material/Paper';
 import { initiateFileUpload } from 'store/actions/upload.actions'
 import { useDispatch, useSelector } from 'react-redux';
-import { createFolder } from 'store/actions/object.actions';
+import { folderCreate } from 'store/actions/browser.action';
 
 const AddNewButton = () => {
 
@@ -44,7 +44,7 @@ const AddNewButton = () => {
 
   const updateName = () => {
     if (name && name.length > 0) {
-      dispatch(createFolder(name || 'Untitled folder', controller.path));
+      dispatch(folderCreate(controller.pathKey, name || 'Untitled folder'));
       handleClose();
     } else {
       setError("Enter valid folder name");

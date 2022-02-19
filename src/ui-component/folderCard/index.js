@@ -40,7 +40,7 @@ const FolderCard = (props) => {
   const id = open ? `details-popover-${props.prefix}` : undefined;
 
   const openFolder = (e) => {
-    navigate(`/browser/folder/${props.path}`);
+    navigate(`/browser/${props.path}`);
   };
 
   return (

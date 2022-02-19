@@ -5,7 +5,7 @@ import network from 'helpers/network.helper';
 export const fetchContent = (key) => async (dispatch) => {
   try {
     const response = await network.get(`${container.browser}${key}`);
-    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, content: response.data.data });
+    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {
     console.log(e);
   }
@@ -18,3 +18,15 @@ export const clearBrowser = (hash) => async (dispatch) => {
     console.log(e);
   }
 };
+
+export const folderCreate = (pathKey, folderName) => async (dispatch) => {
+  try {
+    const createResponse = await network.post(`${container.bucket.folderCreate}`, {
+      folderName: folderName, pathKey,
+    });
+    const response = await network.get(`${container.browser}/${pathKey}`);
+    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}

@@ -40,7 +40,7 @@ const MainRoutes = {
             element: <Browser path="/" />
         },
         {
-            path: '/browser/folder/:key',
+            path: '/browser/:key',
             element: <FolderBrowser />
         },
         {
