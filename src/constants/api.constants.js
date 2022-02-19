@@ -14,7 +14,7 @@ module.exports = {
     deleteForever: '/container/trash/',
     sharedWithMe: '/container/share/tome',
     sharedByMe: '/container/share/byme',
-    browser: '/container/browse',
+    browser: '/container/browse/',
     bucket: {
       folderCreate: '/container/bucket/folder/create',
       folderRename: '/container/bucket/folder/rename'
