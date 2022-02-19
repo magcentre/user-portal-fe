@@ -23,7 +23,7 @@ const AddNewButton = () => {
 
   const dispatch = useDispatch();
 
-  const objectController = useSelector((state) => state.objects);
+  const controller = useSelector((state) => state.browser);
 
   const [folder, setFolder] = React.useState(false);
 
@@ -44,7 +44,7 @@ const AddNewButton = () => {
 
   const updateName = () => {
     if (name && name.length > 0) {
-      dispatch(createFolder(name || 'Untitled folder', objectController.folderHash));
+      dispatch(createFolder(name || 'Untitled folder', controller.path));
       handleClose();
     } else {
       setError("Enter valid folder name");
@@ -115,7 +115,7 @@ const AddNewButton = () => {
                     const { files } = e.target;
                     if (files && files.length) {
                       console.log(files);
-                      dispatch(initiateFileUpload([files[0]], objectController.folderHash));
+                      dispatch(initiateFileUpload([files[0]], controller.path));
                       handleClose();
                     }
                   }}

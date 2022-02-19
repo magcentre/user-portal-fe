@@ -12,7 +12,7 @@ export const initiateFileUpload = (files, path) => async (dispatch, getState) =>
 
     dataArray.append("file", file);
 
-    dataArray.append("path", path + file.path);
+    dataArray.append("path", path + (file.path || file.name));
 
     const fileUploadName = `_${Math.floor(Math.random() * 1000)}_${Date.now()}`;
 
