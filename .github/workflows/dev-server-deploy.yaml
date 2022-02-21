@@ -13,18 +13,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout to latest branch
-      # checkout to released branch
       - uses: actions/checkout@v2
-      # setup node env with specified version
-      # set the registry for the npm (mod consumes other mode thus required )
-      - name: setting up node s
+      - name: setting up node 
       - uses: actions/setup-node@v2
         with:
           node-version: 16
           registry-url: http://185.213.175.212:4873/
-      # perfmr npm install
-      - run: npm ci
-
-      - name: Run Build 
-        run: npm run build
 
