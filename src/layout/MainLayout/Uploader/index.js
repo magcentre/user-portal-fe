@@ -123,7 +123,7 @@ const UploadController = (props) => {
 
   const onDrop = React.useCallback(acceptedFiles => {
     dispatch(initiateFileUpload(acceptedFiles, controller.path));
-  }, [controller.path]);
+  }, [dispatch, controller.path]);
 
   const {
     getRootProps,

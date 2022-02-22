@@ -1,35 +1,23 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import Box from '@mui/material/Box';
-import LinearProgress from '@mui/material/LinearProgress';
 
-import { updateSharingDetails, getShareDetails } from 'store/actions/object.actions'
-import { useDispatch, useSelector } from "react-redux";
+import { updateSharingDetails } from 'store/actions/object.actions'
+import { useDispatch } from "react-redux";
 
 import PeopleIcon from 'assets/images/icons/people.svg'
 import { Typography } from '@mui/material';
 import UserSearchBar from './AsyncSearch';
 
-const ProgressWrapper = styled(Box)(({ theme }) => ({
-  paddingTop: '1px',
-}));
-
 
 const ShareObject = (props) => {
-
-  const objectController = useSelector((state) => state.objects);
-
-  const [shareDetails, setShareDetails] = React.useState();
 
   const dispatch = useDispatch();
 
@@ -70,7 +58,7 @@ const ShareObject = (props) => {
           <Typography variant="h5" gutterBottom component="div">Share with People</Typography>
         </DialogTitle>
         <DialogContent>
-          <UserSearchBar {...props} value={value} setValue={setValue} shareDetails={shareDetails} />
+          <UserSearchBar {...props} value={value} setValue={setValue} />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>

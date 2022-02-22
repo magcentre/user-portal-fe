@@ -5,8 +5,7 @@ import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import { useSnackbar } from 'notistack';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { handelObjectRestore, handelObjectDelete } from 'store/actions/trash.actions'
 import { getIconFromType } from 'utils/object-icon';
@@ -23,16 +22,11 @@ const Item = styled(Paper)(({ theme }) => ({
 const TrashCard = (props) => {
 
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
-
   const [anchorEl, setAnchorEl] = React.useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const trashController = useSelector((state) => state.trash);
 
   const dispatch = useDispatch();
 
@@ -92,7 +86,7 @@ const TrashCard = (props) => {
         <Box sx={{ width: 300 }}>
           <ListItemButton dense="true">
             <ListItemIcon>
-              <img src={getIconFromType(props.type)} height="30" width="30" />
+              <img src={getIconFromType(props.type)} height="30" width="30" alt='obj-icon' />
             </ListItemIcon>
             <ListItemText primary={props.name} secondary={dateWithTime} />
           </ListItemButton>
@@ -104,7 +98,7 @@ const TrashCard = (props) => {
             }}
           >
             <ListItemIcon>
-              <img src={TrashRestore} />
+              <img src={TrashRestore} alt='trash-icon' />
             </ListItemIcon>
             <ListItemText primary="Restore" />
           </ListItemButton>

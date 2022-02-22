@@ -40,7 +40,7 @@ const Browser = ({ path }) => {
 
   useEffect(() => {
     dispatch(fetchContent(path));
-  }, []);
+  }, [dispatch, path]);
 
   if (!controller.content) {
     return <Loader />

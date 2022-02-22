@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
 // material-ui
 import { useTheme } from '@mui/material/styles';
@@ -39,15 +38,13 @@ const RegistrationForm = ({ props, ...others }) => {
 
   let navigate = useNavigate()
 
-  const dispatch = useDispatch();
-
   const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);

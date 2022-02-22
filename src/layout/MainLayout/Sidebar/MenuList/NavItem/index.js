@@ -11,8 +11,6 @@ import { Avatar, Chip, ListItemButton, ListItemIcon, ListItemText, Typography, u
 import { MENU_OPEN, SET_MENU } from 'store/types/template.types';
 import config from 'config';
 
-// assets
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 
 // ==============================|| SIDEBAR MENU LIST ITEMS ||============================== //
 
@@ -23,17 +21,6 @@ const NavItem = ({ item, level }) => {
     const matchesSM = useMediaQuery(theme.breakpoints.down('lg'));
 
     const Icon = item.icon;
-    const itemIcon = item?.icon ? (
-        <Icon stroke={1.5} size="1.3rem" />
-    ) : (
-        <FiberManualRecordIcon
-            sx={{
-                width: customization.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6,
-                height: customization.isOpen.findIndex((id) => id === item?.id) > -1 ? 8 : 6
-            }}
-            fontSize={level > 0 ? 'inherit' : 'medium'}
-        />
-    );
 
     let itemTarget = '_self';
     if (item.target) {

@@ -3,14 +3,8 @@ import TextField from "@material-ui/core/TextField";
 import Autocomplete from '@mui/material/Autocomplete';
 import CircularProgress from "@material-ui/core/CircularProgress";
 import network from 'helpers/network.helper';
-import { updateObjectState, getShareDetails } from 'store/actions/object.actions'
+import { getShareDetails } from 'store/actions/object.actions'
 import { container } from 'constants/api.constants';
-
-function sleep(delay = 0) {
-  return new Promise(resolve => {
-    setTimeout(resolve, delay);
-  });
-}
 
 export default function UserSearchBar({ hash, value, setValue, type, shareDetails }) {
   const [open, setOpen] = React.useState(false);
@@ -27,7 +21,7 @@ export default function UserSearchBar({ hash, value, setValue, type, shareDetail
         setDetails(true);
         setValue([]);
       });
-  }, []);
+  }, [hash, type, setValue]);
 
   const onChangeHandle = async value => {
     // use the changed value to make request and then use the result. Which

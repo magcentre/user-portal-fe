@@ -1,5 +1,4 @@
 // assets
-import { IconFile, IconHome } from '@tabler/icons';
 import MyFilesIcon from 'assets/images/icons/my-files.svg'
 import DashboardIcon from 'assets/images/icons/dashboard.svg'
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
@@ -9,7 +8,7 @@ import PeopleIcon from 'assets/images/icons/people.svg'
 // custom icon
 const CustomIcon = (src) => {
     return (
-        <img src={src} height="21" width="20" />
+        <img src={src} height="21" width="20" alt='menu-logo' />
     )
 }
 

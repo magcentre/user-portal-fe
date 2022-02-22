@@ -55,7 +55,7 @@ export const updateObjectState = (hash, type, objectConfig) => async (dispatch, 
   try {
     const objects = { ...getState().objects };
     const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
-    const response = await network.patch(`${apiEndPoint}`, objectConfig);
+    await network.patch(`${apiEndPoint}`, objectConfig);
     (objects.folderContent || []).forEach((e) => {
       if (e.hash === hash) {
         e.name = objectConfig.name;
@@ -102,7 +102,7 @@ export const updateSharingDetails = (hash, type, objectConfig) => async (dispatc
   try {
     const objects = { ...getState().objects };
     const apiEndPoint = type ? `${container.object}${hash}` : `${container.folder}${hash}`;
-    const response = await network.patch(`${apiEndPoint}`, objectConfig);
+    await network.patch(`${apiEndPoint}`, objectConfig);
     (objects.folderContent || []).forEach((e) => {
       if (e.hash === hash) {
         e.sharedWith = objectConfig.sharedWith;

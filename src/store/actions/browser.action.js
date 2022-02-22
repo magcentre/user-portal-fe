@@ -21,7 +21,7 @@ export const clearBrowser = (hash) => async (dispatch) => {
 
 export const folderCreate = (pathKey, folderName) => async (dispatch) => {
   try {
-    const createResponse = await network.post(`${container.bucket.folderCreate}`, {
+    await network.post(`${container.bucket.folderCreate}`, {
       folderName: folderName, pathKey,
     });
     const response = await network.get(`${container.browser}/${pathKey}`);
@@ -33,7 +33,7 @@ export const folderCreate = (pathKey, folderName) => async (dispatch) => {
 
 export const folderRename = (pathKey, name, parentKey) => async (dispatch) => {
   try {
-    const renameResponse = await network.post(`${container.bucket.folderRename}`, {
+    await network.post(`${container.bucket.folderRename}`, {
       name, pathKey, parentKey,
     });
     const response = await network.get(`${container.browser}/${parentKey}`);

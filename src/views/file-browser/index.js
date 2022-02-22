@@ -2,7 +2,6 @@
 import { CircularProgress, Grid } from '@mui/material';
 import { useEffect, useState, } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useSnackbar } from 'notistack';
 import { fetchObjectForFolder, fetchRecentObjects, fetchStarredObjects, clearBrowserState } from 'store/actions/object.actions'
 import { useParams } from 'react-router-dom';
 import ObjectCard from './ObjectCard/';
@@ -25,11 +24,9 @@ const FileBrowser = ({ mode }) => {
 
     const dispatch = useDispatch();
 
-    const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
     const { folderHash } = useParams();
 
-    const [folderContent, setFoldercontent] = useState(objectController.folderContent);
+    const [folderContent] = useState(objectController.folderContent);
 
     useEffect(() => {
 
@@ -47,7 +44,7 @@ const FileBrowser = ({ mode }) => {
         return () => {
             dispatch(clearBrowserState());
         }
-    }, [dispatch, folderContent, folderHash]);
+    }, [dispatch, folderContent, folderHash, mode]);
 
     if (!objectController.folderContent) return (<CircularLoader />)
 

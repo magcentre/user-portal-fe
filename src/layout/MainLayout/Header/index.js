@@ -4,18 +4,13 @@ import PropTypes from 'prop-types';
 import { useTheme } from '@mui/material/styles';
 import { Avatar, Box, ButtonBase } from '@mui/material';
 
-// project imports
-import LogoSection from '../LogoSection';
 import SearchSection from './SearchSection';
 import ProfileSection from './ProfileSection';
 import NotificationSection from './NotificationSection';
 
-// assets
-import { IconMenu2 } from '@tabler/icons';
 import SettingsSection from './SettingsSection';
 import LogoutSections from './LogoutSection';
 
-import drawerIcon from 'constants/draweIcon'
 import DrawerIcon from 'assets/images/icons/drawerOpen.svg';
 
 // ==============================|| MAIN NAVBAR / HEADER ||============================== //
@@ -56,7 +51,7 @@ const Header = ({ handleLeftDrawerToggle }) => {
                     color="inherit"
                 >
                     {/* <IconMenu2 stroke={1.5} color='white' size="1.3rem" /> */}
-                    <img src={DrawerIcon} width='22' height='22' />
+                    <img src={DrawerIcon} width='22' height='22' alt='imcon' />
                 </Avatar>
             </ButtonBase>
             <SearchSection />

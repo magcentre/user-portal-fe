@@ -4,15 +4,11 @@ import Card from '@mui/material/Card';
 import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
-import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider, Button, CardActionArea } from '@mui/material';
+import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import DownloadIcon from '@mui/icons-material/Download';
-import DeleteIcon from 'assets/images/icons/trash-icon.svg';
-import network from 'helpers/network.helper';
 import config from 'config'
-import { useSnackbar } from 'notistack';
-import { useDispatch, useSelector } from 'react-redux';
-import { DELETE_OBJECT, ADD_NEW_OBJECT } from 'store/types/object.types';
+import {  useSelector } from 'react-redux';
 import AddToStarred from './StarButton';
 import RenameObject from './RenameButton';
 import { getIconFromType } from 'utils/object-icon';
@@ -30,9 +26,6 @@ const Item = styled(Paper)(({ theme }) => ({
 
 const ObjectCard = (props) => {
 
-
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
   const navigate = useNavigate();
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,10 +33,6 @@ const ObjectCard = (props) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-
-  const objectController = useSelector((state) => state.objects);
-
-  const dispatch = useDispatch();
 
   const handleClose = () => {
     setAnchorEl(null);

@@ -1,6 +1,5 @@
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
-import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import GreetingsImage from 'assets/images/icons/greetings.svg'
@@ -32,7 +31,7 @@ const GreetingCard = (props) => {
               spacing={3}
               alignItems="center">
               <Grid item>
-                <img src={GreetingsImage} height={60} />
+                <img src={GreetingsImage} height={60} alt='gretting-logo' />
               </Grid>
               <Grid item>
                 <Typography variant="h5" gutterBottom component="div">

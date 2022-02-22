@@ -1,5 +1,5 @@
 
-import { useEffect, useState, } from 'react';
+import { useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchTrashObjects, clearTrashState } from 'store/actions/trash.actions'
 import Grid from '@mui/material/Grid';
@@ -34,7 +34,7 @@ const TrashCan = () => {
 
   if (!trashController.trashElements) return (<CircularLoader />)
 
-  if (trashController.trashElements && trashController.trashElements.length == 0) return (<>
+  if (trashController.trashElements && trashController.trashElements.length === 0) return (<>
     <InfoCard />
     <center> No files or folder found </center>
   </>)
