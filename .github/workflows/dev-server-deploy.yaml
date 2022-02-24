@@ -3,7 +3,7 @@ name: Deploy react app to development server
 # trigger action when a new release is created for the mod
 on:
   push:
-    branches: [ master ]
+    branches: [  git-actions ]
 
 # following are list of operations performed to build and push into private registry
 jobs:
