@@ -27,3 +27,14 @@ jobs:
       - name: Generate build
         run: npm run build --prod
 
+      - name: copy build folder to the server
+        uses: appleboy/scp-action@master
+        with:
+          host: "185.213.175.212"
+          username: "prasanna"
+          password: "PrasannaM@1122"
+          port: 22
+          source: "build/*"
+          target: "/home/prasanna/deplyement/user-portal-fe/"
+
+
