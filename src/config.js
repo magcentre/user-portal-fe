@@ -3,7 +3,7 @@ const config = {
     // like '/berry-material-react/react/default'
     basename: '/',
     defaultPath: '/login',
-    apiEnd: 'http://185.213.175.212:5000',
+    apiEnd: process.env.REACT_APP_API_URL,
     fontFamily: `'Poppins'`,
     borderRadius: 12
 };
