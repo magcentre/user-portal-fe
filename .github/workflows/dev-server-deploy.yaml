@@ -3,7 +3,7 @@ name: Deploy react app to development server
 # trigger action when a new release is created for the mod
 on:
   push:
-    branches: [  git-actions ]
+    branches: [ master ]
 
 # following are list of operations performed to build and push into private registry
 jobs:
@@ -31,7 +31,7 @@ jobs:
       - name: Generate build
         run: npm run build --prod
 
-      # copy build folder to hte dev server
+      # copy build folder to 
       - name: Copy build folder to the server
         uses: appleboy/scp-action@master
         with:
