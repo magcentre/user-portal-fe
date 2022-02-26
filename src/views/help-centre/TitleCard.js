@@ -41,7 +41,7 @@ const TitleCard = (props) => {
                 </Avatar>
               </Grid>
               <Grid item>
-                Help Centre
+                Help Center
               </Grid>
             </Grid>
           </TitleWrapper>
