@@ -67,7 +67,7 @@ const RegistrationForm = ({ props, ...others }) => {
       console.log(values);
       netwotk.post('/identity/user/create', values).then((e) => {
         enqueueSnackbar('Your account is created successfully!');
-        navigate('/login');
+        navigate('/subscription');
       }).catch((e) => {
         setStatus({ success: false });
         setLoading(false);

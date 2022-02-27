@@ -3,7 +3,6 @@ import { useTheme } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useMediaQuery } from '@mui/material/';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import sidebarimage from 'assets/images/auth/sidebar.png'
@@ -12,6 +11,8 @@ import LogoSection from 'constants/logo';
 import AuthCardWrapper from 'views/registration/AuthCardWrapper';
 import SideBarWrapper from 'views/registration/SideBarWrapper';
 import SubscriptionList from './subscription-list';
+import { useNavigate } from 'react-router';
+import { useSnackbar } from 'notistack';
 
 const AuthWrapper1 = styled('div')(({ theme }) => ({
   minHeight: '100vh'
@@ -22,7 +23,14 @@ const Subscription = () => {
 
   const theme = useTheme();
 
-  const matchDownSM = useMediaQuery(theme.breakpoints.down('md'));
+  const navigate = useNavigate();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const proceed = () => {
+    enqueueSnackbar('You are enrolled successfully!');
+    navigate("/login");
+  }
 
   return (
     <AuthWrapper1>
@@ -39,29 +47,22 @@ const Subscription = () => {
                       <LogoSection />
                     </Grid>
                     <Grid item xs={12}>
-                      <Grid
-                        container
-                        direction={matchDownSM ? 'column-reverse' : 'row'}
-                        alignItems="center"
-                        justifyContent="center"
-                      >
+                      <center>
                         <Typography
                           color={theme.palette.secondary.main}
                           gutterBottom
-                          variant={matchDownSM ? 'h3' : 'h2'}
+                          variant={'h3'}
                         >
                           Subscription
                         </Typography>
-
-                      </Grid>
+                      </center>
                     </Grid>
                     <Grid item xs={12}>
                       <SubscriptionList />
                       <br />
                       <center>
-                        <Button variant="outlined">Proceed</Button>
+                        <Button variant="outlined" onClick={proceed}>Proceed</Button>
                       </center>
-
                     </Grid>
                   </Grid>
                 </AuthCardWrapper>
