@@ -4,6 +4,7 @@ import DashboardIcon from 'assets/images/icons/dashboard.svg'
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import RecentFiles from 'assets/images/icons/recent-files-icon.svg'
 import PeopleIcon from 'assets/images/icons/people.svg'
+import HelpIcon from 'assets/images/icons/help-center.svg'
 
 // custom icon
 const CustomIcon = (src) => {
@@ -57,6 +58,14 @@ const dashboard = {
             type: 'item',
             url: '/trash',
             icon: CustomIcon(TrashIcon),
+            breadcrumbs: false
+        },
+        {
+            id: 'help-center',
+            title: 'Help',
+            type: 'item',
+            url: '/help-center',
+            icon: CustomIcon(HelpIcon),
             breadcrumbs: false
         },
     ]

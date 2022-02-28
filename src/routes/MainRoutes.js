@@ -7,6 +7,7 @@ import ProfilePage from 'views/profile';
 import TrashCan from 'views/trash'
 import FileSharing from 'views/sharing';
 import FolderBrowser from 'views/folder';
+import HelpCenter from 'views/help-centre';
 
 // dashboard routing
 const DashboardDefault = Loadable(lazy(() => import('views/dashboard')));
@@ -58,6 +59,10 @@ const MainRoutes = {
         {
             path: '/trash',
             element: <TrashCan />
+        },
+        {
+            path: '/help-center',
+            element: <HelpCenter />
         },
         {
             path: '/recent-files',
