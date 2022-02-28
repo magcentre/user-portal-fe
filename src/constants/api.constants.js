@@ -5,7 +5,7 @@ module.exports = {
     staredObjects: '/container/objects/stared', // attach object hash
     recentObjects: '/container/objects/recent', // attach object hash
     trash: '/container/trash/', // trash base
-    upload: '/container/object/upload/',
+    upload: '/container/bucket/upload/',
     newFolder: '/container/folder/new',
     search: '/identity/user/search?',
     shareDetails: '/container/share/',
@@ -13,8 +13,14 @@ module.exports = {
     tome: '/container/tome',
     deleteForever: '/container/trash/',
     sharedWithMe: '/container/share/tome',
-    sharedByMe: '/container/share/byme'
+    sharedByMe: '/container/share/byme',
+    browser: '/container/browse/',
+    bucket: {
+      folderCreate: '/container/bucket/folder/create',
+      folderRename: '/container/bucket/folder/rename'
+    }
   },
+  
   trash: {
     getTrash: '/container/trash/',
     deleteForever: '/container/trash/'

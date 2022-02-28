@@ -1,7 +1,4 @@
-import PropTypes from 'prop-types';
 
-// material-ui
-import { useTheme } from '@mui/material/styles';
 import {
     Card,
     CardContent,
@@ -16,7 +13,6 @@ import AnimateButton from 'ui-component/extended/AnimateButton';
 // ==============================|| SIDEBAR MENU Card ||============================== //
 
 const MenuCard = () => {
-    const theme = useTheme();
 
     return (
         <Card>
@@ -25,7 +21,7 @@ const MenuCard = () => {
                     Refer your friend & get 10 GB Storage free
                 </Typography>
                 <div style={{ margin: "20px" }}>
-                    <img src={referImage} height="100" width="200" />
+                    <img src={referImage} height="100" width="200" alt='refer-earn-svg' />
                 </div>
 
                 <AnimateButton>

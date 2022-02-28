@@ -53,7 +53,7 @@ const SharedWithMe = () => {
     return () => {
       dispatch(clearBrowserState());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

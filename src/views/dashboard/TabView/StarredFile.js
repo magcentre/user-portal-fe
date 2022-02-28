@@ -1,10 +1,8 @@
 import * as React from 'react';
-import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchStarredObjects, clearBrowserState } from 'store/actions/dashboard.actions'
-import ObjectCard from 'views/file-browser/ObjectCard';
 import DataTableObjectView from './TableView';
 
 const StarredFileLoader = () => {
@@ -33,7 +31,7 @@ const StarredFilesTable = () => {
     return () => {
       dispatch(clearBrowserState());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

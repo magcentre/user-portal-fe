@@ -57,7 +57,7 @@ const FolderSection = () => {
     return () => {
       dispatch(clearBrowserState());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

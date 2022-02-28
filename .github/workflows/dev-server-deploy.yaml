@@ -1,0 +1,45 @@
+name: Deploy react app to development server
+
+# trigger action when a new release is created for the mod
+on:
+  push:
+    branches: [ master ]
+
+# following are list of operations performed to build and push into private registry
+jobs:
+  # build the mod before pushing it into the private registry
+  build-and-test:
+    # base setup
+    runs-on: ubuntu-latest
+    steps:
+
+      # clone the code 
+      - name: Clone repository
+        uses: actions/checkout@v2
+
+      # user specified node js env
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 16.5.0
+        
+      # install required dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # generate react build 
+      - name: Generate build
+        run: npm run build --prod
+
+      # copy build folder to 
+      - name: Copy build folder to the server
+        uses: appleboy/scp-action@master
+        with:
+          host: "185.213.175.212"
+          username: "prasanna"
+          password: "PrasannaM@1122"
+          port: 22
+          source: "build/*"
+          target: "/home/prasanna/deplyement/user-portal-fe/"
+
+

@@ -11,8 +11,6 @@ import SideBarWrapper from './SideBarWrapper';
 
 import sidebarimage from 'assets/images/auth/sidebar.png'
 
-import LogoSection from 'constants/logo';
-
 
 const Register = () => {
 
@@ -33,7 +31,7 @@ const Register = () => {
                 justifyContent="center"
                 sx={{ minHeight: 'calc(100vh - 68px)' }}
                 alignItems="center">
-                <img src={sidebarimage} alt="side-bar-image-register" />
+                <img src={sidebarimage} alt="side-bar-register" />
               </Grid>
             </SideBarWrapper>
           </Grid>

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { styled } from '@mui/material/styles';
 
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -10,29 +9,21 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { updateObjectState } from 'store/actions/object.actions'
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
 
-const ProgressWrapper = styled(Box)(({ theme }) => ({
-  paddingTop: '1px',
-}));
-
-
 const RenameObject = (props) => {
-
-  const objectController = useSelector((state) => state.objects);
 
   const dispatch = useDispatch();
 
   const [open, setOpen] = React.useState(false);
 
-  const [loading, setLoading] = React.useState(false);
+  const loading = false;
 
   const [name, setName] = React.useState(props.name);
 

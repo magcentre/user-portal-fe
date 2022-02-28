@@ -3,7 +3,6 @@ import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
 import { fetchRecentObjects, clearBrowserState } from 'store/actions/dashboard.actions'
-import ObjectCard from 'views/file-browser/ObjectCard';
 import DataTableObjectView from './TableView';
 
 const RedentFileLoader = () => {
@@ -21,28 +20,6 @@ const RedentFileLoader = () => {
   )
 }
 
-const FolderGrid = ({ objectList }) => {
-
-  return (
-    <>
-      <Grid
-        container
-        direction="row"
-        justifyContent="flex-start"
-        alignItems="center"
-        spacing={3}
-        xs={12}
-      >
-        {objectList.map((e) => {
-          return <Grid item>
-            <ObjectCard {...e} />
-          </Grid>
-        })}
-      </Grid>
-    </>
-  )
-};
-
 const RecentFilesTables = () => {
 
   const dashboardController = useSelector((state) => state.dashboard);
@@ -54,7 +31,7 @@ const RecentFilesTables = () => {
     return () => {
       dispatch(clearBrowserState());
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <>

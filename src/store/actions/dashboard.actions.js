@@ -1,4 +1,4 @@
-import { SET_FOLDER_CONTENT, CLEAR_STATE, DELETE_OBJECT, GET_DASHBOARD_FOLDER } from '../types/dashboard.types'
+import { SET_FOLDER_CONTENT, CLEAR_STATE, GET_DASHBOARD_FOLDER } from '../types/dashboard.types'
 import { container } from 'constants/api.constants';
 import network from 'helpers/network.helper';
 

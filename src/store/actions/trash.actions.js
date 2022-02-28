@@ -1,6 +1,6 @@
 import network from 'helpers/network.helper';
 import { SET_TRASH_OBJECTS, CLEAR_TRASH_STATE } from '../types/trash.types'
-import { container, trashPath } from 'constants/api.constants';
+import { container } from 'constants/api.constants';
 
 export const fetchTrashObjects = () => async (dispatch) => {
   try {

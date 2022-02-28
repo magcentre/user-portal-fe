@@ -80,7 +80,7 @@ const Login = () => {
                 justifyContent="center"
                 sx={{ minHeight: 'calc(100vh - 68px)' }}
                 alignItems="center">
-                <img src={sidebarimage} alt="side-bar-image" />
+                <img src={sidebarimage} alt="side-bar" />
               </Grid>
             </SideBarWrapper>
           </Grid>
