@@ -29,7 +29,7 @@ const Subscription = () => {
 
   const proceed = () => {
     enqueueSnackbar('You are enrolled successfully!');
-    navigate("/login");
+    navigate("/dashboard");
   }
 
   return (

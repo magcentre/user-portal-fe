@@ -1,196 +1,279 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
 
-// material-ui
-import { useTheme } from '@mui/material/styles';
 import {
-  Box,
+  CircularProgress,
   FormControl,
-  FormHelperText,
-  IconButton,
   InputAdornment,
   InputLabel,
+  Typography,
   OutlinedInput,
-  Stack,
+  Link,
+  FormHelperText
 } from '@mui/material';
 
-
-import * as Yup from 'yup';
-import { Formik } from 'formik';
 import { useNavigate } from "react-router-dom"
-
 
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
-import Visibility from '@mui/icons-material/Visibility';
-
-import VisibilityOff from '@mui/icons-material/VisibilityOff';
-
-import netwotk from 'helpers/network.helper';
-
-import storageHelper from 'helpers/storage.helper';
-
-// actions
-import { SET_CURRRENT_USER } from 'store/types/user.types';
-
 import { LoadingButton } from '@mui/lab';
 
+import { useSnackbar } from 'notistack';
+import { SET_CURRRENT_USER } from 'store/types/user.types';
+import PhoneAndroid from '@mui/icons-material/PhoneAndroid';
+import network from 'helpers/network.helper';
+import { authenticate } from 'constants/api.constants';
+import { useDispatch } from 'react-redux';
+import storageHelper from 'helpers/storage.helper';
 
-const Login = ({ props, ...others }) => {
 
-  const theme = useTheme();
+const MobileCapture = (props) => {
 
-  let navigate = useNavigate()
+  const [mobile, setMobile] = useState();
 
-  const dispatch = useDispatch();
+  const [error, setError] = useState();
 
-  const [loading, setLoading] = useState(false);
+  const { enqueueSnackbar } = useSnackbar();
 
-  const [showPassword, setShowPassword] = useState(false);
-
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
-
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
-
-  const perfromLogin = async (values, { setErrors, setStatus, setSubmitting }) => {
-    setLoading(true);
-    netwotk.post('/identity/user/authenticate', values).then((e) => {
-      dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
-      storageHelper.setItem('currentUser', JSON.stringify(e.data.data));
-      navigate("/dashboard");
-    }).catch((e) => {
-      setStatus({ success: false });
-      setLoading(false);
-      setErrors({ submit: "Enter valid email and password" });
-    })
+  const sendOTP = async (e) => {
+    e.preventDefault();
+    var format = /^[6-9]\d{9}$/;
+    if (mobile && mobile.length === 10 && format.test(mobile)) {
+      props.setLoading(true);
+      network.post(authenticate.sendOTP, { mobile, })
+        .then((e) => {
+          enqueueSnackbar('OTP Sent', { variant: 'success' });
+          props.setLoading(false);
+          props.setMobile(mobile);
+        }).catch((err) => {
+          if (err.response && err.response.status === 400) {
+            if (err.response.data && err.response.data.info) {
+              return enqueueSnackbar(err.response.data.info, { variant: 'error' });
+            }
+          } else {
+            enqueueSnackbar('Something went wrong!', { variant: 'error' });
+          }
+          props.setLoading(false);
+        })
+    } else {
+      setError("Enter valid mobile number");
+    }
   }
 
   return (
     <>
-      <Formik
-        initialValues={{
-          submit: null
-        }}
-        validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
-        })}
-        onSubmit={perfromLogin}
-      >
-        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <form noValidate onSubmit={handleSubmit} {...others}>
-
-            <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
-
-              <InputLabel htmlFor="outlined-adornment-email-login">Email Address</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-email-login"
-                type="email"
-                value={values.email}
-                name="email"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                label="Email Address"
-                inputProps={{}}
-              />
-              {touched.email && errors.email && (
-                <FormHelperText error id="standard-weight-helper-text-email-login">
-                  {errors.email}
-                </FormHelperText>
-              )}
-            </FormControl>
-
-            <FormControl
-              fullWidth
-              error={Boolean(touched.password && errors.password)}
-              sx={{ ...theme.typography.customInput }}
-            >
-              <InputLabel htmlFor="outlined-adornment-password-login">Password</InputLabel>
-              <OutlinedInput
-                id="outlined-adornment-password-login"
-                type={showPassword ? 'text' : 'password'}
-                value={values.password}
-                name="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                      size="large"
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-                label="Password"
-                inputProps={{}}
-              />
-              {touched.password && errors.password && (
-                <FormHelperText error id="standard-weight-helper-text-password-login">
-                  {errors.password}
-                </FormHelperText>
-              )}
-            </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-              <div></div>
-              {/* <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
-              </Typography> */}
-            </Stack>
-            {errors.submit && (
-              <Box sx={{ mt: 3 }}>
-                <FormHelperText error>{errors.submit}</FormHelperText>
-              </Box>
-            )}
-
-            <Box sx={{ mt: 2, color: 'white' }}>
-              <AnimateButton>
-                <LoadingButton
-                  loading={loading}
-                  loadingPosition="end"
-                  disableElevation
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    color: 'white'
-                  }}
-                >
-                  Login
-                </LoadingButton>
-              </AnimateButton>
-            </Box>
-          </form>
-        )}
-      </Formik>
+      <Typography variant="h4" gutterBottom sx={{ ml: 2 }} >
+        Enter your mobile number
+      </Typography>
+      <Typography variant="caption" display="block" gutterBottom sx={{ ml: 2 }} >
+        We need your mobile number to send One Time Password(OTP) to verify your identity
+      </Typography>
       <br />
-      <AnimateButton>
-          <LoadingButton
-            loadingPosition="end"
-            disableElevation
-            fullWidth
-            size="large"
-            type="button"
-            variant="outlined"
-            onClick={() => {
-              navigate('/register');
+      <form onSubmit={sendOTP}>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="mobile-to-proceed">Mobile</InputLabel>
+          <OutlinedInput
+            id="mobile-to-proceed"
+            onChange={(e) => {
+              setMobile(e.target.value);
+              setError();
             }}
-          >
-            Create an account
-          </LoadingButton>
-        </AnimateButton>
+            fullWidth
+            startAdornment={<InputAdornment position="start"><PhoneAndroid /></InputAdornment>}
+            label="Mobile"
+          />
+          {error && (
+            <FormHelperText error id="mobile-number-error">
+              {error}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <br />
+        <br />
+        <center>
+          <AnimateButton>
+            <LoadingButton
+              loading={props.loading}
+              loadingPosition="end"
+              onClick={sendOTP}
+              disableElevation
+              size="large"
+              type="submit"
+              variant="contained"
+              sx={{
+                color: 'white'
+              }}
+            >
+              Proceed
+            </LoadingButton>
+          </AnimateButton>
+        </center>
+      </form>
     </>
   );
 };
 
-export default Login;
+
+
+const MobileOTPVerification = (props) => {
+
+  const mobile = props.mobile;
+
+  const dispatch = useDispatch();
+
+  const [otp, setOtp] = useState();
+
+  const [error, setError] = useState();
+
+  const navigate = useNavigate()
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const verifyOTP = async (e) => {
+    e.preventDefault();
+    
+    if (otp && otp.length === 6) {
+      props.setLoading(true);
+      network.post(authenticate.verifyOTP, { mobile, otp })
+        .then((e) => {
+          props.setLoading(false);
+          dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
+          storageHelper.setItem('currentUser', JSON.stringify(e.data.data));
+          if (e.data.data.isBucketCreated === false)
+            return navigate("/subscription");
+          navigate("/dashboard");
+        }).catch((err) => {
+          if (err.response && err.response.status === 400) {
+            if (err.response.data && err.response.data.info) {
+              enqueueSnackbar(err.response.data.info, { variant: 'error', });
+            }
+          } else {
+            console.log(err);
+            enqueueSnackbar('Something went wrong!', { variant: 'error' });
+          }
+          
+          props.setLoading(false);
+        })
+
+    } else {
+      setError("Enter valid OTP");
+    }
+  }
+
+  const sendOTP = async () => {
+    props.setLoading(true);
+    network.post(authenticate.sendOTP, { mobile, })
+      .then((e) => {
+        enqueueSnackbar('OTP Sent', { variant: 'success' });
+        props.setLoading(false);
+        props.setMobile(mobile);
+      }).catch((err) => {
+        if (err.response && err.response.status === 400) {
+          if (err.response.data && err.response.data.info) {
+            return enqueueSnackbar(err.response.data.info, { variant: 'error' });
+          }
+        } else {
+          enqueueSnackbar('Something went wrong!', { variant: 'error' });
+        }
+        props.setLoading(false);
+      })
+  }
+
+  const changeNumber = () => {
+    props.setMobile();
+  }
+
+  return (
+    <>
+      <Typography variant="h4" gutterBottom sx={{ ml: 2 }} >
+        OTP Sent
+      </Typography>
+      <Typography variant="caption" display="block" gutterBottom sx={{ ml: 2 }} >
+        Please enter 6 digit otp received on your {props.mobile} mobile number <br />
+        <Link href="#" onClick={changeNumber} color="primary">
+
+        </Link>
+      </Typography>
+      <br />
+      <form onSubmit={verifyOTP}>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="mobile-to-proceed">OTP</InputLabel>
+          <OutlinedInput
+            id="mobile-to-proceed"
+            onChange={(e) => {
+              setOtp(e.target.value);
+              setError();
+            }}
+            fullWidth
+            startAdornment={<InputAdornment position="start"><PhoneAndroid /></InputAdornment>}
+            label="Mobile"
+          />
+          {error && (
+            <FormHelperText error id="otp-verify-error-messgae">
+              {error}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <br />
+        <br />
+        <center>
+          <AnimateButton>
+            <LoadingButton
+              loading={props.loading}
+              loadingPosition="end"
+              onClick={verifyOTP}
+              disableElevation
+              size="large"
+              type="submit"
+              variant="contained"
+              sx={{
+                color: 'white'
+              }}
+            >
+              Verify
+            </LoadingButton>
+          </AnimateButton>
+          <br />
+          <br />
+          <Typography variant="caption" component="span" display="block" gutterBottom sx={{ ml: 2 }} >
+            Didn't recive code?
+            <Link href="#" onClick={sendOTP} color="primary" component="span">
+              Request again
+            </Link>
+          </Typography>
+        </center>
+
+      </form>
+    </>
+  );
+}
+
+
+const RegistrationForm = (props) => {
+
+  const [loading, setLoading] = useState(false);
+
+  const [mobile, setMobile] = useState();
+
+  if (loading) return (
+    <>
+      <center style={{ margin: 20 }}>
+        <CircularProgress size={70} />
+      </center>
+    </>
+  );
+
+  if (!mobile) return (
+    <>
+      <MobileCapture loading={loading} setLoading={setLoading} setMobile={setMobile} mobile={mobile} />
+    </>
+  )
+
+  return (
+    <>
+      <MobileOTPVerification mobile={mobile} setLoading={setLoading} setMobile={setMobile} />
+    </>
+  )
+
+}
+
+export default RegistrationForm;

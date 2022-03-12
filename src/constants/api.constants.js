@@ -22,7 +22,10 @@ module.exports = {
     },
 
   },
-  
+  authenticate: {
+    sendOTP: '/identity/user/sendOTP',
+    verifyOTP: '/identity/user/verifyOTP'
+  },
   trash: {
     getTrash: '/container/trash/',
     deleteForever: '/container/trash/'
