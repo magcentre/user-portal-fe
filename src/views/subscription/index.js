@@ -69,7 +69,7 @@ const Subscription = () => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={6} lg={6}>
+          <Grid item md={6} lg={6} display={{ xs: 'none', lg: 'block' }}>
             <SideBarWrapper>
               <Grid container
                 direction="row"
