@@ -42,3 +42,15 @@ export const folderRename = (pathKey, name, parentKey) => async (dispatch) => {
     console.log(e);
   }
 }
+
+export const fileRename = (pathKey, name, parentKey) => async (dispatch) => {
+  try {
+    await network.post(`${container.fileRename}`, {
+      name, pathKey, parentKey,
+    });
+    const response = await network.get(`${container.browser}/${parentKey}`);
+    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}
