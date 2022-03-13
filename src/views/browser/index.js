@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContent } from "store/actions/browser.action";
+import { fetchContent, clearBrowser } from "store/actions/browser.action";
 import NoFileUploaded from 'assets/images/icons/no_file_uploaded.svg'
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
@@ -40,6 +40,9 @@ const Browser = ({ path }) => {
 
   useEffect(() => {
     dispatch(fetchContent(path));
+    return () => {
+      dispatch(clearBrowser());
+    }
   }, [dispatch, path]);
 
   if (!controller.content) {

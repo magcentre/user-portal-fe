@@ -3,8 +3,8 @@ import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchObjectForFolder, clearBrowserState } from 'store/actions/object.actions'
-import ObjectCard from 'views/file-browser/ObjectCard';
+import { fetchContent, clearBrowser } from 'store/actions/browser.action'
+import FolderCard from 'ui-component/folderCard';
 
 const FolderLoader = () => {
   return (
@@ -23,7 +23,7 @@ const FolderLoader = () => {
 
 const FolderGrid = ({ objectList }) => {
 
-  const userState = useSelector((state) => state.user);
+  console.log(objectList);
 
   return (
     <>
@@ -35,12 +35,14 @@ const FolderGrid = ({ objectList }) => {
         spacing={3}
         xs={12}
       >
-        {objectList.map((e) => {
-
-          if (e.type || e.user !== userState.user._id) return <></>
-          return <Grid item>
-            <ObjectCard {...e} />
-          </Grid>
+       
+       {objectList.map((e) => {
+          console.log(e);
+          return (
+            <Grid item key={e.id}>
+              <FolderCard {...e} path={e.key} />
+            </Grid>
+          )
         })}
       </Grid>
     </>
@@ -50,16 +52,17 @@ const FolderGrid = ({ objectList }) => {
 
 const FolderSection = () => {
 
-  const dashboardController = useSelector((state) => state.objects);
+  const controller = useSelector((state) => state.browser);
 
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(fetchObjectForFolder('myfiles'));
+  console.log(controller);
 
+  React.useEffect(() => {
+    dispatch(fetchContent('/'));
     return () => {
-      dispatch(clearBrowserState());
-    };
+      dispatch(clearBrowser());
+    }
   }, [dispatch]);
 
   return (
@@ -73,7 +76,7 @@ const FolderSection = () => {
         justifyContent="center"
         alignItems="center"
       >
-        {dashboardController.folderContent ? <FolderGrid objectList={dashboardController.folderContent} /> : <FolderLoader />}
+        {(controller.content && controller.content.dir.length > 0) ? <FolderGrid objectList={controller.content.dir} /> : <FolderLoader />}
       </Grid>
     </>
   )
