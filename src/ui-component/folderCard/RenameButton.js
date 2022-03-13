@@ -17,7 +17,7 @@ import { useDispatch, useSelector } from "react-redux";
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
 import { folderRename } from 'store/actions/browser.action';
-
+import Box from '@mui/system/Box';
 
 const RenameObject = (props) => {
 
@@ -76,9 +76,10 @@ const RenameObject = (props) => {
           <Typography variant="h3" gutterBottom component="div">Rename</Typography>
         </DialogTitle>
         <DialogContent>
+          <Box sx={{ width: 250 }}>
           <TextField
             autoFocus
-            defaultValue={props.name}
+            defaultValue={props.prefix.replaceAll("/", "")}
             margin="dense"
             id="name"
             label="Name"
@@ -90,6 +91,7 @@ const RenameObject = (props) => {
             fullWidth
             variant="filled"
           />
+          </Box>
         </DialogContent>
         <DialogActions>
           <Button disabled={loading} onClick={handleClose}>Cancel</Button>
