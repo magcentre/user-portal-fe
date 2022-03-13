@@ -110,7 +110,7 @@ const ObjectCard = (props) => {
           <Divider />
           <AddToStarred {...props} handelClose={handleClose} />
           <Divider />
-          <RenameObject {...props} handelClose={handleClose} />
+          {props.settings && !props.settings.rename ? <></> : <RenameObject {...props} handelClose={handleClose} /> }
           <Divider />
           <RemoveButton {...props} handelClose={handleClose} />
         </Box>

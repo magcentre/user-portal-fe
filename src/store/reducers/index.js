@@ -8,6 +8,7 @@ import trashReducer from './trash.reducer';
 import dashboardReducer from './dashboard.reducer';
 import uploadReducer from './upload.reducer';
 import browserReducer from './browser.reducer';
+import recentReducer from './recent.reducer';
 
 // ==============================|| COMBINE REDUCER ||============================== //
 
@@ -19,6 +20,7 @@ const reducer = combineReducers({
     dashboard: dashboardReducer,
     upload: uploadReducer,
     browser: browserReducer,
+    recent: recentReducer,
 });
 
 export default reducer;

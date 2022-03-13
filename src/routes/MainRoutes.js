@@ -18,6 +18,9 @@ const FileBrowser = Loadable(lazy(() => import('views/file-browser')));
 // browser component
 const Browser = Loadable(lazy(() => import('views/browser')));
 
+// browser component
+const RecentFiles = Loadable(lazy(() => import('views/recent-files')));
+
 // ==============================|| MAIN ROUTING ||============================== //
 
 const MainRoutes = {
@@ -66,7 +69,7 @@ const MainRoutes = {
         },
         {
             path: '/recent-files',
-            element: <FileBrowser mode='recent-files' key='recent-files' />
+            element: <RecentFiles />
         },
         {
             path: '/starred-files',
