@@ -47,6 +47,7 @@ const MobileCapture = (props) => {
         }).catch((err) => {
           if (err.response && err.response.status === 400) {
             if (err.response.data && err.response.data.info) {
+              props.setLoading(false);
               return enqueueSnackbar(err.response.data.info, { variant: 'error' });
             }
           } else {
@@ -150,7 +151,6 @@ const MobileOTPVerification = (props) => {
             console.log(err);
             enqueueSnackbar('Something went wrong!', { variant: 'error' });
           }
-          
           props.setLoading(false);
         })
 

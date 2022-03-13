@@ -56,14 +56,24 @@ const FolderSection = () => {
 
   const dispatch = useDispatch();
 
-  console.log(controller);
-
   React.useEffect(() => {
     dispatch(fetchContent('/'));
     return () => {
       dispatch(clearBrowser());
     }
   }, [dispatch]);
+
+  const emptyFolder =  (
+    <center>
+      <Typography>
+        No folders found
+      </Typography>
+    </center>
+  )
+
+  if(!controller.content ) {
+    return <FolderLoader />
+  }
 
   return (
     <>
@@ -76,7 +86,7 @@ const FolderSection = () => {
         justifyContent="center"
         alignItems="center"
       >
-        {(controller.content && controller.content.dir.length > 0) ? <FolderGrid objectList={controller.content.dir} /> : <FolderLoader />}
+        {(controller.content && controller.content.dir.length > 0) ? <FolderGrid objectList={controller.content.dir} /> : emptyFolder}
       </Grid>
     </>
   )

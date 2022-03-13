@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
 import DataTableObjectView from './TableView';
 import { fetchStarredFiles } from 'store/actions/starred.actions';
+import { Typography } from '@mui/material';
 
 const StarredFileLoader = () => {
   return (
@@ -29,6 +30,20 @@ const StarredFilesTable = () => {
   React.useEffect(() => {
     dispatch(fetchStarredFiles());
   }, [dispatch]);
+
+
+  if (controller.content && controller.content.files.length === 0) {
+    return (
+      <center>
+        <br />
+        <br />
+        <Typography variant='caption'>
+          No starred files found
+        </Typography>
+      </center>
+
+    )
+  }
 
   return (
     <>

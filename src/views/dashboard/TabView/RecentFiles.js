@@ -4,6 +4,7 @@ import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
 import DataTableObjectView from './TableView';
 import { fetchRecentFiles } from 'store/actions/recent.actions';
+import Typography from '@mui/material/Typography';
 
 const RedentFileLoader = () => {
   return (
@@ -35,6 +36,20 @@ const RecentFilesTables = () => {
   React.useEffect(() => {
     dispatch(fetchRecentFiles());
   }, [dispatch]);
+
+  if (fileList && fileList.length === 0) {
+    return (
+      <center>
+        <br />
+        <br />
+        <Typography variant='caption'>
+          No recent files found
+        </Typography>
+      </center>
+
+    )
+  }
+
 
   return (
     <>

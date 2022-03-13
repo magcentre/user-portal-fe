@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContent } from "store/actions/browser.action";
 import NoFileUploaded from 'assets/images/icons/no_file_uploaded.svg'
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
@@ -38,8 +37,6 @@ const RecentFiles = ({ path }) => {
   const controller = useSelector((state) => state.recent);
 
   const dispatch = useDispatch();
-
-  console.log(controller);
 
   useEffect(() => {
     dispatch(fetchRecentFiles());

@@ -1,7 +1,7 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { handleStaredState } from 'store/actions/object.actions'
 import { useDispatch, useSelector } from "react-redux";
 import StarredIcon from 'assets/images/icons/add-to-starred.svg'
+import { updateFile } from 'store/actions/browser.action';
 
 
 const AddToStarred = (props) => {
@@ -14,7 +14,7 @@ const AddToStarred = (props) => {
     <ListItemButton
       onClick={() => {
         props.handelClose();
-        dispatch(handleStaredState(props.hash, props.type, !props.isStared));
+        dispatch(updateFile(props.hash, { isStared: !props.isStared } ));
       }}
     >
       <ListItemIcon>

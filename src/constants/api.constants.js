@@ -15,10 +15,12 @@ module.exports = {
     sharedWithMe: '/container/share/tome',
     sharedByMe: '/container/share/byme',
     browser: '/container/browse/',
-    fileRename: '/container/bucket/object/rename',
     bucket: {
       folderCreate: '/container/bucket/folder/create',
-      folderRename: '/container/bucket/folder/rename'
+      folderRename: '/container/bucket/folder/rename',
+      folderUpdate: '/container/bucket/folder/update',
+      fileRename: '/container/bucket/object/rename',
+      fileUpdate: '/container/bucket/object/update',
     },
   },
   authenticate: {
