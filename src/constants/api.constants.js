@@ -20,7 +20,6 @@ module.exports = {
       folderCreate: '/container/bucket/folder/create',
       folderRename: '/container/bucket/folder/rename'
     },
-
   },
   authenticate: {
     sendOTP: '/identity/user/sendOTP',
