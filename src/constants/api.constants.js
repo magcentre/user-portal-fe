@@ -2,8 +2,8 @@ module.exports = {
   container: {
     folder: '/container/folder/', // attach object hash
     object: '/container/object/', // attach object hash
-    staredObjects: '/container/objects/stared', // attach object hash
-    recentObjects: '/container/objects/recent', // attach object hash
+    staredObjects: '/container/browse/starred', // attach object hash
+    recentObjects: '/container/browse/recent', // attach object hash
     trash: '/container/trash/', // trash base
     upload: '/container/bucket/upload/',
     newFolder: '/container/folder/new',
@@ -17,10 +17,16 @@ module.exports = {
     browser: '/container/browse/',
     bucket: {
       folderCreate: '/container/bucket/folder/create',
-      folderRename: '/container/bucket/folder/rename'
-    }
+      folderRename: '/container/bucket/folder/rename',
+      folderUpdate: '/container/bucket/folder/update',
+      fileRename: '/container/bucket/object/rename',
+      fileUpdate: '/container/bucket/object/update',
+    },
   },
-  
+  authenticate: {
+    sendOTP: '/identity/user/sendOTP',
+    verifyOTP: '/identity/user/verifyOTP'
+  },
   trash: {
     getTrash: '/container/trash/',
     deleteForever: '/container/trash/'

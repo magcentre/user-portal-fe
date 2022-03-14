@@ -37,9 +37,9 @@ const ObjectCard = (props) => {
 
   const id = open ? `details-popover-${props.id}` : undefined;
 
-  const dateWithoutTime = new Date(props.lastModified).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
+  const dateWithoutTime = new Date(props.lastModified || props.updatedAt).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric' });
 
-  const dateWithTime = new Date(props.lastModified).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: '2-digit', minute: 'numeric' });
+  const dateWithTime = new Date(props.lastModified || props.updatedAt).toLocaleDateString("en-US", { year: 'numeric', month: 'long', day: 'numeric', hour12: true, hour: '2-digit', minute: 'numeric' });
 
   const openFile = (e) => {
 
@@ -110,7 +110,7 @@ const ObjectCard = (props) => {
           <Divider />
           <AddToStarred {...props} handelClose={handleClose} />
           <Divider />
-          <RenameObject {...props} handelClose={handleClose} />
+          {props.settings && !props.settings.rename ? <></> : <RenameObject {...props} handelClose={handleClose} /> }
           <Divider />
           <RemoveButton {...props} handelClose={handleClose} />
         </Box>

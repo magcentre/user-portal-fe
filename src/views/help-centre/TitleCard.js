@@ -28,7 +28,9 @@ const TitleCard = (props) => {
               <Grid item>
                 <Avatar
                   sx={{
-                    borderRadius: '50%', alignContent: 'center', color: 'white',
+                    borderRadius: '50%', 
+                    alignContent: 'center', 
+                    color: 'white',
                     fontWeight: 'bold',
                     border: 3,
                     height: 40,

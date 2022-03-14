@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchContent, clearBrowser } from "store/actions/browser.action";
 import NoFileUploaded from 'assets/images/icons/no_file_uploaded.svg'
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
 import GreetingCard from "ui-component/GreetingCard";
 import FileCard from "ui-component/fileCard";
 import FolderCard from "ui-component/folderCard";
+import { fetchRecentFiles } from "store/actions/recent.actions";
 
 const EmptyCard = () => {
 
@@ -32,17 +32,14 @@ const Loader = () => {
   )
 }
 
-const Browser = ({ path }) => {
+const RecentFiles = ({ path }) => {
 
-  const controller = useSelector((state) => state.browser);
+  const controller = useSelector((state) => state.recent);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchContent(path));
-    return () => {
-      dispatch(clearBrowser());
-    }
+    dispatch(fetchRecentFiles());
   }, [dispatch, path]);
 
   if (!controller.content) {
@@ -63,7 +60,7 @@ const Browser = ({ path }) => {
           console.log(e);
           return (
             <Grid item key={e.id}>
-              <FolderCard {...e} path={e.key} />
+              <FolderCard {...e} path={e.key} settings={{ rename: false }} />
             </Grid>
           )
         })}
@@ -71,7 +68,7 @@ const Browser = ({ path }) => {
         {controller.content.files.map((e) => {
           return (
             <Grid item key={e.prefix}>
-              <FileCard {...e} />
+              <FileCard {...e}  settings={{ rename: false }} />
             </Grid>
           )
         })}
@@ -81,4 +78,4 @@ const Browser = ({ path }) => {
   )
 }
 
-export default Browser;
+export default RecentFiles;

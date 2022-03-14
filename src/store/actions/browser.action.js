@@ -42,3 +42,35 @@ export const folderRename = (pathKey, name, parentKey) => async (dispatch) => {
     console.log(e);
   }
 }
+
+export const fileRename = (pathKey, name, parentKey) => async (dispatch) => {
+  try {
+    await network.post(`${container.bucket.fileRename}`, {
+      name, pathKey, parentKey,
+    });
+    const response = await network.get(`${container.browser}/${parentKey}`);
+    dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const updateFolder = (key, properties) => async (dispatch) => {
+  try {
+    await network.patch(`${container.bucket.folderUpdate}`, { key, properties:  { ...properties } });
+    // const response = await network.get(`${container.browser}/${parentKey}`);
+    // dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+export const updateFile = (key, properties) => async (dispatch) => {
+  try {
+    await network.patch(`${container.bucket.fileUpdate}`, { key, properties:  { ...properties } });
+    // const response = await network.get(`${container.browser}/${parentKey}`);
+    // dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+  } catch (e) {
+    console.log(e);
+  }
+}

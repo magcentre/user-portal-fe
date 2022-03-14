@@ -9,7 +9,7 @@ const SideBarWrapper = styled('div')(({ theme }) => ({
     paddingTop: '50px',
     backgroundColor: '#5694FF',
     backgroundImage: `url(${Image})`,
-    backgroundSize: 'contain'
+    backgroundSize: 'contain',
 }));
 
 export default SideBarWrapper;

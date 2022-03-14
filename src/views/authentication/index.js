@@ -1,20 +1,19 @@
 
 import { useTheme } from '@mui/material/styles';
-import { Divider, Grid, Stack, Typography, useMediaQuery } from '@mui/material';
+import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import AuthLogin from './auth-form';
+import RegistrationForm from './auth-form';
 
 import AuthWrapper1 from './AuthWrapper1';
 import AuthCardWrapper from './AuthCardWrapper';
 import SideBarWrapper from './SideBarWrapper';
 
 import sidebarimage from 'assets/images/auth/sidebar.png'
-
 import LogoSection from 'constants/logo';
 
 
-const Login = () => {
+const InitAuthentication = () => {
 
   const theme = useTheme();
 
@@ -26,9 +25,11 @@ const Login = () => {
         <Grid container direction="row"
           justifyContent="center"
           alignItems="center" sx={{ minHeight: '100vh' }}>
-          <Grid item xs={12} md={6} lg={6}>
+
+          <Grid item xs={12} md={5} lg={5}>
             <Grid container justifyContent="center" alignItems="center" sx={{ minHeight: 'calc(100vh - 68px)' }}>
               <Grid item sx={{ m: { xs: 1, sm: 3 }, mb: 0 }}>
+
                 <AuthCardWrapper>
                   <Grid container spacing={2} alignItems="center" justifyContent="center">
                     <Grid item sx={{ mb: 3 }}>
@@ -50,37 +51,23 @@ const Login = () => {
                         </Typography>
                       </Grid>
                     </Grid>
+                    
                     <Grid item xs={12}>
-                      <AuthLogin />
+                      <RegistrationForm />
                     </Grid>
-                    <Grid item xs={12}>
-                      <Divider />
-                    </Grid>
-                    {/* <Grid item xs={12}>
-                      <Grid item container direction="column" alignItems="center" xs={12}>
-                        <Typography
-                          component={Link}
-                          to="/pages/register/register3"
-                          variant="subtitle1"
-                          sx={{ textDecoration: 'none' }}
-                        >
-                          Don&apos;t have an account?
-                        </Typography>
-                      </Grid>
-                    </Grid> */}
                   </Grid>
                 </AuthCardWrapper>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item md={6} lg={6}>
+          <Grid item md={7} xs={0} lg={7} display={{ xs: 'none', lg: 'block' }}>
             <SideBarWrapper>
               <Grid container
                 direction="row"
                 justifyContent="center"
                 sx={{ minHeight: 'calc(100vh - 68px)' }}
                 alignItems="center">
-                <img src={sidebarimage} alt="side-bar" />
+                <img src={sidebarimage} alt="side-bar-register" />
               </Grid>
             </SideBarWrapper>
           </Grid>
@@ -90,4 +77,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default InitAuthentication;

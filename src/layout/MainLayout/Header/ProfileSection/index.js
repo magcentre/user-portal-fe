@@ -44,7 +44,7 @@ const ProfileSection = () => {
                 }
                 label={`${userState.user.firstName} ${userState.user.lastName}`}
                 onClick={() => {
-                    navigate("/profile");  
+                    navigate("/profile");
                 }}
                 variant="outlined"
                 color="primary"

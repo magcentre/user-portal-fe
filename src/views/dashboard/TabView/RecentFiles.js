@@ -2,8 +2,9 @@ import * as React from 'react';
 import CircularProgress from '@mui/material/CircularProgress';
 import Grid from '@mui/material/Grid';
 import { useDispatch, useSelector } from "react-redux";
-import { fetchRecentObjects, clearBrowserState } from 'store/actions/dashboard.actions'
 import DataTableObjectView from './TableView';
+import { fetchRecentFiles } from 'store/actions/recent.actions';
+import Typography from '@mui/material/Typography';
 
 const RedentFileLoader = () => {
   return (
@@ -22,16 +23,33 @@ const RedentFileLoader = () => {
 
 const RecentFilesTables = () => {
 
-  const dashboardController = useSelector((state) => state.dashboard);
+  const controller = useSelector((state) => state.recent);
 
   const dispatch = useDispatch();
 
+  let fileList = [];
+
+  if(controller.content) {
+    fileList = [ ...controller.content.files ];
+  }
+
   React.useEffect(() => {
-    dispatch(fetchRecentObjects());
-    return () => {
-      dispatch(clearBrowserState());
-    };
+    dispatch(fetchRecentFiles());
   }, [dispatch]);
+
+  if (fileList && fileList.length === 0) {
+    return (
+      <center>
+        <br />
+        <br />
+        <Typography variant='caption'>
+          No recent files found
+        </Typography>
+      </center>
+
+    )
+  }
+
 
   return (
     <>
@@ -41,7 +59,7 @@ const RecentFilesTables = () => {
         justifyContent="center"
         alignItems="center"
       >
-        {dashboardController.folderContent ? <DataTableObjectView rows={dashboardController.folderContent} /> : <RedentFileLoader />}
+        {fileList && fileList.length > 0 ? <DataTableObjectView rows={fileList} /> : <RedentFileLoader />}
       </Grid>
     </>
   )
