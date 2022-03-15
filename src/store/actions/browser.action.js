@@ -55,19 +55,18 @@ export const fileRename = (pathKey, name, parentKey) => async (dispatch) => {
   }
 }
 
-export const updateFolder = (key, properties) => async (dispatch) => {
+export const updateFolder = (key, properties) => async (dispatch, getState) => {
   try {
-    await network.patch(`${container.bucket.folderUpdate}`, { key, properties:  { ...properties } });
-    // const response = await network.get(`${container.browser}/${parentKey}`);
-    // dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
+    await network.patch(`${container.bucket.folderUpdate}`, { key, properties: { ...properties } });
+    
   } catch (e) {
     console.log(e);
   }
 }
 
-export const updateFile = (key, properties) => async (dispatch) => {
+export const updateFile = (key, properties) => async (dispatch, getState) => {
   try {
-    await network.patch(`${container.bucket.fileUpdate}`, { key, properties:  { ...properties } });
+    await network.patch(`${container.bucket.fileUpdate}`, { key, properties: { ...properties } });
     // const response = await network.get(`${container.browser}/${parentKey}`);
     // dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {

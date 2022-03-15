@@ -1,23 +1,19 @@
-import { SET_TRASH_OBJECTS, CLEAR_TRASH_STATE } from '../types/trash.types';
+import { SET_TRASH_OBJECTS } from '../types/trash.types';
 
 export const initialState = {
-  trashElements: undefined,
-  trashLoaded: false,
+  content: undefined,
 };
-
 const trashReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TRASH_OBJECTS:
       return {
         ...state,
-        trashElements: action.trashElements,
-        trashLoaded: true,
+        content: action.content,
       };
-    case CLEAR_TRASH_STATE:
-      return initialState;
     default:
-      return state;
+      return { ...state };
   }
-};
+}
+
 
 export default trashReducer;

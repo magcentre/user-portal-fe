@@ -1,7 +1,7 @@
 
 import { useEffect, } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchTrashObjects, clearTrashState } from 'store/actions/trash.actions'
+import { fetchTrash, clearTrashState, restoreFile, restoreFolder } from 'store/actions/trash.actions'
 import Grid from '@mui/material/Grid';
 import CircularProgress from '@mui/material/CircularProgress';
 import InfoCard from './InfoCard';
@@ -18,13 +18,13 @@ const CircularLoader = () => {
 
 const TrashCan = () => {
 
-  const trashController = useSelector((state) => state.trash);
+  const controller = useSelector((state) => state.trash);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
 
-    dispatch(fetchTrashObjects());
+    dispatch(fetchTrash());
 
     return () => {
       dispatch(clearTrashState());
@@ -32,9 +32,18 @@ const TrashCan = () => {
 
   }, [dispatch]);
 
-  if (!trashController.trashElements) return (<CircularLoader />)
+  const onRestoreFile = (hash) => {
+    dispatch(restoreFile(hash));
+  }
 
-  if (trashController.trashElements && trashController.trashElements.length === 0) return (<>
+  const onRestoreFolder = (hash) => {
+    console.log(hash);
+    dispatch(restoreFolder(hash));
+  }
+
+  if (!controller.content) return (<CircularLoader />)
+
+  if (controller.content && controller.content.length === 0) return (<>
     <InfoCard />
     <center> No files or folder found </center>
   </>)
@@ -43,14 +52,22 @@ const TrashCan = () => {
     <>
       <InfoCard /><br />
       <Grid container spacing={2}>
-        {trashController.trashElements.map((e) => {
-          console.log(e);
+        {controller.content.dir.map((e) => {
           return (
             <Grid item key={e.id}>
-              <TrashCard {...e} />
+              <TrashCard {...e} hash={e.key} onRestoreFolder={onRestoreFolder} isFolder={true} />
             </Grid>
           )
         })}
+        {controller.content.files.map((e) => {
+          
+          return (
+            <Grid item key={e.id}>
+              <TrashCard {...e} onRestoreFile={onRestoreFile} isFolder={false} />
+            </Grid>
+          )
+        })}
+
       </Grid>
     </>
   )

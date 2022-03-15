@@ -4,7 +4,6 @@ module.exports = {
     object: '/container/object/', // attach object hash
     staredObjects: '/container/browse/starred', // attach object hash
     recentObjects: '/container/browse/recent', // attach object hash
-    trash: '/container/trash/', // trash base
     upload: '/container/bucket/upload/',
     newFolder: '/container/folder/new',
     search: '/identity/user/search?',
@@ -22,6 +21,9 @@ module.exports = {
       fileRename: '/container/bucket/object/rename',
       fileUpdate: '/container/bucket/object/update',
     },
+    trash: {
+      get: '/container/browse/trashed',
+    }
   },
   authenticate: {
     sendOTP: '/identity/user/sendOTP',

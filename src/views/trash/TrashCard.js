@@ -5,9 +5,7 @@ import Stack from '@mui/material/Stack';
 import CardContent from '@mui/material/CardContent';
 import Paper from '@mui/material/Paper';
 import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
-import { useDispatch } from 'react-redux';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import { handelObjectRestore, handelObjectDelete } from 'store/actions/trash.actions'
 import { getIconFromType } from 'utils/object-icon';
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import TrashRestore from 'assets/images/icons/trash-restore.svg'
@@ -28,8 +26,6 @@ const TrashCard = (props) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const dispatch = useDispatch();
-
   const handleClose = () => {
     setAnchorEl(null);
   };
@@ -46,7 +42,7 @@ const TrashCard = (props) => {
     <>
       <Card
         sx={{
-          width: 200, height: 160, ':hover': {
+          width: 170, height: 150, ':hover': {
             boxShadow: 4,
           },
         }}
@@ -58,7 +54,7 @@ const TrashCard = (props) => {
           spacing={2}
         >
           <Item>
-            <img src={getIconFromType(props.type)} height="55" width="50" alt="object-icon" />
+            <img src={getIconFromType(props.type)} height="80" width="70" alt="object-icon" />
           </Item>
           <Item>
             <IconButton aria-label="settings" aria-describedby={id} onClick={handleClick}>
@@ -69,7 +65,7 @@ const TrashCard = (props) => {
 
         <CardContent sx={{ padding: 1 }}>
           <Box component="div" sx={{ md: 1, overflow: 'hidden', fontWeight: 'bold', height: '2.6em' }}>
-            {props.name}
+            {props.name || props.prefix}
           </Box>
           <Box sx={{ mt: 1 }} component='div'>
             {dateWithoutTime}
@@ -88,13 +84,15 @@ const TrashCard = (props) => {
             <ListItemIcon>
               <img src={getIconFromType(props.type)} height="30" width="30" alt='obj-icon' />
             </ListItemIcon>
-            <ListItemText primary={props.name} secondary={dateWithTime} />
+            <ListItemText primary={props.name || props.prefix} secondary={dateWithTime} />
           </ListItemButton>
           <Divider />
           <ListItemButton
             onClick={() => {
-              dispatch(handelObjectRestore(props.hash, props.type));
-              handleClose();
+              if(props.isFolder) {
+                return props.onRestoreFolder(props.hash);
+              }
+              return props.onRestoreFile(props.hash);
             }}
           >
             <ListItemIcon>
@@ -105,7 +103,7 @@ const TrashCard = (props) => {
           <Divider />
           <ListItemButton
             onClick={() => {
-              dispatch(handelObjectDelete(props.hash, props.type));
+              // dispatch(handelObjectDelete(props.hash, props.type));
               handleClose();
             }}
           >
