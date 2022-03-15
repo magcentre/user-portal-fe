@@ -1,5 +1,5 @@
 import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import { moveObjectToTrash } from 'store/actions/object.actions'
+import { updateFile } from 'store/actions/browser.action';
 import { useDispatch, useSelector } from "react-redux";
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 
@@ -11,7 +11,7 @@ const RemoveButton = (props) => {
   const dispatch = useDispatch();
 
   const deleteObject = () => {
-    dispatch(moveObjectToTrash(props.hash, props.type));
+    dispatch(updateFile(props.hash, { isTrash: true }));
     props.handelClose();
   }
 
