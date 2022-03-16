@@ -11,6 +11,8 @@ import { fromNow, bytesToSize } from 'utils/converters';
 import { IconButton } from '@mui/material';
 import config from 'config';
 import DownloadIcon from '@mui/icons-material/Download';
+import storageHelper from 'helpers/storage.helper';
+import apiConstants from 'constants/api.constants';
 
 export default function ObjectListTableView({ rows }) {
   return (
@@ -48,11 +50,13 @@ export default function ObjectListTableView({ rows }) {
               <TableCell ><b>{fromNow(row.updatedAt)}</b></TableCell>
               <TableCell > <b>{bytesToSize(row.size)}</b></TableCell>
               <TableCell >
-              <IconButton onClick={() => {
-                    window.open(`${config.apiEnd}/container/object/${row.hash}`);
-                  }} size="small">
-                    <DownloadIcon />
-                  </IconButton>
+                <IconButton onClick={() => {
+
+                  let user = storageHelper.getCurrentUser();
+                  window.open(`${config.apiEnd}${apiConstants.container.bucket.downloadFile(row.hash)}?token=${user.access.token}`)
+                }} size="small">
+                  <DownloadIcon />
+                </IconButton>
               </TableCell>
             </TableRow>
           ))}

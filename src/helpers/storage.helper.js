@@ -17,6 +17,13 @@ const storageHelper = {
     },
     storageSize: () => {
         return sessionStorage.length;
+    },
+    getCurrentUser: () => {
+        let currentuser = sessionStorage.getItem('currentUser');
+        if (currentuser) {
+            currentuser = JSON.parse(currentuser)
+        }
+        return currentuser;
     }
 };
 

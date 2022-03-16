@@ -60,7 +60,7 @@ const Browser = ({ path }) => {
       <Grid container spacing={2}>
 
         {controller.content.dir.map((e) => {
-          console.log(e);
+          if(e.isTrash) return <></>;
           return (
             <Grid item key={e.id}>
               <FolderCard {...e} path={e.key} />
@@ -69,6 +69,7 @@ const Browser = ({ path }) => {
         })}
 
         {controller.content.files.map((e) => {
+          if(e.isTrash) return <></>;
           return (
             <Grid item key={e.prefix}>
               <FileCard {...e} />

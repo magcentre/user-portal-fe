@@ -57,7 +57,7 @@ const RecentFiles = ({ path }) => {
       <Grid container spacing={2}>
 
         {controller.content.dir.map((e) => {
-          console.log(e);
+          if (e.isTrash) return <></>;
           return (
             <Grid item key={e.id}>
               <FolderCard {...e} path={e.key} settings={{ rename: false }} />
@@ -66,9 +66,10 @@ const RecentFiles = ({ path }) => {
         })}
 
         {controller.content.files.map((e) => {
+          if (e.isTrash) return <></>;
           return (
             <Grid item key={e.prefix}>
-              <FileCard {...e}  settings={{ rename: false }} />
+              <FileCard {...e} settings={{ rename: false }} />
             </Grid>
           )
         })}
