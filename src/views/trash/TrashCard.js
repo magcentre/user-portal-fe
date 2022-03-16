@@ -7,7 +7,6 @@ import Paper from '@mui/material/Paper';
 import { IconButton, Box, Popover, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getIconFromType } from 'utils/object-icon';
-import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import TrashRestore from 'assets/images/icons/trash-restore.svg'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -99,18 +98,6 @@ const TrashCard = (props) => {
               <img src={TrashRestore} alt='trash-icon' />
             </ListItemIcon>
             <ListItemText primary="Restore" />
-          </ListItemButton>
-          <Divider />
-          <ListItemButton
-            onClick={() => {
-              // dispatch(handelObjectDelete(props.hash, props.type));
-              handleClose();
-            }}
-          >
-            <ListItemIcon>
-              <img src={TrashIcon} alt='delete forever' />
-            </ListItemIcon>
-            <ListItemText primary="Delete forever" />
           </ListItemButton>
         </Box>
       </Popover>
