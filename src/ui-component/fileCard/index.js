@@ -13,6 +13,9 @@ import { getIconFromType } from 'utils/object-icon';
 import RemoveButton from './RemoveButton';
 import ShareObject from './ShareButton';
 import SupervisorAccountIcon from '@mui/icons-material/SupervisorAccount';
+import config from 'config';
+import apiConstants from 'constants/api.constants';
+import storageHelper from 'helpers/storage.helper';
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -99,6 +102,9 @@ const ObjectCard = (props) => {
           {props.type ? (<ListItemButton
             onClick={() => {
 
+              let user = storageHelper.getCurrentUser();
+              window.open(`${config.apiEnd}${apiConstants.container.bucket.downloadFile(props.hash)}?token=${user.access.token}`)
+
             }}
           >
             <ListItemIcon>
@@ -110,7 +116,7 @@ const ObjectCard = (props) => {
           <Divider />
           <AddToStarred {...props} handelClose={handleClose} />
           <Divider />
-          {props.settings && !props.settings.rename ? <></> : <RenameObject {...props} handelClose={handleClose} /> }
+          {props.settings && !props.settings.rename ? <></> : <RenameObject {...props} handelClose={handleClose} />}
           <Divider />
           <RemoveButton {...props} handelClose={handleClose} />
         </Box>
