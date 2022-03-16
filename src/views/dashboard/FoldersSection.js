@@ -37,7 +37,7 @@ const FolderGrid = ({ objectList }) => {
       >
        
        {objectList.map((e) => {
-          console.log(e);
+          if(e.isTrash) return <></>;
           return (
             <Grid item key={e.id}>
               <FolderCard {...e} path={e.key} />
