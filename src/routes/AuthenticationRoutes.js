@@ -6,6 +6,7 @@ import MinimalLayout from 'layout/MinimalLayout';
 
 // authentication
 const InitAuthentication = Loadable(lazy(() => import('views/authentication')));
+const Login = Loadable(lazy(() => import('views/login')));
 
 // Subscription
 const Subscription = Loadable(lazy(() => import('views/subscription')));
@@ -17,7 +18,7 @@ const AuthenticationRoutes = {
     children: [
         {
             path: '/login',
-            element: <InitAuthentication />
+            element: <Login />
         },
         {
             path: '/subscription',
