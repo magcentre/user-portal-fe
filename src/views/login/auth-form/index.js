@@ -40,6 +40,8 @@ const validateMobile = (value) => {
 
 const CaptureMobileOrEmail = (props) => {
 
+  const navigate = useNavigate()
+
   const [emailorMobile, setEmailorMobile] = useState();
 
   const [error, setError] = useState();
@@ -147,7 +149,9 @@ const CaptureMobileOrEmail = (props) => {
                 size="large"
                 type="button"
                 variant="outlined"
-
+                onClick={() => {
+                  navigate("/register");
+                }}
               >
                 Create Account
               </LoadingButton>
@@ -193,12 +197,22 @@ const PasswordAuthentication = (props) => {
     }).catch((err) => {
       if (err.response && err.response.status === 400) {
         if (err.response.data && err.response.data.message) {
-          enqueueSnackbar(err.response.data.message, { variant: 'error', });
+          enqueueSnackbar(err.response.data.message, {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+          });
           setErrors({ submit: "Enter valid email and password" });
         }
       } else {
         console.log(err);
-        enqueueSnackbar('Something went wrong!', { variant: 'error' });
+        enqueueSnackbar('Something went wrong!', {
+          variant: 'error', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+        });
       }
       props.setLoading(false);
     })
@@ -370,11 +384,13 @@ const MobileOTPVerification = (props) => {
     props.setLoading(true);
     network.post(authenticate.sendOTP, { mobile })
       .then((e) => {
-        enqueueSnackbar('OTP Sent', { variant: 'success', anchorOrigin: {
-          vertical: 'top',
-          horizontal: 'right',
-      },
-      TransitionComponent: Grow, });
+        enqueueSnackbar('OTP Sent', {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
         props.setLoading(false);
         props.setMobileOrEmail(mobile);
       }).catch((err) => {
@@ -490,7 +506,7 @@ const MobileOTPVerification = (props) => {
 }
 
 
-const RegistrationForm = (props) => {
+const AuthenticationComponent = (props) => {
 
   const [loading, setLoading] = useState(false);
 
@@ -510,12 +526,15 @@ const RegistrationForm = (props) => {
     </>
   )
 
-  return validateEmail(mobileOrEmail) ? <PasswordAuthentication loading={loading} setLoading={setLoading} setMobileOrEmail={setMobileOrEmail} mobileOrEmail={mobileOrEmail} /> : (
+  return validateEmail(mobileOrEmail)
+    ?
+    <>
+      <PasswordAuthentication loading={loading} setLoading={setLoading} setMobileOrEmail={setMobileOrEmail} mobileOrEmail={mobileOrEmail} />
+    </> :
     <>
       <MobileOTPVerification loading={loading} setLoading={setLoading} setMobileOrEmail={setMobileOrEmail} mobileOrEmail={mobileOrEmail} />
     </>
-  )
 
 }
 
-export default RegistrationForm;
+export default AuthenticationComponent;

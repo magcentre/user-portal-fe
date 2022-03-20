@@ -30,6 +30,7 @@ module.exports = {
     sendOTP: '/identity/user/sendOTP',
     verifyOTP: '/identity/user/verifyOTP',
     authenticate: '/identity/user/authenticate',
+    updateProfile: '/identity/user/profile',
   },
   trash: {
     getTrash: '/container/trash/',

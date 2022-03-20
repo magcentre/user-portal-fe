@@ -5,7 +5,7 @@ import Loadable from 'ui-component/Loadable';
 import MinimalLayout from 'layout/MinimalLayout';
 
 // authentication
-const InitAuthentication = Loadable(lazy(() => import('views/authentication')));
+const Register = Loadable(lazy(() => import('views/registration')));
 const Login = Loadable(lazy(() => import('views/login')));
 
 // Subscription
@@ -26,7 +26,11 @@ const AuthenticationRoutes = {
         },
         {
             path: '/register',
-            element: <InitAuthentication />
+            element: <Register />
+        },
+        {
+            path: '/start',
+            element: <Register />
         }
     ]
 };

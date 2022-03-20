@@ -3,9 +3,8 @@ import { useTheme } from '@mui/material/styles';
 import { Grid, Stack, Typography, useMediaQuery } from '@mui/material';
 
 // project imports
-import RegistrationForm from './auth-form';
+import AuthenticationComponent from './auth-form';
 
-import AuthWrapper1 from './LoginWrapper';
 import AuthCardWrapper from './AuthCardWrapper';
 import SideBarWrapper from './SideBarWrapper';
 
@@ -54,7 +53,7 @@ const Login = () => {
                     </Grid>
                     
                     <Grid item xs={12}>
-                      <RegistrationForm />
+                      <AuthenticationComponent />
                     </Grid>
                   </Grid>
                 </AuthCardWrapper>

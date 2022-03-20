@@ -1,24 +1,20 @@
 import { useState } from 'react';
-
-// material-ui
 import { useTheme } from '@mui/material/styles';
 import {
-  Box,
+  CircularProgress,
   FormControl,
-  FormHelperText,
-  IconButton,
   InputAdornment,
   InputLabel,
+  Typography,
   OutlinedInput,
-  Stack,
-  Typography
+  IconButton,
+  Link,
+  Box,
+  FormHelperText,
+  Grid
 } from '@mui/material';
 
-
-import * as Yup from 'yup';
-import { Formik } from 'formik';
-import { useNavigate } from "react-router-dom"
-
+import Grow from '@material-ui/core/Grow';
 
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
@@ -26,19 +22,297 @@ import Visibility from '@mui/icons-material/Visibility';
 
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 
-import netwotk from 'helpers/network.helper';
+import { useNavigate } from "react-router-dom"
 
 import { LoadingButton } from '@mui/lab';
+
+import * as Yup from 'yup';
+import { Formik } from 'formik';
+
 import { useSnackbar } from 'notistack';
+import { SET_CURRRENT_USER } from 'store/types/user.types';
+import PhoneAndroid from '@mui/icons-material/PhoneAndroid';
+import network from 'helpers/network.helper';
+import apiConstants, { authenticate } from 'constants/api.constants';
+import { useDispatch } from 'react-redux';
+import storageHelper from 'helpers/storage.helper';
 
 
-const RegistrationForm = ({ props, ...others }) => {
+const MobileCapture = (props) => {
 
+  const [mobile, setMobile] = useState();
+
+  const [error, setError] = useState();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const sendOTP = async (e) => {
+    e.preventDefault();
+    var format = /^[6-9]\d{9}$/;
+    if (mobile && mobile.length === 10 && format.test(mobile)) {
+      props.setLoading(true);
+      network.post(authenticate.sendOTP, { mobile, })
+        .then((e) => {
+          enqueueSnackbar('OTP Sent', {
+            variant: 'success', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+          props.setLoading(false);
+          props.setMobile(mobile);
+        }).catch((err) => {
+          if (err.response && err.response.status === 400) {
+            if (err.response.data && err.response.data.info) {
+              props.setLoading(false);
+              return enqueueSnackbar(err.response.data.info, {
+                variant: 'error', anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'right',
+                },
+                TransitionComponent: Grow,
+              });
+            }
+          } else {
+            enqueueSnackbar('Something went wrong!', {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow,
+            });
+          }
+          props.setLoading(false);
+        })
+    } else {
+      setError("Enter valid mobile number");
+    }
+  }
+
+  return (
+    <>
+      <Typography variant="h4" gutterBottom sx={{ ml: 2 }} >
+        Enter your mobile number
+      </Typography>
+      <Typography variant="caption" display="block" gutterBottom sx={{ ml: 2 }} >
+        We need your mobile number to send One Time Password(OTP) to verify your identity
+      </Typography>
+      <br />
+      <form onSubmit={sendOTP}>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="mobile-to-proceed">Mobile</InputLabel>
+          <OutlinedInput
+            id="mobile-to-proceed"
+            onChange={(e) => {
+              setMobile(e.target.value);
+              setError();
+            }}
+            fullWidth
+            startAdornment={<InputAdornment position="start"><PhoneAndroid /></InputAdornment>}
+            label="Mobile"
+          />
+          {error && (
+            <FormHelperText error id="mobile-number-error">
+              {error}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <br />
+        <br />
+        <center>
+          <AnimateButton>
+            <LoadingButton
+              loading={props.loading}
+              loadingPosition="end"
+              onClick={sendOTP}
+              disableElevation
+              size="large"
+              type="submit"
+              variant="contained"
+              sx={{
+                color: 'white'
+              }}
+            >
+              Proceed
+            </LoadingButton>
+          </AnimateButton>
+        </center>
+      </form>
+    </>
+  );
+};
+
+
+
+const MobileOTPVerification = (props) => {
+
+  const mobile = props.mobile;
+
+  const dispatch = useDispatch();
+
+  const [otp, setOtp] = useState();
+
+  const [error, setError] = useState();
+
+  const navigate = useNavigate()
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const verifyOTP = async (e) => {
+    e.preventDefault();
+    if (otp && otp.length === 6) {
+      props.setLoading(true);
+      network.post(authenticate.verifyOTP, { mobile, otp })
+        .then((e) => {
+          props.setLoading(false);
+          dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
+          storageHelper.setItem('currentUser', JSON.stringify(e.data.data));
+          if (e.data.data.isBucketCreated === false) {
+            props.setMobileVerified(true);
+            return;
+          }
+          navigate("/dashboard");
+        }).catch((err) => {
+          if (err.response && err.response.status === 400) {
+            if (err.response.data && err.response.data.info) {
+              enqueueSnackbar(err.response.data.info, {
+                variant: 'error', anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'right',
+                },
+                TransitionComponent: Grow,
+              });
+            }
+          } else {
+            console.log(err);
+            enqueueSnackbar('Something went wrong!', {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow,
+            });
+          }
+          props.setLoading(false);
+        })
+
+    } else {
+      setError("Enter valid OTP");
+    }
+  }
+
+  const sendOTP = async () => {
+    props.setLoading(true);
+    network.post(authenticate.sendOTP, { mobile, })
+      .then((e) => {
+        enqueueSnackbar('OTP Sent', {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
+        props.setLoading(false);
+        props.setMobile(mobile);
+      }).catch((err) => {
+        if (err.response && err.response.status === 400) {
+          if (err.response.data && err.response.data.info) {
+            return enqueueSnackbar(err.response.data.info, {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow,
+            });
+          }
+        } else {
+          enqueueSnackbar('Something went wrong!', {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+        }
+        props.setLoading(false);
+      })
+  }
+
+  const changeNumber = () => {
+    props.setMobile();
+  }
+
+  return (
+    <>
+      <Typography variant="h4" gutterBottom sx={{ ml: 2 }} >
+        OTP Sent
+      </Typography>
+      <Typography variant="caption" display="block" gutterBottom sx={{ ml: 2 }} >
+        Please enter 6 digit otp received on your {props.mobile} mobile number <br />
+        <Link href="#" onClick={changeNumber} color="primary">
+
+        </Link>
+      </Typography>
+      <br />
+      <form onSubmit={verifyOTP}>
+        <FormControl fullWidth sx={{ m: 1 }}>
+          <InputLabel htmlFor="mobile-to-proceed">OTP</InputLabel>
+          <OutlinedInput
+            id="mobile-to-proceed"
+            onChange={(e) => {
+              setOtp(e.target.value);
+              setError();
+            }}
+            fullWidth
+            startAdornment={<InputAdornment position="start"><PhoneAndroid /></InputAdornment>}
+            label="Mobile"
+          />
+          {error && (
+            <FormHelperText error id="otp-verify-error-messgae">
+              {error}
+            </FormHelperText>
+          )}
+        </FormControl>
+        <br />
+        <br />
+        <center>
+          <AnimateButton>
+            <LoadingButton
+              loading={props.loading}
+              loadingPosition="end"
+              onClick={verifyOTP}
+              disableElevation
+              size="large"
+              type="submit"
+              variant="contained"
+              sx={{
+                color: 'white'
+              }}
+            >
+              Verify
+            </LoadingButton>
+          </AnimateButton>
+          <br />
+          <br />
+          <Typography variant="caption" component="span" display="block" gutterBottom sx={{ ml: 2 }} >
+            Didn't recive code?
+            <Link href="#" onClick={sendOTP} color="primary" component="span">
+              Request again
+            </Link>
+          </Typography>
+        </center>
+
+      </form>
+    </>
+  );
+}
+
+
+const BasicDetails = (props) => {
   const theme = useTheme();
 
   let navigate = useNavigate()
-
-  const [loading, setLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -59,18 +333,23 @@ const RegistrationForm = ({ props, ...others }) => {
     event.preventDefault();
   };
 
-  const perfromLogin = async (values, { setErrors, setStatus, setSubmitting }) => {
+  const updateProfile = async (values, { setErrors, setStatus, setSubmitting }) => {
 
 
     if (values.password === values.retypepassword) {
-      setLoading(true);
-      console.log(values);
-      netwotk.post('/identity/user/create', values).then((e) => {
-        enqueueSnackbar('Your account is created successfully!');
+      props.setLoading(true);
+      network.patch(apiConstants.authenticate.updateProfile, { avatar: "", ...values }).then((e) => {
+        enqueueSnackbar('Basic Details updated!', {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
         navigate('/subscription');
       }).catch((e) => {
         setStatus({ success: false });
-        setLoading(false);
+        props.setLoading(false);
         setErrors({ submit: "Account with same email already exists" });
       })
     } else {
@@ -88,48 +367,58 @@ const RegistrationForm = ({ props, ...others }) => {
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
           password: Yup.string().max(255).required('Password is required')
         })}
-        onSubmit={perfromLogin}
+        onSubmit={updateProfile}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
-          <form noValidate onSubmit={handleSubmit} {...others}>
+          <form noValidate onSubmit={handleSubmit}>
+            <Grid container spacing={1}
+              direction="row"
+              justifyContent="space-around"
+              alignItems="center">
+              <Grid item xs={12} lg={6} md={12}>
+                <FormControl fullWidth error={Boolean(touched.firstName && errors.firstName)} sx={{ ...theme.typography.customInput }}>
+                  <InputLabel htmlFor="fname-register">First Name</InputLabel>
+                  <OutlinedInput
+                    id="fname-register"
+                    type="text"
+                    value={values.firstName}
+                    name="firstName"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    label="First Name"
+                    inputProps={{}}
+                  />
+                  {touched.firstName && errors.firstName && (
+                    <FormHelperText error id="text-fname-register">
+                      {errors.email}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+              <Grid item xs={12} lg={6} md={12}>
 
-            <FormControl fullWidth error={Boolean(touched.firstName && errors.firstName)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="fname-register">First Name</InputLabel>
-              <OutlinedInput
-                id="fname-register"
-                type="text"
-                value={values.firstName}
-                name="firstName"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                label="First Name"
-                inputProps={{}}
-              />
-              {touched.firstName && errors.firstName && (
-                <FormHelperText error id="text-fname-register">
-                  {errors.email}
-                </FormHelperText>
-              )}
-            </FormControl>
+                <FormControl fullWidth error={Boolean(touched.lastName && errors.lastName)} sx={{ ...theme.typography.customInput }}>
+                  <InputLabel htmlFor="lname-register">Last Name</InputLabel>
+                  <OutlinedInput
+                    id="lname-register"
+                    type="text"
+                    value={values.lastName}
+                    name="lastName"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    label="Last Name"
+                    inputProps={{}}
+                  />
+                  {touched.lastName && errors.lastName && (
+                    <FormHelperText error id="text-lname-register">
+                      {errors.email}
+                    </FormHelperText>
+                  )}
+                </FormControl>
+              </Grid>
+            </Grid>
 
-            <FormControl fullWidth error={Boolean(touched.lastName && errors.lastName)} sx={{ ...theme.typography.customInput }}>
-              <InputLabel htmlFor="lname-register">Last Name</InputLabel>
-              <OutlinedInput
-                id="lname-register"
-                type="text"
-                value={values.lastName}
-                name="lastName"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                label="Last Name"
-                inputProps={{}}
-              />
-              {touched.lastName && errors.lastName && (
-                <FormHelperText error id="text-lname-register">
-                  {errors.email}
-                </FormHelperText>
-              )}
-            </FormControl>
+
 
             <FormControl fullWidth error={Boolean(touched.email && errors.email)} sx={{ ...theme.typography.customInput }}>
               <InputLabel htmlFor="email-register">Email Address</InputLabel>
@@ -215,12 +504,7 @@ const RegistrationForm = ({ props, ...others }) => {
                 inputProps={{}}
               />
             </FormControl>
-            <Stack direction="row" alignItems="center" justifyContent="space-between" spacing={1}>
-              <div></div>
-              <Typography variant="subtitle1" color="secondary" sx={{ textDecoration: 'none', cursor: 'pointer' }}>
-                Forgot Password?
-              </Typography>
-            </Stack>
+
             {errors.submit && (
               <Box sx={{ mt: 3 }}>
                 <FormHelperText error>{errors.submit}</FormHelperText>
@@ -228,29 +512,96 @@ const RegistrationForm = ({ props, ...others }) => {
             )}
 
             <Box sx={{ mt: 2, color: 'white' }}>
-              <AnimateButton>
-                <LoadingButton
-                  loading={loading}
-                  loadingPosition="end"
-                  disableElevation
-                  disabled={isSubmitting}
-                  fullWidth
-                  size="large"
-                  type="submit"
-                  variant="contained"
-                  sx={{
-                    color: 'white'
-                  }}
-                >
-                  Sign up
-                </LoadingButton>
-              </AnimateButton>
+              <Grid
+                container
+                direction="row"
+                justifyContent="space-between"
+                alignItems="center"
+              >
+                <Grid item>
+                  <AnimateButton>
+                    <LoadingButton
+
+                      loadingPosition="end"
+                      disableElevation
+                      disabled={isSubmitting}
+                      fullWidth
+                      size="medium"
+                      type="button"
+                      variant="outlined"
+                      onClick={() => {
+                        navigate('/subscription');
+                      }}
+                    >
+                      Skip
+                    </LoadingButton>
+                  </AnimateButton>
+                </Grid>
+                <Grid item>
+                  <AnimateButton>
+                    <LoadingButton
+
+                      loadingPosition="end"
+                      disableElevation
+                      disabled={isSubmitting}
+                      fullWidth
+                      size="medium"
+                      type="submit"
+                      variant="contained"
+                      sx={{
+                        color: 'white'
+                      }}
+                    >
+                      Next
+                    </LoadingButton>
+                  </AnimateButton>
+                </Grid>
+              </Grid>
+
             </Box>
           </form>
         )}
       </Formik>
     </>
   );
-};
+}
+
+
+
+const RegistrationForm = (props) => {
+
+  const [loading, setLoading] = useState(false);
+
+  const [mobile, setMobile] = useState();
+
+  const [mobileVerified, setMobileVerified] = useState(false);
+
+  if (loading) return (
+    <>
+      <center style={{ margin: 20 }}>
+        <CircularProgress size={70} />
+      </center>
+    </>
+  );
+
+  if (!mobile) return (
+    <>
+      <MobileCapture loading={loading} setLoading={setLoading} setMobile={setMobile} mobile={mobile} />
+    </>
+  )
+
+  if (!mobileVerified) return (
+    <>
+      <MobileOTPVerification setMobileVerified={setMobileVerified} mobile={mobile} setLoading={setLoading} setMobile={setMobile} />
+    </>
+  )
+
+  return (
+    <>
+      <BasicDetails setMobileVerified={setMobileVerified} mobile={mobile} setLoading={setLoading} setMobile={setMobile} />
+    </>
+  )
+
+}
 
 export default RegistrationForm;
