@@ -21,7 +21,7 @@ const App = () => {
     
     return (
         <StyledEngineProvider injectFirst>
-            <SnackbarProvider>
+            <SnackbarProvider >
                 <ThemeProvider theme={themes(customization)}>
                     <CssBaseline />
                     <NavigationScroll>

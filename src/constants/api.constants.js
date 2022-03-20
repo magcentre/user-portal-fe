@@ -14,7 +14,6 @@ module.exports = {
     sharedWithMe: '/container/share/tome',
     sharedByMe: '/container/share/byme',
     browser: '/container/browse/',
-
     bucket: {
       folderCreate: '/container/bucket/folder/create',
       folderRename: '/container/bucket/folder/rename',
@@ -29,7 +28,9 @@ module.exports = {
   },
   authenticate: {
     sendOTP: '/identity/user/sendOTP',
-    verifyOTP: '/identity/user/verifyOTP'
+    verifyOTP: '/identity/user/verifyOTP',
+    authenticate: '/identity/user/authenticate',
+    updateProfile: '/identity/user/profile',
   },
   trash: {
     getTrash: '/container/trash/',
