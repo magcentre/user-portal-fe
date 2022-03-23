@@ -69,7 +69,7 @@ const RenameObject = (props) => {
             TransitionComponent: Grow,
           });
         })
-      
+
       return true;
     } else {
       setError("Enter valid name");
@@ -96,9 +96,9 @@ const RenameObject = (props) => {
       </ListItemButton>
       <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
         {loading ? <LinearProgress style={{ height: 5 }} /> : <></>}
-        
+
         <DialogTitle>
-          
+
           <Typography variant="h3" gutterBottom component="div">Rename</Typography>
         </DialogTitle>
         <DialogContent>
