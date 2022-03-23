@@ -314,7 +314,11 @@ const BasicDetails = (props) => {
 
   let navigate = useNavigate()
 
+  const dispatch = useDispatch();
+
   const [showPassword, setShowPassword] = useState(false);
+
+  const [loading, setLoading] = useState(false);
 
   const [showVerifyPassword, setShowVerifyPassword] = useState(false);
 
@@ -334,27 +338,32 @@ const BasicDetails = (props) => {
   };
 
   const updateProfile = async (values, { setErrors, setStatus, setSubmitting }) => {
-
-
-    if (values.password === values.retypepassword) {
-      props.setLoading(true);
-      network.patch(apiConstants.authenticate.updateProfile, { avatar: "", ...values }).then((e) => {
-        enqueueSnackbar('Basic Details updated!', {
-          variant: 'success', anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-          },
-          TransitionComponent: Grow,
-        });
-        navigate('/subscription');
-      }).catch((e) => {
+    setSubmitting(true);
+    setLoading(true);
+    network.patch(apiConstants.authenticate.updateProfile, { avatar: "", ...values }).then((e) => {
+      setLoading(false);
+      setSubmitting(false);
+      var user = storageHelper.getCurrentUser();
+      user = { ...user, ...e.data };
+      dispatch({ type: SET_CURRRENT_USER, user: e.data.data });
+      storageHelper.setItem('currentUser', JSON.stringify(user));
+      enqueueSnackbar('Basic Details updated!', {
+        variant: 'success', anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+        TransitionComponent: Grow,
+      });
+      navigate('/subscription');
+    }).catch((e) => {
+      
+      setLoading(false);
+      if (e.response && e.response.data) {
+        setErrors({ submit: e.response.data.info.message });
         setStatus({ success: false });
-        props.setLoading(false);
-        setErrors({ submit: "Account with same email already exists" });
-      })
-    } else {
-      setErrors({ submit: "Password mis-match please check password and verify password" });
-    }
+        setSubmitting(false);
+      }
+    })
   }
 
   return (
@@ -365,7 +374,19 @@ const BasicDetails = (props) => {
         }}
         validationSchema={Yup.object().shape({
           email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
-          password: Yup.string().max(255).required('Password is required')
+          firstName: Yup.string().required('First name is required'),
+          lastName: Yup.string().required('Last name is required'),
+          password: Yup
+            .string()
+            .required("Please enter your password")
+            .matches(
+              /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
+              "Password must contain at least 8 characters, one letter and one number"
+            ),
+          retypepassword: Yup
+            .string()
+            .required("Please confirm your password")
+            .oneOf([Yup.ref('password'), null], "Passwords don't match.")
         })}
         onSubmit={updateProfile}
       >
@@ -384,13 +405,14 @@ const BasicDetails = (props) => {
                     value={values.firstName}
                     name="firstName"
                     onBlur={handleBlur}
+                    disabled={loading}
                     onChange={handleChange}
                     label="First Name"
                     inputProps={{}}
                   />
                   {touched.firstName && errors.firstName && (
                     <FormHelperText error id="text-fname-register">
-                      {errors.email}
+                      {errors.firstName}
                     </FormHelperText>
                   )}
                 </FormControl>
@@ -404,6 +426,7 @@ const BasicDetails = (props) => {
                     type="text"
                     value={values.lastName}
                     name="lastName"
+                    disabled={loading}
                     onBlur={handleBlur}
                     onChange={handleChange}
                     label="Last Name"
@@ -411,7 +434,7 @@ const BasicDetails = (props) => {
                   />
                   {touched.lastName && errors.lastName && (
                     <FormHelperText error id="text-lname-register">
-                      {errors.email}
+                      {errors.lastName}
                     </FormHelperText>
                   )}
                 </FormControl>
@@ -425,6 +448,7 @@ const BasicDetails = (props) => {
               <OutlinedInput
                 id="email-register"
                 type="email"
+                disabled={loading}
                 value={values.email}
                 name="email"
                 onBlur={handleBlur}
@@ -450,6 +474,7 @@ const BasicDetails = (props) => {
                 type={showPassword ? 'text' : 'password'}
                 value={values.password}
                 name="password"
+                disabled={loading}
                 onBlur={handleBlur}
                 onChange={handleChange}
                 endAdornment={
@@ -486,6 +511,7 @@ const BasicDetails = (props) => {
                 value={values.retyped}
                 name="retypepassword"
                 onBlur={handleBlur}
+                disabled={loading}
                 onChange={handleChange}
                 endAdornment={
                   <InputAdornment position="end">
@@ -503,6 +529,11 @@ const BasicDetails = (props) => {
                 label="Password"
                 inputProps={{}}
               />
+              {touched.retypepassword && errors.retypepassword && (
+                <FormHelperText error id="standard-weight-helper-text-password-login">
+                  {errors.retypepassword}
+                </FormHelperText>
+              )}
             </FormControl>
 
             {errors.submit && (
@@ -521,7 +552,7 @@ const BasicDetails = (props) => {
                 <Grid item>
                   <AnimateButton>
                     <LoadingButton
-
+                      loading={loading}
                       loadingPosition="end"
                       disableElevation
                       disabled={isSubmitting}
@@ -540,7 +571,7 @@ const BasicDetails = (props) => {
                 <Grid item>
                   <AnimateButton>
                     <LoadingButton
-
+                      loading={loading}
                       loadingPosition="end"
                       disableElevation
                       disabled={isSubmitting}
