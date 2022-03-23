@@ -11,11 +11,12 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useDispatch, useSelector } from "react-redux";
-
+import Grow from '@material-ui/core/Grow';
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
 import { fileRename } from 'store/actions/browser.action';
 import Box from '@mui/system/Box';
+import { useSnackbar } from 'notistack';
 
 
 const RenameObject = (props) => {
@@ -26,7 +27,9 @@ const RenameObject = (props) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const loading = false;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = React.useState(false);
 
   const [name, setName] = React.useState(props.name);
 
@@ -43,8 +46,29 @@ const RenameObject = (props) => {
   const updateName = () => {
     var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
     if (name && name.length > 0 && name !== props.name && !format.test(name)) {
-      dispatch(fileRename(props.hash, name + props.extension, controller.pathKey));
-      handleClose();
+      setLoading(true);
+      console.log('current hash', props.hash);
+      dispatch(fileRename(props.hash, name.replace(props.extension, '') + props.extension, controller.pathKey)).then((e) => {
+        setLoading(false);
+        enqueueSnackbar(`"${props.name}" renamed to "${name}"!`, {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
+        handleClose();
+      }).catch((err) => {
+        setLoading(false);
+        enqueueSnackbar('Failed to rename folder!', {
+          variant: 'error', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
+      })
+      
     } else {
       setError("Enter valid name");
     }
@@ -68,7 +92,7 @@ const RenameObject = (props) => {
         <ListItemText primary="Rename" />
       </ListItemButton>
       <Dialog open={open} onClose={handleClose} maxWidth='xs'>
-        {loading ?? <LinearProgress />}
+        {loading ? <LinearProgress style={{ height: 5 }} /> : <></>}
         <DialogTitle>
           <Typography variant="h3" gutterBottom component="div">Rename</Typography>
         </DialogTitle>
