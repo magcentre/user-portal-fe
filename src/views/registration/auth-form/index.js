@@ -158,7 +158,6 @@ const MobileOTPVerification = (props) => {
   const navigate = useNavigate()
 
   const { enqueueSnackbar } = useSnackbar();
-
   const verifyOTP = async (e) => {
     e.preventDefault();
     if (otp && otp.length === 6) {
@@ -307,8 +306,6 @@ const MobileOTPVerification = (props) => {
     </>
   );
 }
-
-
 const BasicDetails = (props) => {
   const theme = useTheme();
 
@@ -434,7 +431,7 @@ const BasicDetails = (props) => {
                   />
                   {touched.lastName && errors.lastName && (
                     <FormHelperText error id="text-lname-register">
-                      {errors.lastName}
+                    {errors.lastName}
                     </FormHelperText>
                   )}
                 </FormControl>
