@@ -2,7 +2,8 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { updateFolder } from 'store/actions/browser.action'
 import { useDispatch, useSelector } from "react-redux";
 import StarredIcon from 'assets/images/icons/add-to-starred.svg'
-
+import { useSnackbar } from 'notistack';
+import Grow from '@material-ui/core/Grow';
 
 const AddToStarred = (props) => {
 
@@ -10,12 +11,34 @@ const AddToStarred = (props) => {
 
   const dispatch = useDispatch();
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const updateFolderStarred = () => {
+    props.handelClose();
+    dispatch(updateFolder(props.path, { isStared: !props.isStared } ))
+      .then(() => {
+        enqueueSnackbar(!props.isStared ? 'Folder added to Starred' : 'Folder removed from Starred', {
+          variant: 'success', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        })
+      })
+      .catch(() => {
+        enqueueSnackbar('Something went wrong!', {
+          variant: 'error', anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+          },
+          TransitionComponent: Grow,
+        });
+      })
+  }
+
   return (
     <ListItemButton
-      onClick={() => {
-        props.handelClose();
-        dispatch(updateFolder(props.path, { isStared: !props.isStared } ));
-      }}
+      onClick={updateFolderStarred}
     >
       <ListItemIcon>
         <img src={StarredIcon} alt="starred-icon" />

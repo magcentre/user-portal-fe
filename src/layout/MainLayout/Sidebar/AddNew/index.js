@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Typography, Fab, Grid } from '@mui/material';
+import { Avatar, Typography, Fab, Grid, LinearProgress } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -20,6 +20,8 @@ const AddNewButton = () => {
   const theme = useTheme();
 
   const [open, setOpen] = React.useState(false);
+
+  const loading = false;
 
   const dispatch = useDispatch();
 
@@ -80,6 +82,7 @@ const AddNewButton = () => {
         </Typography>
       </Fab>
       <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
+        {loading ? <LinearProgress style={{ height: 5 }} /> : <></>}
         <DialogTitle>
           <Typography variant="h4" gutterBottom component="center">
             {!folder ? "Create new" : "New folder"}
@@ -90,6 +93,7 @@ const AddNewButton = () => {
             autoFocus
             margin="dense"
             id="name"
+            disabled={loading}
             error={error}
             helperText={error}
             onChange={handelOnChange}
@@ -135,10 +139,10 @@ const AddNewButton = () => {
           </Grid> : <></>}
         </DialogContent>
         {folder ? <DialogActions style={{ marginLeft: "32px", marginRight: "32px" }}>
-          <Button fullWidth onClick={updateName} variant='contained' style={{ color: 'white' }} size="small">
+          <Button disabled={loading} fullWidth onClick={updateName} variant='contained' style={{ color: 'white' }} size="small">
             Create
           </Button>
-          <Button fullWidth onClick={handleClose}>Cancel</Button>
+          <Button disabled={loading} fullWidth onClick={handleClose}>Cancel</Button>
         </DialogActions> : <></>}
 
       </Dialog>

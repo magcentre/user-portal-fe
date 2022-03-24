@@ -9,7 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-
+import Grow from '@material-ui/core/Grow';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -18,6 +18,7 @@ import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
 import { folderRename } from 'store/actions/browser.action';
 import Box from '@mui/system/Box';
+import { useSnackbar } from 'notistack';
 
 const RenameObject = (props) => {
 
@@ -27,7 +28,9 @@ const RenameObject = (props) => {
 
   const [open, setOpen] = React.useState(false);
 
-  const loading = false;
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [loading, setLoading] = React.useState(false);
 
   const [name, setName] = React.useState(props.name);
 
@@ -42,10 +45,34 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
+    var format = /[+\-=[\]{};':"\\|<>/?]+/;
     if (name && name.length > 0 && !format.test(name)) {
-      dispatch(folderRename(props.path, name + '/', controller.pathKey));
-      handleClose();
+      if(name === props.prefix.replaceAll("/", "")) {
+        return setError('Name should be different');
+      }
+      setLoading(true);
+      dispatch(folderRename(props.path, name + '/', controller.pathKey))
+        .then((e) => {
+          setLoading(false);
+          enqueueSnackbar(`"${props.prefix.replaceAll("/", "")}" renamed to "${name}"`, {
+            variant: 'success', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+          handleClose();
+        }).catch((err) => {
+          setLoading(false);
+          enqueueSnackbar('Failed to rename folder', {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+        })
+
       return true;
     } else {
       setError("Enter valid name");
@@ -71,26 +98,28 @@ const RenameObject = (props) => {
         <ListItemText primary="Rename" />
       </ListItemButton>
       <Dialog open={open} onClose={handleClose} maxWidth={"xs"}>
-        {loading ?? <LinearProgress />}
+        {loading ? <LinearProgress style={{ height: 5 }} /> : <></>}
+
         <DialogTitle>
+
           <Typography variant="h3" gutterBottom component="div">Rename</Typography>
         </DialogTitle>
         <DialogContent>
           <Box sx={{ width: 250 }}>
-          <TextField
-            autoFocus
-            defaultValue={props.prefix.replaceAll("/", "")}
-            margin="dense"
-            id="name"
-            label="Name"
-            error={error}
-            helperText={error}
-            disabled={loading}
-            onChange={handelOnChange}
-            type="email"
-            fullWidth
-            variant="filled"
-          />
+            <TextField
+              autoFocus
+              defaultValue={props.prefix.replaceAll("/", "")}
+              margin="dense"
+              id="name"
+              label="Name"
+              error={error}
+              helperText={error}
+              disabled={loading}
+              onChange={handelOnChange}
+              type="email"
+              fullWidth
+              variant="filled"
+            />
           </Box>
         </DialogContent>
         <DialogActions>
