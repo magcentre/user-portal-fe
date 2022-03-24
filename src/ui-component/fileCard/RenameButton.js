@@ -44,13 +44,13 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
+    var format = /[+\-=[\]{};':"\\|<>/?]+/;
     if (name && name.length > 0 && name !== props.name && !format.test(name)) {
       setLoading(true);
       console.log('current hash', props.hash);
       dispatch(fileRename(props.hash, name.replace(props.extension, '') + props.extension, controller.pathKey)).then((e) => {
         setLoading(false);
-        enqueueSnackbar(`"${props.name}" renamed to "${name}"!`, {
+        enqueueSnackbar(`"${props.name}" renamed to "${name}"`, {
           variant: 'success', anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
@@ -60,7 +60,7 @@ const RenameObject = (props) => {
         handleClose();
       }).catch((err) => {
         setLoading(false);
-        enqueueSnackbar('Failed to rename folder!', {
+        enqueueSnackbar('Failed to rename folder', {
           variant: 'error', anchorOrigin: {
             vertical: 'top',
             horizontal: 'right',
@@ -100,7 +100,7 @@ const RenameObject = (props) => {
           <Box sx={{ width: 250 }}>
             <TextField
               autoFocus
-              defaultValue={props.name}
+              defaultValue={props.name.replace(props.extension, '')}
               margin="dense"
               id="name"
               label="Name"

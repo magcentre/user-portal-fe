@@ -45,13 +45,16 @@ const RenameObject = (props) => {
   };
 
   const updateName = () => {
-    var format = /[!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]+/;
+    var format = /[+\-=[\]{};':"\\|<>/?]+/;
     if (name && name.length > 0 && !format.test(name)) {
+      if(name === props.prefix.replaceAll("/", "")) {
+        return setError('Name should be different');
+      }
       setLoading(true);
       dispatch(folderRename(props.path, name + '/', controller.pathKey))
         .then((e) => {
           setLoading(false);
-          enqueueSnackbar(`"${props.prefix.replaceAll("/", "")}" renamed to "${name}"!`, {
+          enqueueSnackbar(`"${props.prefix.replaceAll("/", "")}" renamed to "${name}"`, {
             variant: 'success', anchorOrigin: {
               vertical: 'top',
               horizontal: 'right',
@@ -61,7 +64,7 @@ const RenameObject = (props) => {
           handleClose();
         }).catch((err) => {
           setLoading(false);
-          enqueueSnackbar('Failed to rename folder!', {
+          enqueueSnackbar('Failed to rename folder', {
             variant: 'error', anchorOrigin: {
               vertical: 'top',
               horizontal: 'right',
