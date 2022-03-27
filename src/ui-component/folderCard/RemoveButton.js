@@ -2,23 +2,39 @@ import { ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { updateFolder } from 'store/actions/browser.action';
 import { useDispatch, useSelector } from "react-redux";
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
-
+import { useSnackbar } from 'notistack';
+import Grow from '@material-ui/core/Grow';
 
 const RemoveButton = (props) => {
 
   useSelector((state) => state.objects);
 
+
+  const { enqueueSnackbar } = useSnackbar();
+
   const dispatch = useDispatch();
 
   const deleteObject = () => {
-    dispatch(updateFolder(props.path, { isTrash: true }));
+    dispatch(updateFolder(props.path, { isTrash: true })).then(() => {
+      enqueueSnackbar(`"${props.prefix.replaceAll("/", "")}" moved to trash`, {
+        variant: 'success', anchorOrigin: {
+          vertical: 'top',
+          horizontal: 'right',
+        },
+        TransitionComponent: Grow,
+      });
+    })
     props.handelClose();
   }
 
   return (
     <>
       <ListItemButton
-        onClick={deleteObject}
+        onClick={() => {
+          if(window.confirm("Are you sure want to move folder to trash?")) {
+            deleteObject();
+          }
+        }}
       >
         <ListItemIcon>
           <img src={TrashIcon} alt="trash-icon" />

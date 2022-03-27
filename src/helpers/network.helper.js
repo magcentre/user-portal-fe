@@ -26,7 +26,7 @@ networkInstance.interceptors.response.use(
     response => response,
     error => {
         if (error.response && error.response.status === 401) {
-            updateTokens().then((e) => {
+            updateTokens().then(() => {
                 return networkInstance.request(error.config);
             });
         }
@@ -39,8 +39,7 @@ const updateTokens = () => {
     return networkInstance.post(apiConstants.authenticate.updateTokens, {
         "refresh": currentSession.refresh.token
     }).then((refreshResponse) => {
-        console.log(refreshResponse.data);
-        currentSession = { ...refreshResponse.data.data };
+        currentSession = { ...currentSession, ...refreshResponse.data.data };
         storageHelper.setItem('currentUser', JSON.stringify(currentSession));
     })
 }
