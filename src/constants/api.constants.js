@@ -31,6 +31,7 @@ module.exports = {
     verifyOTP: '/identity/user/verifyOTP',
     authenticate: '/identity/user/authenticate',
     updateProfile: '/identity/user/profile',
+    updateTokens: '/identity/user/refresh-token',
   },
   trash: {
     getTrash: '/container/trash/',

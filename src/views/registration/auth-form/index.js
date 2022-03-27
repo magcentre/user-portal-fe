@@ -612,6 +612,14 @@ const RegistrationForm = (props) => {
     </>
   );
 
+  if(storageHelper.getCurrentUser()) {
+    return (
+      <>
+        <BasicDetails setMobileVerified={setMobileVerified} mobile={mobile} setLoading={setLoading} setMobile={setMobile} />
+      </>
+    )
+  }
+
   if (!mobile) return (
     <>
       <MobileCapture loading={loading} setLoading={setLoading} setMobile={setMobile} mobile={mobile} />
