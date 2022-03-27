@@ -1,5 +1,7 @@
 import axios from 'axios';
+import apiConstants from 'constants/api.constants';
 import config from '../config'
+import storageHelper from './storage.helper';
 const networkInstance = axios.create({
     baseURL: config.apiEnd,
     responseType: "json",
@@ -11,7 +13,7 @@ networkInstance.interceptors.request.use(
         if (currentuser) {
             currentuser = JSON.parse(currentuser);
             request.headers = {
-                
+
                 "Authorization": `Bearer ${currentuser.access.token}`,
             }
         }
@@ -19,6 +21,29 @@ networkInstance.interceptors.request.use(
         return request;
     },
 )
+
+networkInstance.interceptors.response.use(
+    response => response,
+    error => {
+        if (error.response && error.response.status === 401) {
+            updateTokens().then((e) => {
+                return networkInstance.request(error.config);
+            });
+        }
+
+    }
+)
+
+const updateTokens = () => {
+    var currentSession = storageHelper.getCurrentUser();
+    return networkInstance.post(apiConstants.authenticate.updateTokens, {
+        "refresh": currentSession.refresh.token
+    }).then((refreshResponse) => {
+        console.log(refreshResponse.data);
+        currentSession = { ...refreshResponse.data.data };
+        storageHelper.setItem('currentUser', JSON.stringify(currentSession));
+    })
+}
 
 const network = {
     get: async (url) => {
