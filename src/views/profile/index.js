@@ -4,9 +4,8 @@ import { useSelector } from 'react-redux';
 import GreetingsCard from './InfoCard';
 
 import { Grid } from '@mui/material';
-import ProfileForm from './profile-form';
 import MainCard from 'ui-component/cards/MainCard';
-import ChangePasswordForm from './change-password';
+import BasicDetails from './profile-form';
 
 const ProfilePage = () => {
   const userState = useSelector((state) => state.user);
@@ -15,16 +14,14 @@ const ProfilePage = () => {
     <>
       <GreetingsCard {...userState.user} /><br />
       <Grid container spacing={2} >
-        <Grid item md={4}>
+        <Grid item md={6}>
 
         </Grid>
-        <Grid item md={4}>
+        <Grid item md={6}>
           <MainCard title="Profile">
-            <ProfileForm userState={userState} />
+            {/* <ProfileForm userState={userState} /> */}
+            <BasicDetails userState={userState.user} />
           </MainCard><br />
-          <MainCard title="Change Password">
-            <ChangePasswordForm />
-          </MainCard>
         </Grid>
       </Grid>
     </>
