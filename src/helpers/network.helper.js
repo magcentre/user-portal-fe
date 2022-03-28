@@ -30,7 +30,7 @@ networkInstance.interceptors.response.use(
                 return networkInstance.request(error.config);
             });
         }
-        throw error;
+      throw error;
     }
 )
 
