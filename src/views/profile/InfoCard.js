@@ -22,7 +22,7 @@ const GreetingsCard = (props) => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={12} md={8} lg={8}>
           <WarningItem>
             <Grid container
               direction="row"
@@ -37,7 +37,7 @@ const GreetingsCard = (props) => {
             </Grid>
           </WarningItem>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} md={4} lg={4}>
           <StorageConsumption />
         </Grid>
       </Grid>
