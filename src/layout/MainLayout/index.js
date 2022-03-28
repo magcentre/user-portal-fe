@@ -91,7 +91,6 @@ const MainLayout = () => {
             <CssBaseline />
             {/* header */}
             <AppBar
-                
                 elevation={0}
                 sx={{
                     bgcolor: 'white',
@@ -100,8 +99,6 @@ const MainLayout = () => {
                 }}
             >
                 <Toolbar 
-                    pos
-
                 >
                     <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
                 </Toolbar>

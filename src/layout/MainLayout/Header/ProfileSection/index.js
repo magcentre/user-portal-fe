@@ -19,14 +19,13 @@ const ProfileSection = () => {
                         alignContent: 'center',
                         color: 'white',
                         fontWeight: 'bold',
-                        border: 3,
                         height: 40,
                         width: 40,
                         background: theme => theme.palette.primary.main,
                         borderColor: 'white'
                     }}
                 >
-                    {userState.user.firstName ? userState.user.firstName[0] : null}
+                    {userState.user.firstName && userState.user.lastName  ? `${userState.user.firstName[0]}${userState.user.lastName[0]}` : null}
                 </Avatar>
             </IconButton>
         </>
