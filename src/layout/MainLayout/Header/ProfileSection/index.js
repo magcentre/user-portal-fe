@@ -1,54 +1,34 @@
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-
-// material-ui
-import { useTheme } from '@mui/material/styles';
-import {
-    Avatar,
-    Chip,
-} from '@mui/material';
-
-import User1 from 'assets/images/users/user-round.svg';
-
-// ==============================|| PROFILE MENU ||============================== //
+import IconButton from '@mui/material/IconButton';
+import Avatar from '@mui/material/Avatar';
 
 const ProfileSection = () => {
-    const theme = useTheme();
     const userState = useSelector((state) => state.user);
-    let navigate = useNavigate()
-
+    const navigate = useNavigate()
     return (
         <>
-            <Chip
-                sx={{
-                    height: '48px',
-                    alignItems: 'center',
-                    borderRadius: '27px',
-                    transition: 'all .2s ease-in-out',
-                    borderColor: theme.palette.primary.light,
-                    backgroundColor: theme.palette.primary.light,
-                    color: 'black'
-                }}
-                icon={
-                    <Avatar
-                        src={User1}
-                        sx={{
-                            ...theme.typography.mediumAvatar,
-                            margin: '8px 0 8px 8px !important',
-                            cursor: 'pointer'
-                        }}
-
-                        aria-haspopup="true"
-                        color="inherit"
-                    />
-                }
-                label={`${userState.user.firstName} ${userState.user.lastName}`}
+            <IconButton
                 onClick={() => {
                     navigate("/profile");
                 }}
-                variant="outlined"
-                color="primary"
-            />
+            >
+                <Avatar
+                    sx={{
+                        borderRadius: '50%',
+                        alignContent: 'center',
+                        color: 'white',
+                        fontWeight: 'bold',
+                        border: 3,
+                        height: 40,
+                        width: 40,
+                        background: theme => theme.palette.primary.main,
+                        borderColor: 'white'
+                    }}
+                >
+                    {userState.user.firstName ? userState.user.firstName[0] : null}
+                </Avatar>
+            </IconButton>
         </>
     );
 };

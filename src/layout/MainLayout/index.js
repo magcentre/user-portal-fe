@@ -91,19 +91,22 @@ const MainLayout = () => {
             <CssBaseline />
             {/* header */}
             <AppBar
-
+                
                 elevation={0}
                 sx={{
-                    bgcolor: 'transparent',
+                    bgcolor: 'white',
+                    marginBottom: "100px",
                     transition: leftDrawerOpened ? theme.transitions.create('width') : 'none'
                 }}
             >
-                <Toolbar >
+                <Toolbar 
+                    pos
+
+                >
                     <Header handleLeftDrawerToggle={handleLeftDrawerToggle} />
                 </Toolbar>
             </AppBar>
-
-
+            
             {/* drawer */}
             <Sidebar drawerOpen={leftDrawerOpened} drawerToggle={handleLeftDrawerToggle} />
 
@@ -112,8 +115,8 @@ const MainLayout = () => {
             <Main theme={theme} open={leftDrawerOpened}>
                 {/* breadcrumb */}
                 <Breadcrumbs separator={IconChevronRight} navigation={navigation} icon title rightAlign />
+                <br />
                 <UploadController outlet={<Outlet />} />
-                
             </Main>
             {/* <Customization /> */}
         </Box>

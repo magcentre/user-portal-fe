@@ -23,17 +23,16 @@ const GreetingCard = (props) => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={12} md={8} lg={8}>
           <WarningItem>
             <Grid container
               direction="row"
               justifyContent="flex-start"
-              spacing={3}
               alignItems="center">
-              <Grid item>
+              <Grid item xs={2} lg={2} md={2}>
                 <img src={GreetingsImage} height={60} alt='gretting-logo' />
               </Grid>
-              <Grid item>
+              <Grid item xs={10} lg={10} md={10}>
                 <Typography variant="h5" gutterBottom component="div">
                   Get unlimited data storage for your files & documents.
                 </Typography>
@@ -55,7 +54,7 @@ const GreetingCard = (props) => {
             </Grid>
           </WarningItem>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} md={4} lg={4}>
           {/* <StorageConsumption /> */}
 
         </Grid>
