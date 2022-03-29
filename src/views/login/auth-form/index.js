@@ -364,12 +364,17 @@ const MobileOTPVerification = (props) => {
             return navigate("/subscription");
           navigate("/dashboard");
         }).catch((err) => {
+          console.log(err);
+            // enqueueSnackbar('Something went wrong!', { variant: 'error' });
           if (err.response && err.response.status === 400) {
-            if (err.response.data && err.response.data.info) {
-              enqueueSnackbar(err.response.data.info, { variant: 'error', });
+            if (err.response.data && err.response.data.message) {
+              enqueueSnackbar(err.response.data.message, { variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow, });
             }
           } else {
-            console.log(err);
             enqueueSnackbar('Something went wrong!', { variant: 'error' });
           }
           props.setLoading(false);
