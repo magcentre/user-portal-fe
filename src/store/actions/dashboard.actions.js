@@ -7,7 +7,7 @@ export const fetchFolders = (hash) => async (dispatch) => {
     const response = await network.get(`${container.folder}${hash}`);
     dispatch({ type: GET_DASHBOARD_FOLDER, folderContent: response.data.data, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -16,7 +16,7 @@ export const fetchRecentObjects = () => async (dispatch) => {
     const response = await network.get(`${container.recentObjects}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -25,7 +25,7 @@ export const fetchStarredObjects = () => async (dispatch) => {
     const response = await network.get(`${container.staredObjects}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -33,6 +33,6 @@ export const clearBrowserState = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_STATE, folderContent: undefined });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };

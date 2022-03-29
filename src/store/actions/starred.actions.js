@@ -7,6 +7,6 @@ export const fetchStarredFiles = () => async (dispatch) => {
     const response = await network.get(`${container.staredObjects}`);
     dispatch({ type: SET_STARRED_CONTENT, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };

@@ -58,15 +58,25 @@ const RenameObject = (props) => {
           TransitionComponent: Grow,
         });
         handleClose();
-      }).catch((err) => {
+      }).catch((e) => {
         setLoading(false);
-        enqueueSnackbar('Failed to rename folder', {
-          variant: 'error', anchorOrigin: {
-            vertical: 'top',
-            horizontal: 'right',
-          },
-          TransitionComponent: Grow,
-        });
+        if (e.response && e.response.data) {
+          enqueueSnackbar(e.response.data.info.message, {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+        } else {
+          enqueueSnackbar("Something went wrong!!", {
+            variant: 'error', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+        }
       })
       
     } else {
