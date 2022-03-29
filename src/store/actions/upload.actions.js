@@ -60,7 +60,7 @@ export const initiateFileUpload = (files, path) => async (dispatch, getState) =>
     const response = await network.get(`${apiConstants.container.browser}/${controller.pathKey}`);
     dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 
 }

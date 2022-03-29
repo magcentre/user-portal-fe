@@ -7,6 +7,6 @@ export const fetchRecentFiles = () => async (dispatch) => {
     const response = await network.get(`${container.recentObjects}`);
     dispatch({ type: SET_RECENT_OBJECTS, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };

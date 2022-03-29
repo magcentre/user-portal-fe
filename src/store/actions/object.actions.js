@@ -7,7 +7,7 @@ export const fetchObjectForFolder = (hash) => async (dispatch) => {
     const response = await network.get(`${container.folder}${hash}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -16,7 +16,7 @@ export const fetchRecentObjects = () => async (dispatch) => {
     const response = await network.get(`${container.recentObjects}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -25,7 +25,7 @@ export const fetchStarredObjects = () => async (dispatch) => {
     const response = await network.get(`${container.staredObjects}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -33,7 +33,7 @@ export const clearBrowserState = () => async (dispatch) => {
   try {
     dispatch({ type: CLEAR_STATE, folderContent: undefined });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -47,7 +47,7 @@ export const handleStaredState = (hash, type, isStarred) => async (dispatch, get
     });
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -63,7 +63,7 @@ export const updateObjectState = (hash, type, objectConfig) => async (dispatch, 
     });
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -80,7 +80,7 @@ export const moveObjectToTrash = (hash, type) => async (dispatch, getState) => {
     });
     dispatch({ type: DELETE_OBJECT, folderContent: unDeletedData, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -89,7 +89,7 @@ export const createFolder = (name, folderHash) => async (dispatch) => {
     const response = await network.post(`${container.newFolder}`, { name, folderHash });
     dispatch({ type: ADD_NEW_OBJECT, object: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -110,7 +110,7 @@ export const updateSharingDetails = (hash, type, objectConfig) => async (dispatc
     });
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: objects.folderContent, folderHash: hash });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -120,7 +120,7 @@ export const fetchSharedWithMe = () => async (dispatch) => {
     const response = await network.get(`${container.sharedWithMe}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -129,6 +129,6 @@ export const fetchSharedByMe = () => async (dispatch) => {
     const response = await network.get(`${container.sharedByMe}`);
     dispatch({ type: SET_FOLDER_CONTENT, folderContent: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };

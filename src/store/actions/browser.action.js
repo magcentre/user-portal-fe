@@ -7,7 +7,7 @@ export const fetchContent = (key) => async (dispatch) => {
     const response = await network.get(`${container.browser}${key}`);
     dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -15,7 +15,7 @@ export const clearBrowser = (hash) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_LIST, path: '/', content: undefined });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -27,7 +27,7 @@ export const folderCreate = (pathKey, folderName) => async (dispatch) => {
     const response = await network.get(`${container.browser}/${pathKey}`);
     dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 
@@ -39,7 +39,7 @@ export const folderRename = (pathKey, name, parentKey) => async (dispatch) => {
     const response = await network.get(`${container.browser}/${parentKey}`);
     dispatch({ type: UPDATE_LIST, path: '/' + response.data.data.prefix, pathKey: response.data.data.prefixKey, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 
@@ -59,7 +59,7 @@ export const fileRename = (pathKey, name, parentKey) => async (dispatch, getStat
     // const response = await network.get(`${container.browser}/${parentKey}`);
     dispatch({ type: UPDATE_LIST, path: browser.path, pathKey: browser.pathKey, content: browser.content });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 
@@ -77,7 +77,7 @@ export const updateFolder = (key, properties) => async (dispatch, getState) => {
     }
     dispatch({ type: UPDATE_LIST, path: browser.path, pathKey: browser.pathKey, content: browser.content });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 
@@ -96,6 +96,6 @@ export const updateFile = (key, properties) => async (dispatch, getState) => {
     // const response = await network.get(`${container.browser}/${parentKey}`);
     dispatch({ type: UPDATE_LIST, path: browser.path, pathKey: browser.pathKey, content: browser.content });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }

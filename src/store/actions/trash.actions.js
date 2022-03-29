@@ -7,7 +7,7 @@ export const fetchTrash = () => async (dispatch) => {
     const response = await network.get(`${container.trash.get}`);
     dispatch({ type: SET_TRASH_OBJECTS, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 };
 
@@ -17,7 +17,7 @@ export const restoreFile = (key) => async (dispatch) => {
     const response = await network.get(`${container.trash.get}`);
     dispatch({ type: SET_TRASH_OBJECTS, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 
@@ -27,7 +27,7 @@ export const restoreFolder = (key) => async (dispatch) => {
     const response = await network.get(`${container.trash.get}`);
     dispatch({ type: SET_TRASH_OBJECTS, content: response.data.data });
   } catch (e) {
-    console.log(e);
+    throw e;
   }
 }
 

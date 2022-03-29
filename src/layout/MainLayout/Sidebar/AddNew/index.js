@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Typography, Fab, Grid, LinearProgress } from '@mui/material';
+import { Avatar, Typography, Fab, Grid, LinearProgress, Grow } from '@mui/material';
 import { IconPlus } from '@tabler/icons';
 import { useTheme } from '@mui/material/styles';
 import Button from '@mui/material/Button';
@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 import { initiateFileUpload } from 'store/actions/upload.actions'
 import { useDispatch, useSelector } from 'react-redux';
 import { folderCreate } from 'store/actions/browser.action';
+import { useSnackbar } from 'notistack';
 
 const AddNewButton = () => {
 
@@ -44,9 +45,39 @@ const AddNewButton = () => {
     setFolder(false);
   };
 
+  const { enqueueSnackbar } = useSnackbar();
+
   const updateName = () => {
     if (name && name.length > 0) {
-      dispatch(folderCreate(controller.pathKey, name || 'Untitled folder'));
+      dispatch(folderCreate(controller.pathKey, name || 'Untitled folder'))
+        .then(() => {
+          enqueueSnackbar(`Folder created!`, {
+            variant: 'success', anchorOrigin: {
+              vertical: 'top',
+              horizontal: 'right',
+            },
+            TransitionComponent: Grow,
+          });
+        })
+        .catch((e) => {
+          if (e.response && e.response.data) {
+            enqueueSnackbar(e.response.data.info.message, {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow,
+            });
+          } else {
+            enqueueSnackbar("Something went wrong!!", {
+              variant: 'error', anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+              },
+              TransitionComponent: Grow,
+            });
+          }
+        });
       handleClose();
     } else {
       setError("Enter valid folder name");
