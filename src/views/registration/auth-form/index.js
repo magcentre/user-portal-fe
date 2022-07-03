@@ -14,7 +14,7 @@ import {
   Grid
 } from '@mui/material';
 
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 
 import AnimateButton from 'ui-component/extended/AnimateButton';
 
@@ -353,7 +353,7 @@ const BasicDetails = (props) => {
       });
       navigate('/subscription');
     }).catch((e) => {
-      
+
       setLoading(false);
       if (e.response && e.response.data) {
         setErrors({ submit: e.response.data.info.message });
@@ -431,7 +431,7 @@ const BasicDetails = (props) => {
                   />
                   {touched.lastName && errors.lastName && (
                     <FormHelperText error id="text-lname-register">
-                    {errors.lastName}
+                      {errors.lastName}
                     </FormHelperText>
                   )}
                 </FormControl>
@@ -612,7 +612,7 @@ const RegistrationForm = (props) => {
     </>
   );
 
-  if(storageHelper.getCurrentUser()) {
+  if (storageHelper.getCurrentUser()) {
     return (
       <>
         <BasicDetails setMobileVerified={setMobileVerified} mobile={mobile} setLoading={setLoading} setMobile={setMobile} />

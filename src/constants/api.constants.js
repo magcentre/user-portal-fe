@@ -32,6 +32,7 @@ module.exports = {
     authenticate: '/identity/user/authenticate',
     updateProfile: '/identity/user/profile',
     updateTokens: '/identity/user/refresh-token',
+    subscription: '/identity/user/subscription'
   },
   trash: {
     getTrash: '/container/trash/',

@@ -9,7 +9,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 import LinearProgress from '@mui/material/LinearProgress';
 
 import { useDispatch, useSelector } from "react-redux";
@@ -47,7 +47,7 @@ const RenameObject = (props) => {
   const updateName = () => {
     var format = /[+\-=[\]{};':"\\|<>/?]+/;
     if (name && name.length > 0 && !format.test(name)) {
-      if(name === props.prefix.replaceAll("/", "")) {
+      if (name === props.prefix.replaceAll("/", "")) {
         return setError('Name should be different');
       }
       setLoading(true);

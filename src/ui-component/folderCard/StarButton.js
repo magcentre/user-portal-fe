@@ -3,7 +3,7 @@ import { updateFolder } from 'store/actions/browser.action'
 import { useDispatch, useSelector } from "react-redux";
 import StarredIcon from 'assets/images/icons/add-to-starred.svg'
 import { useSnackbar } from 'notistack';
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 
 const AddToStarred = (props) => {
 
@@ -15,7 +15,7 @@ const AddToStarred = (props) => {
 
   const updateFolderStarred = () => {
     props.handelClose();
-    dispatch(updateFolder(props.path, { isStared: !props.isStared } ))
+    dispatch(updateFolder(props.path, { isStared: !props.isStared }))
       .then(() => {
         enqueueSnackbar(!props.isStared ? 'Folder added to Starred' : 'Folder removed from Starred', {
           variant: 'success', anchorOrigin: {

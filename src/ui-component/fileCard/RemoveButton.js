@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import * as React from 'react';
 import TrashIcon from 'assets/images/icons/trash-icon.svg'
 import { useSnackbar } from 'notistack';
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 
 const RemoveButton = (props) => {
 
@@ -50,7 +50,7 @@ const RemoveButton = (props) => {
     <>
       <ListItemButton
         onClick={() => {
-          if(window.confirm("Are you sure want to move file to trash?")) {
+          if (window.confirm("Are you sure want to move file to trash?")) {
             deleteObject();
           }
         }}

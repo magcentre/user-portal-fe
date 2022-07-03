@@ -1,10 +1,32 @@
-import * as React from 'react';
-import Grid from '@mui/material/Grid';
+import { useState } from 'react';
+import { Stack, CircularProgress, Button } from '@mui/material';
 import SubscriptionCard from './subscription-card';
+import { useNavigate } from 'react-router';
+import { useSnackbar } from 'notistack';
 
 export default function SubscriptionList() {
-  
-  const [selectedKey, setKey] = React.useState(1);
+
+  const navigate = useNavigate();
+
+  const { enqueueSnackbar } = useSnackbar();
+
+  const [selectedKey, setKey] = useState(1);
+  const [loading, setLoading] = useState(false);
+
+  const proceed = (key) => {
+    enqueueSnackbar('You are enrolled successfully!');
+    navigate("/dashboard");
+  }
+
+  if (loading) return (
+    <center style={{ margin: 20 }}>
+      <CircularProgress size={70} />
+    </center>
+  );
+
+  const subscribe = (key) => {
+    setKey(key)
+  };
   const list = [
     {
       key: 1,
@@ -21,23 +43,26 @@ export default function SubscriptionList() {
   ]
   return (
     <>
-      <Grid
-        container
+      <Stack
+        spacing={2}
         direction="row"
-        justifyContent="center"
-        alignItems="center"
-        spacing={1}
       >
         {list.map((e) => {
           return (
-            <Grid item>
-              <div onClick={() => { setKey(e.key) }}>
-                <SubscriptionCard selected={selectedKey === e.key} {...e} />
-              </div>
-            </Grid>
+
+            <div onClick={() => { subscribe(e.key) }}>
+              <SubscriptionCard selected={selectedKey === e.key} {...e} />
+            </div>
           )
         })}
-      </Grid>
+
+      </Stack>
+      <br />
+      <center>
+        <Button variant="outlined" onClick={proceed}>Proceed</Button>
+      </center>
     </>
+
+
   );
 }

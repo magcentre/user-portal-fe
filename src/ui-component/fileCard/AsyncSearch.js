@@ -1,7 +1,7 @@
 import React from 'react';
-import TextField from "@material-ui/core/TextField";
+import { TextField } from '@mui/material';
 import Autocomplete from '@mui/material/Autocomplete';
-import CircularProgress from "@material-ui/core/CircularProgress";
+import { CircularProgress } from '@mui/material';
 import network from 'helpers/network.helper';
 import { getShareDetails } from 'store/actions/object.actions'
 import { container } from 'constants/api.constants';

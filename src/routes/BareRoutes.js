@@ -12,7 +12,7 @@ const Login = Loadable(lazy(() => import('views/login')));
 const Subscription = Loadable(lazy(() => import('views/subscription')));
 
 
-const AuthenticationRoutes = {
+const BareRoutes = {
     path: '/',
     element: <MinimalLayout />,
     children: [
@@ -35,4 +35,4 @@ const AuthenticationRoutes = {
     ]
 };
 
-export default AuthenticationRoutes;
+export default BareRoutes;

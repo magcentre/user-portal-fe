@@ -11,7 +11,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useDispatch, useSelector } from "react-redux";
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 import RenameIcon from 'assets/images/icons/rename-icon.svg'
 import { Typography } from '@mui/material';
 import { fileRename } from 'store/actions/browser.action';
@@ -78,7 +78,7 @@ const RenameObject = (props) => {
           });
         }
       })
-      
+
     } else {
       setError("Enter valid name");
     }

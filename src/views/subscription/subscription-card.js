@@ -55,42 +55,39 @@ const styles = theme => ({
 const SubscriptionCard = (props) => {
   const selected = props.selected;
   return (
-    <>
-      <Box className={selected ? props.classes.selectedWrapper : props.classes.unselectedWrapper}>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          spacing={0}
-        >
-          <Grid item>
-            <StarRateIcon color='red' fontSize="large" />
-          </Grid>
-          <Grid item>
-            <Typography variant="span" component="div" mt={2} className={props.classes.title} >
-              {props.title}
-            </Typography>
-          </Grid>
-          <Grid item>
-            <hr className={selected ? props.classes.selectedDivder : props.classes.unSelectedDivder} />
-          </Grid>
-          <Grid item>
-            <center>
-              <Typography variant="span" component="div" mt={1} className={props.classes.title} >
-                {props.storage}
-              </Typography>
-            </center>
-          </Grid>
-          <Grid item>
-            <Typography variant="h3" component="div" mt={1} className={props.classes.price} >
-              {props.price}
-            </Typography>
-          </Grid>
+    <Box className={selected ? props.classes.selectedWrapper : props.classes.unselectedWrapper}>
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="center"
+        spacing={0}
+      >
+        <Grid item>
+          <StarRateIcon color='red' fontSize="large" />
         </Grid>
-      </Box>
-    </>
-
+        <Grid item>
+          <Typography variant="span" component="div" mt={2} className={props.classes.title} >
+            {props.title}
+          </Typography>
+        </Grid>
+        <Grid item>
+          <hr className={selected ? props.classes.selectedDivder : props.classes.unSelectedDivder} />
+        </Grid>
+        <Grid item>
+          <center>
+            <Typography variant="span" component="div" mt={1} className={props.classes.title} >
+              {props.storage}
+            </Typography>
+          </center>
+        </Grid>
+        <Grid item>
+          <Typography variant="h3" component="div" mt={1} className={props.classes.price} >
+            {props.price}
+          </Typography>
+        </Grid>
+      </Grid>
+    </Box>
   );
 }
 

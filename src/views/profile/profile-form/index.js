@@ -12,7 +12,7 @@ import {
   Typography
 } from '@mui/material';
 
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 
 import AnimateButton from 'ui-component/extended/AnimateButton';
 

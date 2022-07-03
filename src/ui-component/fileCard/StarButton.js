@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import StarredIcon from 'assets/images/icons/add-to-starred.svg'
 import { updateFile } from 'store/actions/browser.action';
 import { useSnackbar } from 'notistack';
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 
 
 const AddToStarred = (props) => {

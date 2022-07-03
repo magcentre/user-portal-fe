@@ -12,7 +12,7 @@ import {
   Box,
   IconButton,
 } from '@mui/material';
-import Grow from '@material-ui/core/Grow';
+import { Grow } from '@mui/material';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import * as Yup from 'yup';
@@ -365,14 +365,16 @@ const MobileOTPVerification = (props) => {
           navigate("/dashboard");
         }).catch((err) => {
           console.log(err);
-            // enqueueSnackbar('Something went wrong!', { variant: 'error' });
+          // enqueueSnackbar('Something went wrong!', { variant: 'error' });
           if (err.response && err.response.status === 400) {
             if (err.response.data && err.response.data.message) {
-              enqueueSnackbar(err.response.data.message, { variant: 'error', anchorOrigin: {
-                vertical: 'top',
-                horizontal: 'right',
-              },
-              TransitionComponent: Grow, });
+              enqueueSnackbar(err.response.data.message, {
+                variant: 'error', anchorOrigin: {
+                  vertical: 'top',
+                  horizontal: 'right',
+                },
+                TransitionComponent: Grow,
+              });
             }
           } else {
             enqueueSnackbar('Something went wrong!', { variant: 'error' });

@@ -23,7 +23,7 @@ const RecentFiles = Loadable(lazy(() => import('views/recent-files')));
 
 // ==============================|| MAIN ROUTING ||============================== //
 
-const MainRoutes = {
+const AuthRoutes = {
     path: '/',
     element: <MainLayout />,
     children: [
@@ -74,8 +74,9 @@ const MainRoutes = {
         {
             path: '/starred-files',
             element: <FileBrowser mode='starred-files' key='starred-files' />
-        }
+        },
+
     ]
 };
 
-export default MainRoutes;
+export default AuthRoutes;
