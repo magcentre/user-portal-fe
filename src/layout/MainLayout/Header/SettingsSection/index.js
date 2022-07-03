@@ -9,7 +9,7 @@ import {
   useMediaQuery, Popper,
   Paper,
   ClickAwayListener,
-  Grid, Stack, Typography, TextField, Chip, Divider
+  Grid, Stack, Typography, Chip, Divider
 } from '@mui/material';
 import Settings from './settings';
 import MainCard from 'ui-component/cards/MainCard';

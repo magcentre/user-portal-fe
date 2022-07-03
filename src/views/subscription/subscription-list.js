@@ -11,7 +11,7 @@ export default function SubscriptionList() {
   const { enqueueSnackbar } = useSnackbar();
 
   const [selectedKey, setKey] = useState(1);
-  const [loading, setLoading] = useState(false);
+  const [loading] = useState(false);
 
   const proceed = (key) => {
     enqueueSnackbar('You are enrolled successfully!');
