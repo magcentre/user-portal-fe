@@ -33,7 +33,7 @@ const PersonalVault = () => {
                 </Typography>
             </Grid>
               <Grid item sx={5}>
-                <Button size="small" variant='contained' sx={{color:'white'}}>Set up</Button>
+                <Button variant='contained' sx={{color:'white'}}>Set up</Button>
               </Grid>
             </Grid>
     </VaultCard>
