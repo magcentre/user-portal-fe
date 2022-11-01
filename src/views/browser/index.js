@@ -4,9 +4,9 @@ import { fetchContent, clearBrowser } from "store/actions/browser.action";
 import NoFileUploaded from 'assets/images/icons/no_file_uploaded.svg'
 import CircularProgress from "@mui/material/CircularProgress";
 import Grid from "@mui/material/Grid";
-import GreetingCard from "ui-component/GreetingCard";
 import FileCard from "ui-component/fileCard";
 import FolderCard from "ui-component/folderCard";
+import Vaultsetup from "views/my-files";
 
 const EmptyCard = () => {
 
@@ -55,7 +55,7 @@ const Browser = ({ path }) => {
 
   return (
     <>
-      <GreetingCard />
+      <Vaultsetup />
       <br />
       <Grid container spacing={2}>
 

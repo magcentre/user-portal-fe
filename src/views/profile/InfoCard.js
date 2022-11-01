@@ -3,7 +3,7 @@ import { styled } from '@mui/material/styles';
 import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import { Typography } from '@mui/material';
-import StorageConsumption from 'utils/consumtion';
+import StorageConsumption from 'utils/consumption';
 
 const WarningItem = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,

@@ -24,10 +24,10 @@ const StorageConsumption = (props) => {
            direction="row"
            justifyContent="space-between"
            alignItems="center">
-          <Grid item>
+          <Grid item xs={10}>
             Storage Consumption    
           </Grid>
-          <Grid item >
+          <Grid item xs={2}>
             <IconButton aria-label="storage-consumtion" size="small" color="primary">
               <ArrowForwardIosIcon fontSize="small" />
             </IconButton>
