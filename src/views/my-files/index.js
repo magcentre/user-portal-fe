@@ -1,6 +1,6 @@
 import * as React from "react";
 import Grid from "@mui/material/Grid";
-import StorageConsumption from "utils/consumtion";
+import StorageConsumption from "utils/consumption";
 import Personalvault from "utils/personal-vault";
 
 const Vaultsetup = (props) => {

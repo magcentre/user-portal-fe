@@ -4,7 +4,7 @@ import Paper from '@mui/material/Paper';
 import Grid from '@mui/material/Grid';
 import DeleteIcon from 'assets/images/icons/trash-primary.svg'
 import { Typography } from '@mui/material';
-import StorageConsumption from 'utils/consumtion';
+import StorageConsumption from 'utils/consumption';
 
 const WarningItem = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
