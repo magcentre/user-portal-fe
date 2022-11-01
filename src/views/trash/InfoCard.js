@@ -23,17 +23,17 @@ const InfoCard = (props) => {
   return (
     <>
       <Grid container spacing={2}>
-        <Grid item xs={6} md={8}>
+        <Grid item xs={12} sm={7} md={8}>
           <WarningItem>
             <Grid container
               direction="row"
               justifyContent="flex-start"
               spacing={3}
               alignItems="center">
-              <Grid item>
+              <Grid item xs={2}>
                 <img src={DeleteIcon} height={30} alt='delete-cion' />
               </Grid>
-              <Grid item>
+              <Grid item xs={10}>
                 <Typography variant="h5" gutterBottom component="div">
                   Items are deleted forever after 30 days.
                 </Typography>
@@ -41,7 +41,7 @@ const InfoCard = (props) => {
             </Grid>
           </WarningItem>
         </Grid>
-        <Grid item xs={6} md={4}>
+        <Grid item xs={12} sm={5} md={4}>
           <StorageConsumption />
         </Grid>
       </Grid>
